@@ -2,12 +2,8 @@
 
 Build Status
 
-<p align="center">
-  <img src="https://repository-images.githubusercontent.com/254842585/4dfa7580-7ffb-11ea-99d0-46b8fe2f4170" height="175" width="auto" />
-</p>
-
 -->
-# C++ Bootstrap Project
+# [Bootstrap](docs/src/images/pub/LogoBoostrap60x90) C++ Bootstrap Project
 
 The purpose of this C++ Bootstrap is to provide a pre-canned C++ project
 layout along with automation and fill-in-the-blanks documentation.
@@ -34,7 +30,7 @@ layout along with automation and fill-in-the-blanks documentation.
 - Spell checking on docs (not implemented yet)
 
 See the auto-generated documentation here on [Github
-Pages](https://kingsolomon1954.github.io/cpp-bootstrap)
+Pages](https://kingsolomon1954.github.io/cpp-bootstrap).
 
 ## Prerequisites
 
