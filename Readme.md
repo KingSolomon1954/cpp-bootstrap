@@ -6,8 +6,9 @@ Build Status
 ![Bootstrap](docs/src/images/pub/LogoBootstrap60x90.png) 
 # C++ Bootstrap Project
 
-The purpose of this C++ Bootstrap is to provide a pre-canned C++ project
-layout along with automation and fill-in-the-blanks documentation.
+The purpose of this C++ Bootstrap Project is to provide a pre-canned C++
+project layout along with automation and fill-in-the-blanks
+documentation.
 
 ## Features
 
@@ -33,11 +34,16 @@ layout along with automation and fill-in-the-blanks documentation.
 See the auto-generated documentation here on [Github
 Pages](https://kingsolomon1954.github.io/cpp-bootstrap).
 
+*RedFlame* is used as the name of the hypothetical application
+that is built.
+
 ## Prerequisites
 
 - GNU Makefile
 - Podman or Docker
 - Some typical Linux command line utilities
+
+Jump ahead to [Getting Started](#getting-started) if you're so inclined.
 
 ## Example Usages
 
@@ -126,7 +132,7 @@ firefox _build/site/index.html
 
 ## Documentation Generation
 
-- Pre-canned auto documentation samples for:
+- There are pre-canned auto documentation samples for:
   - manpage
   - user guide
   - design doc
@@ -137,13 +143,20 @@ firefox _build/site/index.html
   theme
 - [Doxygen](https://www.doxygen.nl/) for internal API
 - [PlantUML](https://plantuml.com/) to auto build diagrams 
-- Makefile auto-generates PlantUML files into PNG files.
-- Create or modify PlantUML files in `docs/src/images/src`.
-- Suffix for PlantUML files must be `.pum`l
-- Find auto created `.png`'s in `docs/src/images/pub`.
+- Makefile auto-generates PlantUML files into PNG files
+- Create or modify PlantUML files in `docs/src/images/src`
+- Suffix for PlantUML files must be `.puml`
+- Find auto created `.png`'s in `docs/src/images/pub`
 - Recommend creating diagrams with [Drawio](https://www.drawio.com/) and
-  place drawio source files in `docs/src/images/src`.
-- Then export drawio diagram as a PNG into docs/src/images/pub
+  place drawio source files in `docs/src/images/src`
+- Then export drawio diagram as a PNG into `docs/src/images/pub`
+
+## Conan
+
+- Setup as a consumer of Conan libraries, not a producer
+- Uses Conan lockfiles for locking down library versions for stable
+  repeatable builds
+- Conan library repository cache is on the build container
 
 ## Containerized Tools
 
@@ -187,22 +200,6 @@ Mnemonically they can be interpreted as:
 - `bt` - run a command in the **b**uild container from the **t**op folder
 - `bbash` - **bash** into to the **b**uild container at the shell prompt
 
-## Getting Started
-
-- Use this repo [as a template](https://help.github.com/en/github/creating-cloning-and-archiving-repositories/creating-a-repository-from-a-template).
-
-*RedFlame* is used as the name of a hypothetical application.
-Eventually replace RedFlame with the name of your application.  Note
-that there are no folders named RedFlame, but there are several
-files named with RedFlame.
-
-### Create your Build and Sphinx container
-
-```bash
-make cntr-build-gcc14-tools
-make cntr-build-sphinx-tools
-```
-
 ## Detailed Actions
 
 ### Compiling a single file
@@ -218,3 +215,71 @@ bd make -C main lib-codec/CodecFast.o
 This invokes the CMake generated Makefile on the build container
 specifying the file to compile. Note this works only after a
 build has taken place and thus CMake is properly configured.
+
+## Getting Started
+
+### Retrieve C++ Starter Project
+
+Grab the repo as a
+[template](https://help.github.com/en/github/creating-cloning-and-archiving-repositories/creating-a-repository-from-a-template).
+
+### First invocation
+
+See if your host environment is suitable enough for `make help`.
+
+```bash
+make help
+```
+
+### Container Setup
+
+Create your own Build and Sphinx containers (for now).
+TODO: future - make containers available in DockerHub.
+
+```bash
+make cntr-build-gcc14-tools
+make cntr-build-sphinx-tools
+```
+
+Modify file `admin/submakes/container-names-gcc14.mak`:
+
+Change:
+
+```
+CNTR_GCC_14_TOOLS_REPO  := ghcr.io
+CNTR_GCC_14_TOOLS_IMAGE := kingsolomon1954/containers/gcc14-tools
+```
+To:
+```
+CNTR_GCC_14_TOOLS_REPO  := localhost
+CNTR_GCC_14_TOOLS_IMAGE := gcc14-tools
+```
+
+Modify file `admin/submakes/container-names-sphinx.mak`:
+
+Change:
+
+```
+CNTR_SPHINX_REPO  := ghcr.io
+CNTR_SPHINX_IMAGE := kingsolomon1954/containers/sphinx
+```
+To:
+```
+CNTR_SPHINX_REPO  := localhost
+CNTR_SPHINX_IMAGE := sphinx
+```
+
+### Create the Conan lock files (debug and prod)
+
+```bash
+make conan-lock-both
+```
+### Compile and Link
+
+```bash
+make both
+```
+
+## And You're Off
+
+Customize the repo to be your own project.
