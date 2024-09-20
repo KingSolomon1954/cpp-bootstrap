@@ -3,7 +3,7 @@
 Build Status
 
 -->
-# [Bootstrap](docs/src/images/pub/LogoBootstrap60x90.png) C++ Bootstrap Project
+# ![Bootstrap](docs/src/images/pub/LogoBootstrap60x90.png) C++ Bootstrap Project
 
 The purpose of this C++ Bootstrap is to provide a pre-canned C++ project
 layout along with automation and fill-in-the-blanks documentation.
