@@ -1,0 +1,76 @@
+# -----------------------------------------------------------------
+#
+# Submake to manage containers
+#
+# -----------------------------------------------------------------
+
+ifndef _INCLUDE_CONTAINERS_MAK
+_INCLUDE_UNIT_TEST_CPP_MAK := 1
+
+ifndef D_MAK
+    $(error Parent makefile must define 'D_MAK')
+endif
+ifndef D_CNTRS
+    $(error Parent makefile must define 'D_CNTRS')
+endif
+
+include $(D_MAK)/container-names-gcc14.mak
+include $(D_MAK)/container-names-gcc11.mak
+include $(D_MAK)/container-names-sphinx.mak
+
+_D_CNTR_FILES := $(D_CNTRS)/container-files
+
+cntr-build-gcc14-tools:
+	# Building gcc14 tools container
+	$(CNTR_TECH) build -t $(CNTR_GCC_14_TOOLS_PATH) \
+	    -f $(_D_CNTR_FILES)/dockerfile-gcc14-tools .
+
+cntr-push-gcc14-tools: login-arty
+	# Pushing gcc14 tools container
+	$(CNTR_TECH) push $(CNTR_GCC_14_TOOLS_PATH)
+
+cntr-pull-gcc14-tools: login-arty
+	# Pulling gcc14 tools container
+	$(CNTR_TECH) pull $(CNTR_GCC_14_TOOLS_PATH)
+
+cntr-build-gcc11-tools:
+	# Building gcc11 tools container
+	$(CNTR_TECH) build -t $(CNTR_GCC_11_TOOLS_PATH) \
+	    -f $(_D_CNTR_FILES)/dockerfile-gcc11-tools .
+
+cntr-push-gcc11-tools: login-arty
+	# Pushing gcc11 tools container
+	$(CNTR_TECH) push $(CNTR_GCC_11_TOOLS_PATH)
+
+cntr-pull-gcc11-tools: login-arty
+	# Pulling gcc11 tools container
+	$(CNTR_TECH) pull $(CNTR_GCC_11_TOOLS_PATH)
+
+cntr-build-sphinx-tools:
+	# Building Sphinx tools container
+	$(CNTR_TECH) build -t $(CNTR_SPHINX_PATH) \
+	    -f $(_D_CNTR_FILES)/dockerfile-sphinx .
+
+cntr-push-sphinx-tools: login-arty
+	# Pushing Sphinx tools container
+	$(CNTR_TECH) push $(CNTR_SPHINX_PATH)
+
+cntr-pull-sphinx-tools: login-arty
+	# Pulling Sphinx tools container
+	$(CNTR_TECH) pull $(CNTR_SPHINX_PATH)
+
+# ------------ Help Section ------------
+
+HELP_TXT += "\n\
+cntr-build-gcc14-tools,  Creates $(CNTR_GCC_14_TOOLS_NAME) image\n\
+cntr-push-gcc14-tools,   Pushes  $(CNTR_GCC_14_TOOLS_NAME) to Artifactory\n\
+cntr-pull-gcc14-tools,   Pulls   $(CNTR_GCC_14_TOOLS_NAME) from Artifactory\n\
+cntr-build-gcc11-tools,  Creates $(CNTR_GCC_11_TOOLS_NAME) image\n\
+cntr-push-gcc11-tools,   Pushes  $(CNTR_GCC_11_TOOLS_NAME) to Artifactory\n\
+cntr-pull-gcc11-tools,   Pulls   $(CNTR_GCC_11_TOOLS_NAME) from Artifactory\n\
+cntr-build-sphinx-tools, Creates $(CNTR_SPHINX_TOOLS_NAME) image\n\
+cntr-push-sphinx-tools,  Pushes  $(CNTR_SPHINX_TOOLS_NAME) to Artifactory\n\
+cntr-pull-sphinx-tools,  Pulls   $(CNTR_SPHINX_TOOLS_NAME) from Artifactory\n\
+"
+
+endif

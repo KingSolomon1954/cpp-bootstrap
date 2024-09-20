@@ -1,0 +1,9 @@
+{
+    "version": "0.5",
+    "requires": [
+        "doctest/2.4.11#a4211dfc329a16ba9f280f9574025659%1681601797.282"
+    ],
+    "build_requires": [],
+    "python_requires": [],
+    "config_requires": []
+}

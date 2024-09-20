@@ -1,0 +1,36 @@
+@startuml Error Design Sequence Diagram
+title Error Sequences
+' This is a comment
+
+participant "Application"     as app
+participant "Error Manager"   as err
+participant "Stats Collector" as stats
+participant "Event Manager"   as event
+participant "Logger"          as log
+
+' Example adding a note (remove comment)
+' note over termA: There are two
+
+autonumber "<b>(##)"
+
+== Some Message Received ==
+app  -> stat:    increment stat
+app  -> log:      write log entry
+
+== Condition Occurred ==
+app  -> stat:    increment stat
+app  -> log:     write log entry
+app  -> event:   generate event
+
+== Serious Error Detected ==
+app  -> stat:    increment stat
+app  -> err:     report error
+err  -> event:   generate event
+err  -> log:     write log entry
+err  -> err:     attempt recovery action
+
+== Minor Error Detected ==
+app  -> stat:    increment stat
+app  -> log:     write log entry
+
+@enduml

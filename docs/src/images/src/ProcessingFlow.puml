@@ -1,0 +1,15 @@
+@startuml
+title: Modify Me For This Application
+Database "\vault\secrets" as V
+Database "\etc\config" as CFG
+(Login with\nCredentials)<-left- CFG : "NTP Settings"
+(Login with\nCredentials)<-up- V : "Certs\nKeys\nCredentials"
+(Login with\nCredentials)-down-> (Configure MACsec)
+(Configure MACsec)-left-> (Configure IP Addresses)
+(Configure IP Addresses)-down-> (Load Client Certs)
+(Load Client Certs)-right-> (Configure x509)
+(Configure x509)-down-> (Optional\nLoad Server Certs)
+(Optional\nLoad Server Certs)-left-> (Configure NTP)
+(Configure NTP)-down-> (   reboot    )
+(   reboot    )-right-> (Check x509 login)
+@enduml

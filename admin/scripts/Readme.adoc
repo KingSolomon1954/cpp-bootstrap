@@ -1,0 +1,10 @@
+image::https://i.postimg.cc/J7J1GDr0/Sgn-Background2.png[SGN Repo Banner]
+
+// Where the Banner image is posted.
+// https://postimg.cc/NLshn0rv
+
+Contains shared/common scripts. Used as a submodule in many services.
+
+Services places this submodule in the folder:
+
+  `etc/scripts-shared`

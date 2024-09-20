@@ -1,0 +1,38 @@
+@startuml
+
+hide empty description
+
+[*] --> Initializing : Application Start
+
+Initializing -> Configuring
+
+Configuring -> SelfTest
+
+SelfTest --> Operational
+
+state Operational {
+  [H] -> Running
+  Running -> Disabled
+  Running --> Degraded
+
+  Disabled -l-> Running
+  Disabled --> Degraded
+
+  Degraded -u-> Running
+  Degraded -u-> Disabled
+}
+
+Operational -> Test
+Operational --> Faulted : Any error
+Operational --> Terminating : Terminating
+
+state Test ##[bold]
+Test -l-> Operational
+Test --> Faulted : Any error
+Test --> Terminating : Terminating
+
+Faulted --> Terminating
+
+Terminating --> [*]
+
+@enduml

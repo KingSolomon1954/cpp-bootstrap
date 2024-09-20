@@ -1,0 +1,11 @@
+#pragma once
+
+#define BLD_MAJOR       (${PROJECT_VERSION_MAJOR})
+#define BLD_MINOR       (${PROJECT_VERSION_MINOR})
+#define BLD_PATCH       (${PROJECT_VERSION_PATCH})
+#define BLD_NUMBER      (${BLD_EPOCH})
+#define BLD_EPOCH       (${BLD_EPOCH})
+#define BLD_DATETIME    "${BLD_DATETIME}"
+#define BLD_CREATOR     "${BLD_CREATOR}"
+#define BLD_BRANCH      "${BLD_BRANCH}"
+#define BLD_COMMIT_HASH "${BLD_COMMIT_HASH}"

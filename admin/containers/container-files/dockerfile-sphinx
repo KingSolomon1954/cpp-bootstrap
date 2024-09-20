@@ -1,0 +1,3 @@
+FROM docker.io/sphinxdoc/sphinx:latest
+
+RUN pip3 install --no-cache-dir sphinx_rtd_theme

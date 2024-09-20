@@ -1,0 +1,1 @@
+set(CMAKE_TOOLCHAIN_FILE=generators/conan_toolchain.cmake)

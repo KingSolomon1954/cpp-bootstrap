@@ -1,0 +1,16 @@
+FROM docker.io/library/gcc
+
+RUN apt update && apt install -y \
+        cmake \
+        cmake-doc \
+        gdb \
+        gdbserver \
+        valgrind \
+  && cd /tmp \
+  && wget https://github.com/conan-io/conan/releases/download/2.4.0/conan-2.4.0-linux-x86_64.tgz \
+  && tar -xvf conan-2.4.0-linux-x86_64.tgz \
+  && mv bin/_internal /usr/bin \
+  && mv bin/conan /usr/bin \
+  && rm conan-2.4.0-linux-x86_64.tgz \
+  && cd / \
+  && conan profile detect
