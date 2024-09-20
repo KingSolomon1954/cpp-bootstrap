@@ -9,7 +9,7 @@ Build Status
 -->
 # C++ Bootstrap Project
 
-The purpose of C++ Bootstrap is to provide a pre-canned C++ project
+The purpose of this C++ Bootstrap is to provide a pre-canned C++ project
 layout along with automation and fill-in-the-blanks documentation.
 
 ## Features
@@ -29,11 +29,9 @@ layout along with automation and fill-in-the-blanks documentation.
 - [doctest](https://github.com/doctest/doctest) unit testing framework
 - Single ["version"](#versioning) file in top level folder drives all targets
 - Clean unpolluted top level folder
-
-
-- Code analysis via cppcheck
-- GitHub Continuous Integration
-- Spell checking on docs
+- Code analysis via cppcheck (not implemented yet)
+- GitHub Continuous Integration (not implemented yet)
+- Spell checking on docs (not implemented yet)
 
 ## Prerequisites
 
