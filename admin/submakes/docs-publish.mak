@@ -18,6 +18,7 @@ _D_DOCS_PUB := $(D_DOCS)/site
 
 docs-publish:
 	git rm -r --ignore-unmatch $(_D_DOCS_PUB)/*
+	mkdir -p $(_D_DOCS_PUB)
 	cp -r $(DOCS_OUT)/* $(_D_DOCS_PUB)/
 	touch $(_D_DOCS_PUB)/.nojekyll
 	git add -A $(_D_DOCS_PUB)

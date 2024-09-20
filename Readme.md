@@ -33,6 +33,9 @@ layout along with automation and fill-in-the-blanks documentation.
 - GitHub Continuous Integration (not implemented yet)
 - Spell checking on docs (not implemented yet)
 
+See the auto-generated documentation here on [Github
+Pages](https://kingsolomon1954.github.io/cpp-bootstrap)
+
 ## Prerequisites
 
 - GNU Makefile
