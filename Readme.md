@@ -236,11 +236,6 @@ make help
 Create your own Build and Sphinx containers (for now).
 TODO: future - make containers available in DockerHub.
 
-```bash
-make cntr-build-gcc14-tools
-make cntr-build-sphinx-tools
-```
-
 Modify file `admin/submakes/container-names-gcc14.mak`:
 
 Change:
@@ -269,6 +264,13 @@ CNTR_SPHINX_REPO  := localhost
 CNTR_SPHINX_IMAGE := sphinx
 ```
 
+Now build the containers:
+
+```bash
+make cntr-build-gcc14-tools
+make cntr-build-sphinx-tools
+```
+
 ### Create the Conan lock files (debug and prod)
 
 ```bash
@@ -280,6 +282,6 @@ make conan-lock-both
 make both
 ```
 
-## And You're Off
+## Customze
 
 Customize the repo to be your own project.
