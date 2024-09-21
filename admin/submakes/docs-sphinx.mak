@@ -27,7 +27,7 @@ docs-sphinx-cmd:
 	$(CNTR_TECH) run --rm \
 	    --user=$(CNTR_USER) \
 	    --volume=$$(pwd):/work -it \
-	    $(CNTR_SPHINX_PATH) sphinx-build -b html -a \
+	    $(CNTR_SPHINX_TOOLS_PATH) sphinx-build -b html -a \
 	    -D release=$(VERSION_TRIPLET) \
 	    -D version=$(VERSION_TRIPLET) \
 	    /work/$(_DOCS_SRC) /work/$(DOCS_OUT)

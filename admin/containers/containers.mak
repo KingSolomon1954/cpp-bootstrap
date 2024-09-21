@@ -48,29 +48,29 @@ cntr-pull-gcc11-tools: login-arty
 
 cntr-build-sphinx-tools:
 	# Building Sphinx tools container
-	$(CNTR_TECH) build -t $(CNTR_SPHINX_PATH) \
+	$(CNTR_TECH) build -t $(CNTR_SPHINX_TOOLS_PATH) \
 	    -f $(_D_CNTR_FILES)/dockerfile-sphinx .
 
 cntr-push-sphinx-tools: login-arty
 	# Pushing Sphinx tools container
-	$(CNTR_TECH) push $(CNTR_SPHINX_PATH)
+	$(CNTR_TECH) push $(CNTR_SPHINX_TOOLS_PATH)
 
 cntr-pull-sphinx-tools: login-arty
 	# Pulling Sphinx tools container
-	$(CNTR_TECH) pull $(CNTR_SPHINX_PATH)
+	$(CNTR_TECH) pull $(CNTR_SPHINX_TOOLS_PATH)
 
 # ------------ Help Section ------------
 
 HELP_TXT += "\n\
 cntr-build-gcc14-tools,  Creates $(CNTR_GCC_14_TOOLS_NAME) image\n\
-cntr-push-gcc14-tools,   Pushes  $(CNTR_GCC_14_TOOLS_NAME) to Artifactory\n\
-cntr-pull-gcc14-tools,   Pulls   $(CNTR_GCC_14_TOOLS_NAME) from Artifactory\n\
+cntr-push-gcc14-tools,   Pushes  $(CNTR_GCC_14_TOOLS_NAME) to $(CNTR_GCC_14_TOOLS_REPO)\n\
+cntr-pull-gcc14-tools,   Pulls   $(CNTR_GCC_14_TOOLS_NAME) from $(CNTR_GCC_14_TOOLS_REPO)\n\
 cntr-build-gcc11-tools,  Creates $(CNTR_GCC_11_TOOLS_NAME) image\n\
-cntr-push-gcc11-tools,   Pushes  $(CNTR_GCC_11_TOOLS_NAME) to Artifactory\n\
-cntr-pull-gcc11-tools,   Pulls   $(CNTR_GCC_11_TOOLS_NAME) from Artifactory\n\
+cntr-push-gcc11-tools,   Pushes  $(CNTR_GCC_11_TOOLS_NAME) to $(CNTR_GCC_11_TOOLS_REPO)\n\
+cntr-pull-gcc11-tools,   Pulls   $(CNTR_GCC_11_TOOLS_NAME) from $(CNTR_GCC_11_TOOLS_REPO)\n\
 cntr-build-sphinx-tools, Creates $(CNTR_SPHINX_TOOLS_NAME) image\n\
-cntr-push-sphinx-tools,  Pushes  $(CNTR_SPHINX_TOOLS_NAME) to Artifactory\n\
-cntr-pull-sphinx-tools,  Pulls   $(CNTR_SPHINX_TOOLS_NAME) from Artifactory\n\
+cntr-push-sphinx-tools,  Pushes  $(CNTR_SPHINX_TOOLS_NAME) to $(CNTR_SPHINX_TOOLS_REPO)\n\
+cntr-pull-sphinx-tools,  Pulls   $(CNTR_SPHINX_TOOLS_NAME) from $(CNTR_SPHINX_TOOLS_REPO)\n\
 "
 
 endif

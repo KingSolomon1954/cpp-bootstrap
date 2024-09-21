@@ -69,12 +69,12 @@ CNTR_NAME=$5
 #       parameter that claims the ports even though they may not be used.
 DBG_PORT=$6
 
-# Where to find script the lib.
-# Will be co-located with script.
-tmp1=${0%/}         # grab directoy path of this script
+# Where to find the lib-repo script.
+# Will be co-located with this script.
+tmp1=${0%/}         # grab directory path of this script
 dirName=${tmp1%/*}  # remove last level in path
 
-source ${dirName}/lib-sgn-repo.bash
+source ${dirName}/lib-repo.bash
 
 startFreshBuildContainer()
 {

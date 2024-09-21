@@ -75,16 +75,16 @@ Assuming you have the handy
 sitting in the top folder, then:
 
 ```bash
-bd bin/redflame       # run the app out of debug tree
-bp bin/redflame       # run the app out of production tree
+bd bin/redflame    # run the app out of debug tree 
+bp bin/redflame    # run the app out of production tree
 ```
 
 Alternatively you could exec into the build container.
 
 ```bash
-podman exec -it -w /work/app-1 gcc14-tools bash
+podman exec -it -w /work/cpp-bootstrap gcc14-tools bash
 root#./_build/debug/bin/redflame    # run the debug app
-# Or if you have the bashc alias defined
+# Or if you have the bbash alias defined
 bbash
 root#./_build/debug/bin/redflame    # run the debug app
 
@@ -167,6 +167,12 @@ firefox _build/site/index.html
 - Re-compiles start immediately, no re-loading of GCC container
 - Same containers and tools on desktop and in CI pipelines
 - Convenient Makefile targets abstract away container commands
+- The Build container uses
+  [docker.io/library/gcc](https://hub.docker.com/_/gcc) as its base
+  image which is a Debian distro, therefore executables you create are
+  for Debian Linux. If you want to build for a different distro then you
+  will want to [switch](#switching-build-containers) out the Build
+  container with your own.
 
 **Why Containers**
 
@@ -200,21 +206,14 @@ Mnemonically they can be interpreted as:
 - `bt` - run a command in the **b**uild container from the **t**op folder
 - `bbash` - **bash** into to the **b**uild container at the shell prompt
 
-## Detailed Actions
-
-### Compiling a single file
-
-Assuming you have the [aliases](#handy-aliases-for-build-container)
-defined above:
+These aliases are also available in a script. You might want to change
+the value of _CPP_BOOTSTRAP_HOME in there first to agree with your
+environment.
 
 ```bash
-bd make -C main src/Properties.o
-bd make -C main lib-codec/CodecFast.o
-```
+source `admin/scripts/devenv.bash`
 
-This invokes the CMake generated Makefile on the build container
-specifying the file to compile. Note this works only after a
-build has taken place and thus CMake is properly configured.
+```
 
 ## Getting Started
 
@@ -276,12 +275,36 @@ make cntr-build-sphinx-tools
 ```bash
 make conan-lock-both
 ```
-### Compile and Link
+### Compile, Link, Test and Run
 
 ```bash
 make both
+make unit-test
+bd bin/redflame
 ```
 
-## Customze
+## Customize
 
-Customize the repo to be your own project.
+Customize the project to be your own.
+
+## Additional Activities
+
+### Switching Build Containers
+
+TBS
+
+modify `admin/submakes/start-cpp-bld-container.mak`
+
+### Compiling a Single File
+
+Assuming you have the [aliases](#handy-aliases-for-build-container)
+defined above:
+
+```bash
+bd make -C main src/Properties.o
+bd make -C main lib-codec/CodecFast.o
+```
+
+This invokes the CMake generated Makefile on the build container
+specifying the file to compile. Note this works only after a
+build has taken place and thus CMake is properly configured.
