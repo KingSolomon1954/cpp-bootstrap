@@ -1,14 +1,49 @@
 <!---
 
 Build Status
+[![codecov](https://codecov.io/gh/filipdutescu/modern-cpp-template/branch/master/graph/badge.svg)](https://codecov.io/gh/filipdutescu/modern-cpp-template)
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/filipdutescu/modern-cpp-template)](https://github.com/filipdutescu/modern-cpp-template/releases)
+
+<img src="http://west-wind.com/WestwindToolkit/images/WestwindWebToolkit_128x128.png" align="left"/> 
+
+<h1 align="center">
+    🐴 Roach
+</h1>
+
+<p align="center">
+<a href="https://packagist.org/packages/roach-php/core">
+    <img src="http://poser.pugx.org/roach-php/core/v" alt="Latest Stable Version" />
+</a>
+
+<a href="https://packagist.org/packages/roach-php/core">
+    <img src="http://poser.pugx.org/roach-php/core/downloads" alt="Total Downloads" />
+</a>
+
+<a href="https://github.com/roach-php/core/actions/workflows/run-tests.yml">
+    <img src="https://github.com/roach-php/core/actions/workflows/run-tests.yml/badge.svg" alt="">
+</a> 
+</p>
+
+<p align="center">A complete web scraping toolkit for PHP</p>
+
+![LogoBootstrap60x90](https://github.com/user-attachments/assets/92fe4271-e308-45e4-9afc-b049fa4c3e0f)
+
+![Bootstrap](docs/src/images/pub/LogoBootstrap60x90.png) 
 
 -->
-![Bootstrap](docs/src/images/pub/LogoBootstrap60x90.png) 
-# C++ Bootstrap Project
 
-The purpose of this C++ Bootstrap Project is to provide a pre-canned C++
-project layout along with automation and fill-in-the-blanks
-documentation.
+<h1 align="center">C++ Bootstrap Project</h1>
+
+<p align="center">
+    <img src="https://github.com/user-attachments/assets/92fe4271-e308-45e4-9afc-b049fa4c3e0f" alt="">
+</p>
+
+<p align="center">
+Provides a pre-canned C++ project layout along with automation and
+fill-in-the-blanks documentation.
+</p>
+
+---
 
 ## Features
 
@@ -206,7 +241,7 @@ Mnemonically they can be interpreted as:
 - `bt` - run a command in the **b**uild container from the **t**op folder
 - `bbash` - **bash** into to the **b**uild container at the shell prompt
 
-These aliases are also available in a script. You might want to change
+These aliases are also available in a script. You will want to change
 the value of _CPP_BOOTSTRAP_HOME in there first to agree with your
 environment.
 
@@ -239,29 +274,25 @@ Modify file `admin/submakes/container-names-gcc14.mak`:
 
 Change:
 
-```
-CNTR_GCC_14_TOOLS_REPO  := ghcr.io
-CNTR_GCC_14_TOOLS_IMAGE := kingsolomon1954/containers/gcc14-tools
-```
+    CNTR_GCC_14_TOOLS_REPO  := ghcr.io
+    CNTR_GCC_14_TOOLS_IMAGE := kingsolomon1954/containers/gcc14-tools
+
 To:
-```
-CNTR_GCC_14_TOOLS_REPO  := localhost
-CNTR_GCC_14_TOOLS_IMAGE := gcc14-tools
-```
+
+    CNTR_GCC_14_TOOLS_REPO  := localhost
+    CNTR_GCC_14_TOOLS_IMAGE := gcc14-tools
 
 Modify file `admin/submakes/container-names-sphinx.mak`:
 
 Change:
 
-```
-CNTR_SPHINX_REPO  := ghcr.io
-CNTR_SPHINX_IMAGE := kingsolomon1954/containers/sphinx
-```
+    CNTR_SPHINX_REPO  := ghcr.io
+    CNTR_SPHINX_IMAGE := kingsolomon1954/containers/sphinx
+
 To:
-```
-CNTR_SPHINX_REPO  := localhost
-CNTR_SPHINX_IMAGE := sphinx
-```
+
+    CNTR_SPHINX_REPO  := localhost
+    CNTR_SPHINX_IMAGE := sphinx
 
 Now build the containers:
 
