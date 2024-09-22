@@ -1,30 +1,8 @@
 <!---
 
-Build Status
+Add some status badges eventually.
 [![codecov](https://codecov.io/gh/filipdutescu/modern-cpp-template/branch/master/graph/badge.svg)](https://codecov.io/gh/filipdutescu/modern-cpp-template)
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/filipdutescu/modern-cpp-template)](https://github.com/filipdutescu/modern-cpp-template/releases)
-
-<img src="http://west-wind.com/WestwindToolkit/images/WestwindWebToolkit_128x128.png" align="left"/> 
-
-<h1 align="center">
-    🐴 Roach
-</h1>
-
-<p align="center">
-<a href="https://packagist.org/packages/roach-php/core">
-    <img src="http://poser.pugx.org/roach-php/core/v" alt="Latest Stable Version" />
-</a>
-
-<a href="https://packagist.org/packages/roach-php/core">
-    <img src="http://poser.pugx.org/roach-php/core/downloads" alt="Total Downloads" />
-</a>
-
-<a href="https://github.com/roach-php/core/actions/workflows/run-tests.yml">
-    <img src="https://github.com/roach-php/core/actions/workflows/run-tests.yml/badge.svg" alt="">
-</a> 
-</p>
-
-<p align="center">A complete web scraping toolkit for PHP</p>
 
 ![LogoBootstrap60x90](https://github.com/user-attachments/assets/92fe4271-e308-45e4-9afc-b049fa4c3e0f)
 
@@ -61,7 +39,7 @@ fill-in-the-blanks documentation.
 - All documentation organized together under a single static website
 - [doctest](https://github.com/doctest/doctest) unit testing framework
 - Single ["version"](#versioning) file in top level folder drives all targets
-- Clean unpolluted top level folder
+- Clean unpolluted [top level folder](#project-layout)
 - Code analysis via cppcheck (not implemented yet)
 - GitHub Continuous Integration (not implemented yet)
 - Spell checking on docs (not implemented yet)
@@ -186,6 +164,53 @@ firefox _build/site/index.html
   place drawio source files in `docs/src/images/src`
 - Then export drawio diagram as a PNG into `docs/src/images/pub`
 
+## Folder Layout
+
+**Top Level View**
+
+    ├── main
+    ├── lib-gen
+    ├── lib-codec
+    ├── docs
+    ├── admin
+    ├── etc
+    └── _build
+
+**Two Level View**
+
+    ├── CMakeLists.txt
+    ├── Makefile
+    ├── Readme.md
+    ├── version
+    ├── main
+    │  ├── include
+    │  ├── src
+    │  ├── utest
+    │  └── CMakeLists.txt
+    ├── lib-gen
+    │  ├── include
+    │  ├── src
+    │  ├── utest
+    │  └── CMakeLists.txt
+    ├── lib-codec
+    │  ├── include
+    │  ├── src
+    │  ├── utest
+    │  └── CMakeLists.txt
+    ├── docs
+    │  ├── src
+    │  ├── site
+    │  └── docs.mak
+    ├── admin
+    │  ├── cmake
+    │  ├── conan
+    │  ├── containers
+    │  ├── scripts
+    │  └── submakes
+    └── etc
+       ├── Contributing.md
+       └── License.md
+
 ## Conan
 
 - Setup as a consumer of Conan libraries, not a producer
@@ -252,12 +277,12 @@ source `admin/scripts/devenv.bash`
 
 ## Getting Started
 
-### Retrieve C++ Starter Project
+### 1. Retrieve C++ Starter Project
 
 Grab the repo as a
 [template](https://help.github.com/en/github/creating-cloning-and-archiving-repositories/creating-a-repository-from-a-template).
 
-### First invocation
+### 2. First invocation
 
 See if your host environment is suitable enough for `make help`.
 
@@ -265,9 +290,10 @@ See if your host environment is suitable enough for `make help`.
 make help
 ```
 
-### Container Setup
+### 3. Container Setup
 
 Create your own Build and Sphinx containers (for now).
+
 TODO: future - make containers available in DockerHub.
 
 Modify file `admin/submakes/container-names-gcc14.mak`:
@@ -301,12 +327,12 @@ make cntr-build-gcc14-tools
 make cntr-build-sphinx-tools
 ```
 
-### Create the Conan lock files (debug and prod)
+### 4. Create the Conan lock files (debug and prod)
 
 ```bash
 make conan-lock-both
 ```
-### Compile, Link, Test and Run
+### 5. Compile, Link, Test and Run
 
 ```bash
 make both
@@ -314,7 +340,7 @@ make unit-test
 bd bin/redflame
 ```
 
-## Customize
+## 6. Customize
 
 Customize the project to be your own.
 
