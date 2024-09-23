@@ -1,0 +1,86 @@
+# This file is executed by the 'make spelling-help' target
+# and displays the content below.
+#
+# See admin/submakes/spelling.mak
+#
+# Be aware that running this file directly on the command line
+# won't render bold/colors properly since there will be 
+# too many escapes. See colors.bash for description.
+
+# Include bolding/color capability.
+submake_dir=$1
+. ${submake_dir}/help-files/colors.bash
+
+OLD_IFS="$IFS"
+IFS=
+while read line; do
+    echo $line
+done << TheEnd
+${BRIGHT}NAME${CLEAR}
+    Spell Checking
+    
+${BRIGHT}DESCRIPTION${CLEAR}
+    Spell checking can be performed against a given file or a tree
+    of files via Makefile target. Spelling can be run in interactive or
+    batch mode.  Underlying tool is 'hunspell'. See hunspell man page
+    for interactive mode handling.
+
+    See https://linux.die.net/man/1/hunspell
+
+${BRIGHT}* Spell check interactively against a single file:${CLEAR}
+
+    > make <filepath>.ispell
+    > make docs/src/index.ispell
+
+    Meant to be run on your desktop. You are prompted on screen for
+    corrections. The file will be changed in-place. Options include
+    updating the private dictionary.
+
+${BRIGHT}* Spell check all repo docs interactively:${CLEAR}
+
+    > make spelling-it
+
+    Meant to be run on your desktop. Runs against *.rst files found
+    under docs/src folder. You are prompted on screen for corrections
+    file by file. Each file will be changed in-place. On screen options
+    include updating the private dictionary.
+
+${BRIGHT}* Spell check a single file in batch mode:${CLEAR}
+
+    > make <filepath>.bspell
+    > make docs/src/index.bspell
+
+    Meant to be run on your desktop. Creates a file that lists mispelled
+    and unrecognized words. Find the file in folder _build/spelling.
+    Source files and private dictionary are untouched.
+
+${BRIGHT}* Spell check all docs in batch mode:${CLEAR}
+
+    > make spelling
+
+    Meant to be run on your desktop. Runs against *.rst files found
+    under docs/src folder. Creates a file
+    _build/spelling/spelling-results.txt that lists mispelled and
+    unrecognized words. Source files and private dictionary are
+    untouched.
+
+${BRIGHT}FILES${CLEAR}
+    Private dictionary. Input and output (if interactive).
+    <repo>/docs/src/dictionary/dictionary.txt
+
+    Batch mode site mispellings. Output file.
+    _build/spelling/spelling-results.txt
+
+    Batch mode single file mispellings. Output file.
+    _build/spelling/<base-file-name>.bspell
+
+${BRIGHT}ENVIRONMENT${CLEAR}
+    Requires desktop Linux 'find' and 'cat' utility in path for repo
+    level spelling.
+
+    Optional desktop Linux 'sort' utility, if found in path, is used
+    to sort the spelling results file.  Sorting is not necessary, but
+    it elminates duplicates and easier to read.
+TheEnd
+
+IFS="$OLD_IFS"

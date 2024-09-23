@@ -42,7 +42,7 @@ fill-in-the-blanks documentation.
 - Clean unpolluted [top level folder](#project-layout)
 - Code analysis via cppcheck (not implemented yet)
 - GitHub Continuous Integration (not implemented yet)
-- Spell checking on docs (not implemented yet)
+- Spell checking on docs, batch or interactive mode
 
 See the auto-generated documentation here on [Github
 Pages](https://kingsolomon1954.github.io/cpp-bootstrap).
@@ -359,9 +359,23 @@ defined above:
 
 ```bash
 bd make -C main src/Properties.o
-bd make -C main lib-codec/CodecFast.o
+bd make -C lib-codec src/CodecFast.o
 ```
 
 This invokes the CMake generated Makefile on the build container
 specifying the file to compile. Note this works only after a
 build has taken place and thus CMake is properly configured.
+
+### Compiling a Specific Target
+
+Often it is preferable to compile only the target under change, instead
+of invoking the entire build.
+
+Assuming you have the [aliases](#handy-aliases-for-build-container)
+defined above:
+
+```bash
+bd make help        # See the CMake targets
+bd make lib-gen     # Build just the lib-gen library
+```
+

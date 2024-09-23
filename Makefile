@@ -1,7 +1,5 @@
 # -------------------------------------------------------
 #
-# King Solomon Project: Bedrock Library
-#
 # File: Makefile
 #
 # Copyright (c) 2024 KingSolomon1954
@@ -34,15 +32,15 @@
 #
 # -------------------------------------------------------
 
-TOP       := .
-D_MAIN    := $(TOP)/main
-D_DOCS    := $(TOP)/docs
-D_ADMIN   := $(TOP)/admin
-D_BLD  	  := $(TOP)/_build
-D_MAK     := $(D_ADMIN)/submakes
-D_SCP     := $(D_ADMIN)/scripts
-D_CONAN   := $(D_ADMIN)/conan
-D_CNTRS   := $(D_ADMIN)/containers
+TOP     := .
+D_MAIN  := $(TOP)/main
+D_DOCS  := $(TOP)/docs
+D_ADMIN := $(TOP)/admin
+D_BLD  	:= $(TOP)/_build
+D_MAK   := $(D_ADMIN)/submakes
+D_SCP   := $(D_ADMIN)/scripts
+D_CONAN := $(D_ADMIN)/conan
+D_CNTRS := $(D_ADMIN)/containers
 
 all: all-relay
 
@@ -56,8 +54,7 @@ include $(D_CNTRS)/containers.mak
 # include $(D_MAK)/cpp-static-analysis.mak
 # include $(D_MAK)/uncrustify.mak
 # include $(D_MAK)/repo-login.mak
-# include $(D_MAK)/spelling.mak
-# include $(D_MAK)/hack-sh.mak
+include $(D_MAK)/spelling.mak
 include $(D_MAK)/print-debug.mak
 include $(D_MAK)/help.mak
 include $(D_DOCS)/docs.mak
