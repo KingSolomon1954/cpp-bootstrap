@@ -1,15 +1,27 @@
 # ---------------------------------------------------------------------
 #
-# Library of bash functions to help with container repositories.
+# Library of bash functions to help with container registries.
 #
 # This file is sourced from several scripts.
 #
+# Functions prefixed with cr (container registry)
+#
+# crHaveLocalImage()
+# crIsLoggedIn()
+# crLoginRegistry()
+# crLogoutRegistry()
+# crStartExitedContainer()
+# crIsContainerRunning()
+# crIsContainerExited()
+#
+# CR_PAT  Container Registry Personal Access Token
+
 # ---------------------------------------------------------------------
 #
 # CNTR_TECH=$1
 # CNTR_PATH=$2
 #
-sgnRepoHaveLocalImage()
+crHaveLocalImage()
 {
     local tech=$1
     local path=$2
@@ -23,55 +35,55 @@ sgnRepoHaveLocalImage()
 # ----------------------------------------------------------------------
 #
 # CNTR_TECH=$1
-# CNTR_REPO=$2
+# CNTR_REGISTRY=$2
 #
-sgnRepoIsLoggedIn()
+crIsLoggedIn()
 {
     local tech=$1
-    local repo=$2
+    local registry=$2
     local dockerCfg=${HOME}/.docker/config.json
 
     if [ "${tech}" = "docker" ]; then
-        if grep -i "${repo}" "${dockerCfg}" > /dev/null; then
+        if grep -i "${registry}" "${dockerCfg}" > /dev/null; then
             return 0  # return true, already logged in
         fi
         return 1      # return false, not logged in
     fi
     
     if [ "${tech}" = "podman" ]; then
-        if ${tech} login --get-login ${repo} > /dev/null 2>&1; then
+        if ${tech} login --get-login ${registry} > /dev/null 2>&1; then
             return 0  # return true, already logged in
         fi
         return 1      # return false, not logged in
     fi
-    echo "Bad CNTR_TECH arg in sgnRepoIsLoggedIn()"
+    echo "Bad CNTR_TECH arg in crIsLoggedIn()"
     exit 1   # Fatal exit here.
 }
 
 # ----------------------------------------------------------------------
 #
 # CNTR_TECH=$1
-# CNTR_REPO=$2
+# CNTR_REGISTRY=$2
 #
-sgnRepoLoginRepo()
+crLoginRegistry()
 {
     local tech=$1
-    local repo=$2
-    echo "${tech} login -u ${LOGNAME} ${repo}"
-    ${tech} login -u ${LOGNAME} ${repo}
+    local registry=$2
+    echo "${tech} login -u ${LOGNAME} ${registry}"
+    ${tech} login -u ${LOGNAME} ${registry}
 }
 
 # ----------------------------------------------------------------------
 #
 # CNTR_TECH=$1
-# CNTR_REPO=$2
+# CNTR_REGISTRY=$2
 #
-sgnRepoLogoutRepo()
+crLogoutRegistry()
 {
     local tech=$1
-    local repo=$2
-    echo "${tech} logout ${repo}"
-    ${tech} logout ${repo}
+    local registry=$2
+    echo "${tech} logout ${registry}"
+    ${tech} logout ${registry}
 }
 
 # ----------------------------------------------------------------------
@@ -79,7 +91,7 @@ sgnRepoLogoutRepo()
 # CNTR_TECH=$1
 # CNTR_NAME=$2
 #
-sgnRepoStartExitedContainer()
+crStartExitedContainer()
 {
     local tech=$1
     local name=$2
@@ -94,7 +106,7 @@ sgnRepoStartExitedContainer()
 #
 # Statuses (created, running, paused, exited)
 #
-sgnRepoIsContainerRunning()
+crIsContainerRunning()
 {
     local tech=$1
     local name=$2
@@ -112,7 +124,7 @@ sgnRepoIsContainerRunning()
 #
 # Statuses (created, running, paused, exited)
 #
-sgnRepoIsContainerExited()
+crIsContainerExited()
 {
     local tech=$1
     local name=$2
