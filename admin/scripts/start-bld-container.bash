@@ -7,46 +7,48 @@
 # mount point /work one folder above repositories.
 #
 #   Example:
-#       elvis/proj/sgn          <-- container mount point, mounted as "/work"
-#               sgn-skeleton-cpp
-#               sgn-skeleton-py
-#               sgn-pktgen
-#               sgn-api-async
-#               bld-scripts
+#       elvis/proj/          <-- container mount point, mounted as "/work"
+#               cpp-bootstrap
+#               project1
+#               redflame
 #
-# Will look something like this:
+# Invocation looks something like this:
 #
-#   docker run --volume="$HOME/proj/sgn:/work" --workdir=/work \
-#              --detach -it --name sgn-python sgn-dev/sgn-python
+#   docker run --volume="$HOME/proj/:/work" --workdir=/work \
+#              --detach -it --name docker.io/kingsolomon/gcc14-tools \
+#              gcc14-tools
 #
 # Using this mount strategy, you can use the same already
-# running build container to build in many repos.
+# running build container to build in different repos.
 #
-# This strategy is an optimization for a developers work
-# flow on local computer. Developers would define
-# aliases similar to the following:
+# To more easily work with this mount strategy,
+# developers should define aliases similar to the following:
 #
-#   alias sa='docker exec -w /work/$(basename $(pwd))        sgn-gcc10'
-#   alias sb='docker exec -w /work/$(basename $(pwd))/_build sgn-gcc10'
+#   alias bt='docker exec -w /work/$(basename $(pwd))              gcc14-tools'
+#   alias bd='docker exec -w /work/$(basename $(pwd))/_build/debug gcc14-tools'
+#   alias bp='docker exec -w /work/$(basename $(pwd))/_build/prod  gcc14-tools'
 #
 # ---------------------------------------------------------------------
 
 # The container technology, which refers to podman or docker
 CNTR_TECH=$1
 
-# The username or UID and optionally the groupname or GID for the specified command
-# e.g., "1000:1000", "root", etc. If this value is empty, the user will be root.
-# NOTE: When passing a variable into the script for this argument, wrap the
-#       variable in quotes since this is a positional argument and can be empty.
-#       e.g., start-bld-container.bash $(CNTR_TECH) "$(CNTR_USER)" ...
+# The username or UID and optionally the groupname or GID for
+# the specified command. e.g., "1000:1000", "root", etc. If this
+# value is empty, the user will be root.
+# NOTE: When passing a variable into the script for this argument, 
+#       wrap the variable in quotes since this is a positional argument 
+#       and can be empty. e.g.,
+#       start-bld-container.bash $(CNTR_TECH) "$(CNTR_USER)" ...
 CNTR_USER=$2
 
-# The URL of the repo hosting the image, e.g., artifactory.apps.build.sgn.viasat.us
-# If needed, the script will login before pulling the image.
-CNTR_REPO=$3
+# The URL of the container registry hosting the image, e.g., docker.io
+# If needed, the script will login to the registry before pulling the
+# image.
+CNTR_REGISTRY=$3
 
 # The full URL of the container image (including the image tag)
-# e.g., artifactory.apps.build.sgn.viasat.us/sgn-docker/sgn/bld/python39-tools:0.5.0-1-int
+# e.g., docker.io/KingSolomon/cpp-bootstrap/gcc14-tools:14.2.0
 CNTR_PATH=$4
 
 # The name to use when creating container. The script assumes the caller
@@ -74,7 +76,9 @@ DBG_PORT=$6
 tmp1=${0%/}         # grab directory path of this script
 dirName=${tmp1%/*}  # remove last level in path
 
-source ${dirName}/lib-repo.bash
+source ${dirName}/lib-container-registry.bash
+
+# ---------------------------------------------------------------------
 
 startFreshBuildContainer()
 {
@@ -92,6 +96,7 @@ startFreshBuildContainer()
         # so that running "chown <host UID>" on a directory in the container
         # may unexpectedly change ownership of the file to a substitute
         # UID (e.g., 165536) rather than the actual host UID (e.g., 1000).
+        #
         if [[ ${CNTR_TECH} == docker ]]; then
             CNTR_NEED_ROOT_DIR_PERMISSIONS=y
         fi
@@ -126,11 +131,11 @@ startFreshBuildContainer()
         ${CNTR_USER_FLAGS} \
         ${KUBE_CONFIG_MOUNT} \
         --volume=${PROJ_HOME}:/work \
+        --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro \
         --workdir=/work --detach -it \
         --cap-add=SYS_PTRACE \
         --no-healthcheck \
         ${CNTR_PORT_FLAGS} \
-        -v /sys/fs/cgroup:/sys/fs/cgroup:ro \
         ${CNTR_ARGS} \
         --name ${CNTR_NAME} ${CNTR_PATH}
 
@@ -153,21 +158,24 @@ startFreshBuildContainer()
     fi
 }
 
-if sgnRepoIsContainerRunning ${CNTR_TECH} ${CNTR_NAME}; then
+# ---------------------------------------------------------------------
+
+if crIsContainerRunning ${CNTR_TECH} ${CNTR_NAME}; then
     exit 0
 fi
 
-if sgnRepoIsContainerExited ${CNTR_TECH} ${CNTR_NAME}; then
+if crIsContainerExited ${CNTR_TECH} ${CNTR_NAME}; then
     echo "Starting exited bld-container: ${CNTR_NAME}"
-    sgnRepoStartExitedContainer ${CNTR_TECH} ${CNTR_NAME}
+    crStartExitedContainer ${CNTR_TECH} ${CNTR_NAME}
     exit 0
 fi
 
-if ! sgnRepoHaveLocalImage ${CNTR_TECH} ${CNTR_PATH}; then
-    if ! sgnRepoIsLoggedIn ${CNTR_TECH} ${CNTR_REPO}; then
-        echo "(${CNTR_TECH}) Logging in to ${CNTR_REPO}"
-        sgnRepoLoginRepo ${CNTR_TECH} ${CNTR_REPO}
+if ! crHaveLocalImage ${CNTR_TECH} ${CNTR_PATH}; then
+    if ! crIsLoggedIn ${CNTR_TECH} ${CNTR_REGISTRY}; then
+        ${dirName}/registry-login.bash ${CNTR_TECH} ${CNTR_REGISTRY}
     fi
 fi
 
 startFreshBuildContainer
+
+# ---------------------------------------------------------------------

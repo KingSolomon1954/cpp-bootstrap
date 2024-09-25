@@ -233,6 +233,8 @@ firefox _build/site/index.html
   for Debian Linux. If you want to build for a different distro then you
   will want to [switch](#switching-build-containers) out the Build
   container with your own.
+- [Automated login](#container-registry-login) to container registries
+- Supports multiple container registries simultaneously
 
 **Why Containers**
 
@@ -245,6 +247,61 @@ firefox _build/site/index.html
   environment as coherent tool set
 - *Prevents conflicts* between host and runners that might use different
   tools and/or libraries for other activities
+  
+### Container Registry Login
+
+Automated and manual login into container registries.
+Currently supports:
+
+* docker.io
+* ghcr.io
+* artifactory.io
+
+Credentials are read from the following locations on your host in 
+the order shown:
+
+1. environment variables
+2. from files
+3. otherwise command line prompt
+
+Reads credentials (personal access token(PAT) or password and 
+user name) from these environment variables if found:
+
+- reads env variable `<REGISTRY>_PAT`      ("." turned into underscore)
+- reads env variable `<REGISTRY>_USERNAME`
+
+For example, if the container registry is `docker.io` then looks 
+for these environment variables:
+
+``` bash
+  DOCKER_IO_PAT         # personal access token / password
+  DOCKER_IO_USERNAME    # login user name for this registry
+```
+
+Reads credentials (personal access token(PAT) or password and 
+user name) from these files if found:
+
+- reads access token file: `$HOME/.ssh/<REGISTRY>-token`
+- reads username file: `$HOME/.ssh/<REGISTRY>-username`
+
+For example, if container registry is `docker.io` then looks 
+for these files:
+
+``` bash
+  $HOME/.ssh/docker.io-token     # personal access token / password
+  $HOME/.ssh/docker.io-username  # login user name for this registry
+```
+
+These files should have just a single line each. For example:
+``` bash
+> cat $HOME/.ssh/docker.io-token
+dhub_675b9Jam99721
+> cat $HOME/.ssh/docker.io-username
+Elvis
+```
+
+- if no env var or file, then prompts for PAT/password
+- if no env var or file, then prompts for username
 
 ### Handy Aliases for Build Container
 
@@ -271,7 +328,7 @@ the value of _CPP_BOOTSTRAP_HOME in there first to agree with your
 environment.
 
 ```bash
-source `admin/scripts/devenv.bash`
+source admin/scripts/devenv.bash
 
 ```
 
