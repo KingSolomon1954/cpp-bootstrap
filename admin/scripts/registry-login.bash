@@ -73,8 +73,8 @@ getValueFromFile()    # $1 is file name
 
 makeEnvVarName()    # $1 is suffix
 {
-    # If CNTR_REGISTRY = docker.io and $1 = "_PAT" then
-    # returns "DOCKER_IO_PAT"
+    # For example, if CNTR_REGISTRY = docker.io and $1 = "_PAT" 
+    # then returns "DOCKER_IO_PAT"
     
     local name=${CNTR_REGISTRY/"."/"_"}  # docker.io --> docker_io
     name=${name^^}                       # convert to uppercase
@@ -150,13 +150,6 @@ if crIsLoggedIn ${CNTR_TECH} ${CNTR_REGISTRY}; then
     exit 0   # exit success, already logged in
 fi
 
-# check for env variable <REGISTRY>_PAT      ("." turned into underscore)
-# check for env variable <REGISTRY>_USERNAME
-# check for access token in file in ~/.ssh <REGISTRY>-token
-# check for username file in ~/.ssh <REGISTRY>-username
-# if no token, prompt for token
-# if no username, prompt for token
-
 echo "(${CNTR_TECH}) Logging into container registry: ${CNTR_REGISTRY}"
 echo "(${CNTR_REGISTRY}) Gathering credentials for Auto-Login"
 
@@ -172,7 +165,8 @@ fi
 if [ -n "${REGISTRY_TOKEN}" ]; then
     PASSWORD_ARGS="--password ${REGISTRY_TOKEN}"
 else
-    # Leave PASSWORD_ARGS undefined, so that podman prompts for password
+    # Leave PASSWORD_ARGS undefined, so that podman/docker
+    # will prompt for password.
     :
 fi
 

@@ -250,26 +250,27 @@ firefox _build/site/index.html
   
 ### Container Registry Login
 
-Supports automated and manual login into container registries.
-Currently supporting:
+Automated and manual login into container registries.
+Currently supports:
 
 * docker.io
 * ghcr.io
 * artifactory.io
 
-Credentials are read from these locations on your host in this order:
+Credentials are read from the following locations on your host in 
+the order shown:
 
 1. environment variables
 2. from files
 3. otherwise command line prompt
 
 Reads credentials (personal access token(PAT) or password and 
-user name) from envionment variables if found:
+user name) from these environment variables if found:
 
-- checks for env variable `<REGISTRY>_PAT`      ("." turned into underscore)
-- checks for env variable `<REGISTRY>_USERNAME`
+- reads env variable `<REGISTRY>_PAT`      ("." turned into underscore)
+- reads env variable `<REGISTRY>_USERNAME`
 
-For example, if container registry is `docker.io` then looks 
+For example, if the container registry is `docker.io` then looks 
 for these environment variables:
 
 ``` bash
@@ -278,7 +279,7 @@ for these environment variables:
 ```
 
 Reads credentials (personal access token(PAT) or password and 
-user name) from files if found:
+user name) from these files if found:
 
 - reads access token file: `$HOME/.ssh/<REGISTRY>-token`
 - reads username file: `$HOME/.ssh/<REGISTRY>-username`
@@ -291,7 +292,7 @@ for these files:
   $HOME/.ssh/docker.io-username  # login user name for this registry
 ```
 
-These files have just a single line each. For example:
+These files should have just a single line each. For example:
 ``` bash
 > cat $HOME/.ssh/docker.io-token
 dhub_675b9Jam99721

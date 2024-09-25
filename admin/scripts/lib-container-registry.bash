@@ -8,7 +8,6 @@
 #
 # crHaveLocalImage()
 # crIsLoggedIn()
-# crLoginRegistry()
 # crLogoutRegistry()
 # crStartExitedContainer()
 # crIsContainerRunning()
@@ -58,19 +57,6 @@ crIsLoggedIn()
     fi
     echo "Bad CNTR_TECH arg in crIsLoggedIn()"
     exit 1   # Fatal exit here.
-}
-
-# ----------------------------------------------------------------------
-#
-# CNTR_TECH=$1
-# CNTR_REGISTRY=$2
-#
-crLoginRegistry()
-{
-    local tech=$1
-    local registry=$2
-    echo "${tech} login -u ${LOGNAME} ${registry}"
-    ${tech} login -u ${LOGNAME} ${registry}
 }
 
 # ----------------------------------------------------------------------
