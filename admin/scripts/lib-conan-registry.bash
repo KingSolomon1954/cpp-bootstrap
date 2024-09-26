@@ -1,27 +1,31 @@
 # ---------------------------------------------------------------------
 #
-# Library of bash functions to help with container registries.
+# Library of bash functions to help with Conan registries.
 #
 # This file is sourced from several scripts.
 #
-# Functions prefixed with cr (container registry)
+# Functions prefixed with cr (conan registry)
 #
-# crHaveLocalImage()
 # crIsLoggedIn()
 # crLogoutRegistry()
-# crStartExitedContainer()
-# crIsContainerRunning()
-# crIsContainerExited()
+# crHaveRegistry()
+# crAddRegistry()
 #
 # ---------------------------------------------------------------------
 #
 # CNTR_TECH=$1
 # CNTR_PATH=$2
 #
-crHaveLocalImage()
+crIsLoggedIn()
 {
     local tech=$1
     local path=$2
+
+    if $(CPP_BLD_CNTR_EXEC) conan remote list-users | \
+	        sed -n "/$(_ARG_CONAN_REGISTRY)/,/authenticated:/p" | \
+	        grep -i true; then \
+
+    
     local haveImage=$(${tech} images -q -f reference="${path}")
     if [ -z "${haveImage}" ]; then
         return 1  # return false, don't have it

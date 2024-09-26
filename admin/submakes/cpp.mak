@@ -112,11 +112,7 @@ endif
 
 both:  prod debug
 
-# prod:  login-arty start-cpp-bld-container
-
 prod:  start-cpp-bld-container _build-it-prod
-
-# debug: login-arty start-cpp-bld-container
 
 debug: start-cpp-bld-container _build-it-debug
 
