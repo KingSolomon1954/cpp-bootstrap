@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# File: conan-registry-logout.bash
+# File: conan-registry-status.bash
 #
 # ---------------------------------------------------------------------
 
@@ -25,11 +25,8 @@ dirName=${tmp1%/*}  # remove last level in path
 
 source ${dirName}/lib-conan-registry.bash
 
-# Unconditionally logout, no need to first check if already logged out.
-conanLogoutRegistry ${CNTR_TECH} ${CONAN_REGISTRY} ${BLD_CNTR_NAME}
-
-# if conanIsLoggedIn ${CNTR_TECH} ${CONAN_REGISTRY} ${BLD_CNTR_NAME}; then
-#     conanLogoutRegistry ${CNTR_TECH} ${CONAN_REGISTRY} ${BLD_CNTR_NAME}
-# else
-#     echo "(conan) Already logged out of ${CONAN_REGISTRY}"
-# fi
+if conanIsLoggedIn ${CNTR_TECH} ${CONAN_REGISTRY} ${BLD_CNTR_NAME}; then
+    echo "(${CONAN_REGISTRY}) Already logged into ${CONAN_REGISTRY}"
+else
+    echo "(${CONAN_REGISTRY}) Not logged in to ${CONAN_REGISTRY}"
+fi

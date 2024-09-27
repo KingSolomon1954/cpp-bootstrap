@@ -19,7 +19,7 @@ dirName=${tmp1%/*}  # remove last level in path
 
 source ${dirName}/lib-container-registry.bash
 
-if crIsLoggedIn ${CNTR_TECH} ${CNTR_REGISTRY}; then
+if cntrIsLoggedIn ${CNTR_TECH} ${CNTR_REGISTRY}; then
     echo "(${CNTR_TECH}) Currently logged in to ${CNTR_REGISTRY}"
 else
     echo "(${CNTR_TECH}) Currently not logged in to ${CNTR_REGISTRY}"

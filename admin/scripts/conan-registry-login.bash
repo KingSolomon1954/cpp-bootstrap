@@ -2,7 +2,7 @@
 #
 # ---------------------------------------------------------------------
 #
-# Manages login to the given container registry.
+# Manages login to the given Conan registry.
 #
 # Supports automated and manual login.
 #
@@ -18,11 +18,11 @@
 # checks for env variable <REGISTRY>_PAT      ("." turned into underscore)
 # checks for env variable <REGISTRY>_USERNAME
 #
-# For example, if container registry is `docker.io` then looks 
+# For example, if container registry is `conan.io` then looks 
 # for these environment variables:
 #
-#   DOCKER_IO_PAT         # personal access token / password
-#   DOCKER_IO_USERNAME    # login user name for this registry
+#   CONAN_IO_PAT         # personal access token / password
+#   CONAN_IO_USERNAME    # login user name for this registry
 #
 # Reads credentials (personal access token(PAT) or password and 
 # user name) from files if found:
@@ -30,17 +30,17 @@
 # checks for access token in file in `~/.ssh/<REGISTRY>-token`
 # checks for username file in `~/.ssh/<REGISTRY>-username`
 #
-# For example, if container registry is `docker.io` then looks 
+# For example, if container registry is `conan.io` then looks 
 # for these files:
 #
-#   $HOME/.ssh/docker.io-token     # personal access token / password
-#   $HOME/.ssh/docker.io-username  # login user name for this registry
+#   $HOME/.ssh/conan.io-token     # personal access token / password
+#   $HOME/.ssh/conan.io-username  # login user name for this registry
 #
 # These files have just a single line each. For example:
 #
-# > cat $HOME/.ssh/docker.io-token
-# dhub_675b9Jam99721
-# > cat $HOME/.ssh/docker.io-username
+# > cat $HOME/.ssh/conan.io-token
+# ccenter_675b9Jam99721
+# > cat $HOME/.ssh/conan.io-username
 # Elvis
 #
 # if no env var or file, then prompts for PAT/password
@@ -49,14 +49,15 @@
 # ---------------------------------------------------------------------
 
 CNTR_TECH=$1
-CNTR_REGISTRY=$2
+CONAN_REGISTRY=$2
+BLD_CNTR_NAME=$3
 
-# Where to find lib-container-registry script.
+# Where to find lib-conan-registry script.
 # Will be co-located with this script.
 tmp1=${0%/}         # grab directory path of this script
 dirName=${tmp1%/*}  # remove last level in path
 
-source ${dirName}/lib-container-registry.bash
+source ${dirName}/lib-conan-registry.bash
 
 # ---------------------------------------------------------------------
 
@@ -73,12 +74,13 @@ getValueFromFile()    # $1 is file name
 
 makeEnvVarName()    # $1 is suffix
 {
-    # For example, if CNTR_REGISTRY = docker.io and $1 = "_PAT" 
-    # then returns "DOCKER_IO_PAT"
+    # For example, if CONAN_REGISTRY = conan.io and $1 = "_PAT" 
+    # then returns "CONAN_IO_PAT"
     
-    local name=${CNTR_REGISTRY/"."/"_"}  # docker.io --> docker_io
-    name=${name^^}                       # convert to uppercase
-    name=${name}$1                       # add suffix
+    local name=${CONAN_REGISTRY/"."/"_"}  # conan.io --> conan_io
+    name=${name/"-"/"_"}                  # conan-io --> conan_io
+    name=${name^^}                        # convert to uppercase
+    name=${name}$1                        # add suffix
     echo ${name}
 }
 
@@ -87,7 +89,7 @@ makeEnvVarName()    # $1 is suffix
 promptForUsernameToken()
 {
     # echo "Default = ${LOGNAME}"
-    read -p "(${CNTR_REGISTRY}) Username: " USERNAME_TOKEN
+    read -p "(${CONAN_REGISTRY}) Username: " USERNAME_TOKEN
     # Use LOGNAME if user enters empty
     # if [ -z "${USERNAME_TOKEN}" ]; then
     #     USERNAME_TOKEN=${LOGNAME}
@@ -96,9 +98,24 @@ promptForUsernameToken()
 
 # ---------------------------------------------------------------------
 
+promptForUrl()
+{
+    read -p "(${CONAN_REGISTRY}) URL: " REGISTRY_URL
+}
+
+# ---------------------------------------------------------------------
+
+promptForToken()
+{
+    read -s -p "(${CONAN_REGISTRY}) Password: " REGISTRY_TOKEN
+    echo ""
+}
+
+# ---------------------------------------------------------------------
+
 getRegistryToken()
 {
-    tokenFileName="${HOME}/.ssh/${CNTR_REGISTRY}-token"
+    tokenFileName="${HOME}/.ssh/${CONAN_REGISTRY}-token"
     tokenEnvVarName=$(makeEnvVarName "_PAT")
     declare -n tokenEnvVarValue=${tokenEnvVarName}
 
@@ -120,7 +137,7 @@ getRegistryToken()
 
 getUsernameToken()
 {
-    usernameFileName="${HOME}/.ssh/${CNTR_REGISTRY}-username"
+    usernameFileName="${HOME}/.ssh/${CONAN_REGISTRY}-username"
     usernameEnvVarName=$(makeEnvVarName "_USERNAME")
     declare -n usernameEnvVarValue=${usernameEnvVarName}
     
@@ -140,44 +157,78 @@ getUsernameToken()
 
 # ---------------------------------------------------------------------
 
-if [ -z ${CNTR_REGISTRY} ]; then
-    echo "Missing argument 2, CNTR_REGISTRY must be supplied"
+getRegistryUrl()
+{
+    urlFileName="${HOME}/.ssh/${CONAN_REGISTRY}-url"
+    urlEnvVarUrl=$(makeEnvVarName "_URL")
+    declare -n urlEnvVarValue=${urlEnvVarUrl}
+
+    REGISTRY_URL=${urlEnvVarValue}
+    if [ -z "${REGISTRY_URL}" ]; then
+        echo "(url) Checking env var \"${urlEnvVarUrl}\", not found"
+        REGISTRY_URL=$(getValueFromFile ${urlFileName})
+        if [ -z "${REGISTRY_URL}" ]; then
+            echo "(url) Checking file \"${urlFileName}\", not found"
+        else
+            echo "(url) Checking file \"${urlFileName}\", found"
+        fi
+    else
+        echo "(url) Checking env var \"${urlEnvVarUrl}\", found"
+    fi
+}
+
+# ---------------------------------------------------------------------
+
+if [ -z ${CONAN_REGISTRY} ]; then
+    echo "Missing argument 2, CONAN_REGISTRY must be supplied"
     exit 1   # exit error
 fi
 
-if cntrIsLoggedIn ${CNTR_TECH} ${CNTR_REGISTRY}; then
-    echo "(${CNTR_TECH}) Already logged in to ${CNTR_REGISTRY}"
+if [ -z ${BLD_CNTR_NAME} ]; then
+    echo "Missing argument 3, Name of build container must be supplied"
+    exit 1   # exit error
+fi
+
+if ! conanHaveRegistry ${CNTR_TECH} ${CONAN_REGISTRY} ${BLD_CNTR_NAME}; then
+    echo "(conan) Adding ${CONAN_REGISTRY} to Conan registry"
+    getRegistryUrl
+    if [ -z "${REGISTRY_URL}" ]; then
+        promptForUrl
+    fi
+    echo "(${CONAN_REGISTRY}) Adding Conan registry ${CONAN_REGISTRY}"
+    conanAddRegistry ${CNTR_TECH} ${CONAN_REGISTRY} \
+                     ${BLD_CNTR_NAME} ${REGISTRY_URL}
+fi
+
+if conanIsLoggedIn ${CNTR_TECH} ${CONAN_REGISTRY} ${BLD_CNTR_NAME}; then
+    echo "(${CONAN_REGISTRY}) Already logged in to ${CONAN_REGISTRY}"
     exit 0   # exit success, already logged in
 fi
 
-echo "(${CNTR_TECH}) Logging into container registry: ${CNTR_REGISTRY}"
-echo "(${CNTR_REGISTRY}) Gathering credentials for Auto-Login"
+echo "(${CONAN_REGISTRY}) Logging into container registry: ${CONAN_REGISTRY}"
+echo "(${CONAN_REGISTRY}) Gathering credentials for Auto-Login"
 
 getRegistryToken
 getUsernameToken
 
 if [ -n "${REGISTRY_TOKEN}" -a -n "${USERNAME_TOKEN}" ]; then
-    echo "(${CNTR_REGISTRY}) Auto-login"
+    echo "(${CONAN_REGISTRY}) Auto-login"
 else
-    echo "(${CNTR_REGISTRY}) Manual-login"
-fi
-
-if [ -n "${REGISTRY_TOKEN}" ]; then
-    PASSWORD_ARGS="--password ${REGISTRY_TOKEN}"
-else
-    # Leave PASSWORD_ARGS undefined, so that podman/docker
-    # will prompt for password.
-    :
+    echo "(${CONAN_REGISTRY}) Manual-login"
 fi
 
 if [ -z "${USERNAME_TOKEN}" ]; then
     promptForUsernameToken
 fi
 
-# Execute login. Let docker/podman prompt for password from 
-# command line, which happens if PASSWORD_ARGS is empty.
-#
-${CNTR_TECH} login --username ${USERNAME_TOKEN} \
-     ${PASSWORD_ARGS} ${CNTR_REGISTRY}
+if [ -z "${REGISTRY_TOKEN}" ]; then
+    promptForToken
+fi
+
+# Change or set the username on the registry if different.
+conanSetUsername ${CNTR_TECH} ${CONAN_REGISTRY} ${BLD_CNTR_NAME} ${USERNAME_TOKEN}
+
+# Execute login.
+conanLogin ${CNTR_TECH} ${CONAN_REGISTRY} ${BLD_CNTR_NAME} ${REGISTRY_TOKEN}
 
 # ---------------------------------------------------------------------

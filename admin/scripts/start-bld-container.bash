@@ -160,18 +160,18 @@ startFreshBuildContainer()
 
 # ---------------------------------------------------------------------
 
-if crIsContainerRunning ${CNTR_TECH} ${CNTR_NAME}; then
+if cntrIsContainerRunning ${CNTR_TECH} ${CNTR_NAME}; then
     exit 0
 fi
 
-if crIsContainerExited ${CNTR_TECH} ${CNTR_NAME}; then
+if cntrIsContainerExited ${CNTR_TECH} ${CNTR_NAME}; then
     echo "Starting exited bld-container: ${CNTR_NAME}"
-    crStartExitedContainer ${CNTR_TECH} ${CNTR_NAME}
+    cntrStartExitedContainer ${CNTR_TECH} ${CNTR_NAME}
     exit 0
 fi
 
-if ! crHaveLocalImage ${CNTR_TECH} ${CNTR_PATH}; then
-    if ! crIsLoggedIn ${CNTR_TECH} ${CNTR_REGISTRY}; then
+if ! cntrHaveLocalImage ${CNTR_TECH} ${CNTR_PATH}; then
+    if ! cntrIsLoggedIn ${CNTR_TECH} ${CNTR_REGISTRY}; then
         ${dirName}/registry-login.bash ${CNTR_TECH} ${CNTR_REGISTRY}
     fi
 fi
