@@ -1,10 +1,9 @@
 #!/bin/bash
 #
-# Starts the given build container in detached mode with
-# specific well-known mount points.
+# Starts the given image as the build container.
 #
-# Container image xxx is running detached with root
-# mount point /work one folder above repositories.
+# The build container is launched in detached mode with specific
+# well-known mount points "/work" one folder above repositories.
 #
 #   Example:
 #       elvis/proj/          <-- container mount point, mounted as "/work"
@@ -64,14 +63,14 @@ CNTR_NAME=$5
 # The default is to not expose the container's ports to the host.
 #
 # NOTE: The parameter "--net=host" is also used to share the container's
-#       network namespace with the host machine. The "sgn-cluster-mgmt-tools"
+#       network namespace with the host machine. The "cluster-mgmt-tools"
 #       container typically remains running and using the "--net=host" flag
 #       alleviates tying up ports that can collide with other containers
 #       e.g., "Pytest Runner Container"; mainly when using the "-p"
 #       parameter that claims the ports even though they may not be used.
 DBG_PORT=$6
 
-# Where to find the lib-repo script.
+# Where to find the lib-container-registry script.
 # Will be co-located with this script.
 tmp1=${0%/}         # grab directory path of this script
 dirName=${tmp1%/*}  # remove last level in path

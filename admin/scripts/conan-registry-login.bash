@@ -43,8 +43,8 @@
 # > cat $HOME/.ssh/conan.io-username
 # Elvis
 #
-# if no env var or file, then prompts for PAT/password
-# if no env var or file, then prompts for username
+# if no env-var or file, then prompts for PAT/password
+# if no env-var or file, then prompts for username
 #
 # ---------------------------------------------------------------------
 
@@ -58,6 +58,21 @@ tmp1=${0%/}         # grab directory path of this script
 dirName=${tmp1%/*}  # remove last level in path
 
 source ${dirName}/lib-conan-registry.bash
+
+# ---------------------------------------------------------------------
+
+checkArgs()
+{
+    if [ -z ${CONAN_REGISTRY} ]; then
+        echo "${0}: Missing argument 2, CONAN_REGISTRY must be supplied"
+        exit 1   # exit error
+    fi
+
+    if [ -z ${BLD_CNTR_NAME} ]; then
+        echo "${0}: Missing argument 3, Name of build container must be supplied"
+        exit 1   # exit error
+    fi
+}
 
 # ---------------------------------------------------------------------
 
@@ -88,11 +103,13 @@ makeEnvVarName()    # $1 is suffix
 
 promptForUsernameToken()
 {
+    read -p "(${CONAN_REGISTRY}) Username: " uname
+    echo "${uname}"
+    # Maybe default to LOGNAME if user just presses enter
     # echo "Default = ${LOGNAME}"
-    read -p "(${CONAN_REGISTRY}) Username: " USERNAME_TOKEN
     # Use LOGNAME if user enters empty
-    # if [ -z "${USERNAME_TOKEN}" ]; then
-    #     USERNAME_TOKEN=${LOGNAME}
+    # if [ -z "${uname}" ]; then
+    #     uname=${LOGNAME}
     # fi
 }
 
@@ -100,135 +117,143 @@ promptForUsernameToken()
 
 promptForUrl()
 {
-    read -p "(${CONAN_REGISTRY}) URL: " REGISTRY_URL
+    read -p "(${CONAN_REGISTRY}) URL: " url
+    echo "${url}"
 }
 
 # ---------------------------------------------------------------------
 
-promptForToken()
+promptForRegistryToken()
 {
-    read -s -p "(${CONAN_REGISTRY}) Password: " REGISTRY_TOKEN
-    echo ""
+    read -s -p "(${CONAN_REGISTRY}) Password: " passwd
+    echo "${passwd}"
 }
 
 # ---------------------------------------------------------------------
 
 getRegistryToken()
 {
-    tokenFileName="${HOME}/.ssh/${CONAN_REGISTRY}-token"
-    tokenEnvVarName=$(makeEnvVarName "_PAT")
+    local tokenFileName="${HOME}/.ssh/${CONAN_REGISTRY}-token"
+    local tokenEnvVarName=$(makeEnvVarName "_PAT")
     declare -n tokenEnvVarValue=${tokenEnvVarName}
 
-    REGISTRY_TOKEN=${tokenEnvVarValue}
-    if [ -z "${REGISTRY_TOKEN}" ]; then
-        echo "(api-key) Checking env var \"${tokenEnvVarName}\", not found"
-        REGISTRY_TOKEN=$(getValueFromFile ${tokenFileName})
+    local registryToken=${tokenEnvVarValue}
+    if [ -z "${registryToken}" ]; then
+        echo "(api-key) Checking env-var \"${tokenEnvVarName}\", not found"
+        registryToken=$(getValueFromFile ${tokenFileName})
         if [ -z "${REGISTRY_TOKEN}" ]; then
             echo "(api-key) Checking file \"${tokenFileName}\", not found"
         else
             echo "(api-key) Checking file \"${tokenFileName}\", found"
         fi
     else
-        echo "(api-key) Checking env var \"${tokenEnvVarName}\", found"
+        echo "(api-key) Checking env-var \"${tokenEnvVarName}\", found"
     fi
+
+    if [ -z "${registryToken}" ]; then
+        registryToken=$(promptForRegistryToken)
+        echo
+    fi
+    REGISTRY_TOKEN=${registryToken}
 }
 
 # ---------------------------------------------------------------------
 
 getUsernameToken()
 {
-    usernameFileName="${HOME}/.ssh/${CONAN_REGISTRY}-username"
-    usernameEnvVarName=$(makeEnvVarName "_USERNAME")
+    local usernameFileName="${HOME}/.ssh/${CONAN_REGISTRY}-username"
+    local usernameEnvVarName=$(makeEnvVarName "_USERNAME")
     declare -n usernameEnvVarValue=${usernameEnvVarName}
     
-    USERNAME_TOKEN=${usernameEnvVarValue}
-    if [ -z "${USERNAME_TOKEN}" ]; then
-        echo "(username) Checking env var \"${usernameEnvVarName}\", not found"
-        USERNAME_TOKEN=$(getValueFromFile ${usernameFileName})
-        if [ -z "${USERNAME_TOKEN}" ]; then
+    local usernameToken=${usernameEnvVarValue}
+    if [ -z "${usernameToken}" ]; then
+        echo "(username) Checking env-var \"${usernameEnvVarName}\", not found"
+        usernameToken=$(getValueFromFile ${usernameFileName})
+        if [ -z "${usernameToken}" ]; then
             echo "(username) Checking file \"${usernameFileName}\", not found"
         else
             echo "(username) Checking file \"${usernameFileName}\", found"
         fi
     else
-        echo "(username) Checking env var \"${usernameEnvVarName}\", found"
+        echo "(username) Checking env-var \"${usernameEnvVarName}\", found"
     fi
+
+    if [ -z "${usernameToken}" ]; then
+        usernameToken=$(promptForUsernameToken)
+    fi
+    USERNAME_TOKEN=${usernameToken}
 }
 
 # ---------------------------------------------------------------------
 
 getRegistryUrl()
 {
-    urlFileName="${HOME}/.ssh/${CONAN_REGISTRY}-url"
-    urlEnvVarUrl=$(makeEnvVarName "_URL")
+    local urlFileName="${HOME}/.ssh/${CONAN_REGISTRY}-url"
+    local urlEnvVarUrl=$(makeEnvVarName "_URL")
     declare -n urlEnvVarValue=${urlEnvVarUrl}
 
-    REGISTRY_URL=${urlEnvVarValue}
-    if [ -z "${REGISTRY_URL}" ]; then
-        echo "(url) Checking env var \"${urlEnvVarUrl}\", not found"
-        REGISTRY_URL=$(getValueFromFile ${urlFileName})
-        if [ -z "${REGISTRY_URL}" ]; then
+    local registryUrl=${urlEnvVarValue}
+    if [ -z "${registryUrl}" ]; then
+        echo "(url) Checking env-var \"${urlEnvVarUrl}\", not found"
+        registryUrl=$(getValueFromFile ${urlFileName})
+        if [ -z "${registryUrl}" ]; then
             echo "(url) Checking file \"${urlFileName}\", not found"
         else
             echo "(url) Checking file \"${urlFileName}\", found"
         fi
     else
-        echo "(url) Checking env var \"${urlEnvVarUrl}\", found"
+        echo "(url) Checking env-var \"${urlEnvVarUrl}\", found"
+    fi
+    if [ -z "${registryUrl}" ]; then
+        registryUrl=$(promptForUrl)
+    fi
+    REGISTRY_URL=${registryUrl}
+}
+
+# ---------------------------------------------------------------------
+
+checkHaveRegistry()
+{
+    if conanHaveRegistry ${CNTR_TECH} ${CONAN_REGISTRY} ${BLD_CNTR_NAME}; then
+        return 0    # Yes, have it.
+    fi
+    
+    echo "(${CONAN_REGISTRY}) Adding Conan registry: ${CONAN_REGISTRY}"
+    getRegistryUrl
+    conanAddRegistry ${CNTR_TECH} ${CONAN_REGISTRY} \
+                     ${BLD_CNTR_NAME} ${REGISTRY_URL}
+}
+
+# ---------------------------------------------------------------------
+
+checkAlreadyLoggedIn()
+{
+    if conanIsLoggedIn ${CNTR_TECH} ${CONAN_REGISTRY} ${BLD_CNTR_NAME}; then
+        echo "(${CONAN_REGISTRY}) Already logged in to ${CONAN_REGISTRY}"
+        exit 0   # exit success, already logged in
     fi
 }
 
 # ---------------------------------------------------------------------
 
-if [ -z ${CONAN_REGISTRY} ]; then
-    echo "Missing argument 2, CONAN_REGISTRY must be supplied"
-    exit 1   # exit error
-fi
+doLogin()
+{
+    # Change or set the username on the registry if different.
+    conanSetUsername ${CNTR_TECH} ${CONAN_REGISTRY} ${BLD_CNTR_NAME} ${USERNAME_TOKEN}
 
-if [ -z ${BLD_CNTR_NAME} ]; then
-    echo "Missing argument 3, Name of build container must be supplied"
-    exit 1   # exit error
-fi
+    # Execute login.
+    conanLogin ${CNTR_TECH} ${CONAN_REGISTRY} ${BLD_CNTR_NAME} ${REGISTRY_TOKEN}
+}
 
-if ! conanHaveRegistry ${CNTR_TECH} ${CONAN_REGISTRY} ${BLD_CNTR_NAME}; then
-    echo "(conan) Adding ${CONAN_REGISTRY} to Conan registry"
-    getRegistryUrl
-    if [ -z "${REGISTRY_URL}" ]; then
-        promptForUrl
-    fi
-    echo "(${CONAN_REGISTRY}) Adding Conan registry ${CONAN_REGISTRY}"
-    conanAddRegistry ${CNTR_TECH} ${CONAN_REGISTRY} \
-                     ${BLD_CNTR_NAME} ${REGISTRY_URL}
-fi
+# ---------------------------------------------------------------------
 
-if conanIsLoggedIn ${CNTR_TECH} ${CONAN_REGISTRY} ${BLD_CNTR_NAME}; then
-    echo "(${CONAN_REGISTRY}) Already logged in to ${CONAN_REGISTRY}"
-    exit 0   # exit success, already logged in
-fi
-
-echo "(${CONAN_REGISTRY}) Logging into container registry: ${CONAN_REGISTRY}"
+echo "(${CONAN_REGISTRY}) Logging into conan registry: ${CONAN_REGISTRY}"
+checkArgs
+checkHaveRegistry                  # Adds registry if missing
+checkAlreadyLoggedIn               # Exits script if already logged in
 echo "(${CONAN_REGISTRY}) Gathering credentials for Auto-Login"
-
-getRegistryToken
 getUsernameToken
-
-if [ -n "${REGISTRY_TOKEN}" -a -n "${USERNAME_TOKEN}" ]; then
-    echo "(${CONAN_REGISTRY}) Auto-login"
-else
-    echo "(${CONAN_REGISTRY}) Manual-login"
-fi
-
-if [ -z "${USERNAME_TOKEN}" ]; then
-    promptForUsernameToken
-fi
-
-if [ -z "${REGISTRY_TOKEN}" ]; then
-    promptForToken
-fi
-
-# Change or set the username on the registry if different.
-conanSetUsername ${CNTR_TECH} ${CONAN_REGISTRY} ${BLD_CNTR_NAME} ${USERNAME_TOKEN}
-
-# Execute login.
-conanLogin ${CNTR_TECH} ${CONAN_REGISTRY} ${BLD_CNTR_NAME} ${REGISTRY_TOKEN}
+getRegistryToken
+doLogin
 
 # ---------------------------------------------------------------------

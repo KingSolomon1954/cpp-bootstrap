@@ -141,7 +141,7 @@ conanHaveRegistry()
     local regy=$2
     local bldCntrName=$3
 
-    if ${tech} exec ${bldCntrName} conan remote list | grep ${regy}; then
+    if ${tech} exec ${bldCntrName} conan remote list | grep -q ${regy}; then
         return 0   # return true, found it
     fi
     return 1       # return false, not found

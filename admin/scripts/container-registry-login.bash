@@ -60,6 +60,16 @@ source ${dirName}/lib-container-registry.bash
 
 # ---------------------------------------------------------------------
 
+checkArgs()
+{
+    if [ -z ${CNTR_REGISTRY} ]; then
+        echo "${0}: Missing argument 2, CNTR_REGISTRY must be supplied"
+        exit 1   # exit error
+    fi
+}
+
+# ---------------------------------------------------------------------
+
 getValueFromFile()    # $1 is file name
 {
     if [ -f $1 ]; then
@@ -86,27 +96,37 @@ makeEnvVarName()    # $1 is suffix
 
 promptForUsernameToken()
 {
+    read -p "(${CNTR_REGISTRY}) Username: " uname
+    echo "${uname}"
+    # Maybe default to LOGNAME if user just presses enter
     # echo "Default = ${LOGNAME}"
-    read -p "(${CNTR_REGISTRY}) Username: " USERNAME_TOKEN
     # Use LOGNAME if user enters empty
-    # if [ -z "${USERNAME_TOKEN}" ]; then
-    #     USERNAME_TOKEN=${LOGNAME}
+    # if [ -z "${uname}" ]; then
+    #     uname=${LOGNAME}
     # fi
+}
+
+# ---------------------------------------------------------------------
+
+promptForRegistryToken()
+{
+    read -s -p "(${CNTR_REGISTRY}) Password: " passwd
+    echo "${passwd}"
 }
 
 # ---------------------------------------------------------------------
 
 getRegistryToken()
 {
-    tokenFileName="${HOME}/.ssh/${CNTR_REGISTRY}-token"
-    tokenEnvVarName=$(makeEnvVarName "_PAT")
+    local tokenFileName="${HOME}/.ssh/${CNTR_REGISTRY}-token"
+    local tokenEnvVarName=$(makeEnvVarName "_PAT")
     declare -n tokenEnvVarValue=${tokenEnvVarName}
 
-    REGISTRY_TOKEN=${tokenEnvVarValue}
-    if [ -z "${REGISTRY_TOKEN}" ]; then
+    local registryToken=${tokenEnvVarValue}
+    if [ -z "${registryToken}" ]; then
         echo "(api-key) Checking env var \"${tokenEnvVarName}\", not found"
-        REGISTRY_TOKEN=$(getValueFromFile ${tokenFileName})
-        if [ -z "${REGISTRY_TOKEN}" ]; then
+        registryToken=$(getValueFromFile ${tokenFileName})
+        if [ -z "${registryToken}" ]; then
             echo "(api-key) Checking file \"${tokenFileName}\", not found"
         else
             echo "(api-key) Checking file \"${tokenFileName}\", found"
@@ -114,21 +134,26 @@ getRegistryToken()
     else
         echo "(api-key) Checking env var \"${tokenEnvVarName}\", found"
     fi
+    if [ -z "${registryToken}" ]; then
+        registryToken=$(promptForRegistryToken)
+        echo
+    fi
+    REGISTRY_TOKEN=${registryToken}
 }
 
 # ---------------------------------------------------------------------
 
 getUsernameToken()
 {
-    usernameFileName="${HOME}/.ssh/${CNTR_REGISTRY}-username"
-    usernameEnvVarName=$(makeEnvVarName "_USERNAME")
+    local usernameFileName="${HOME}/.ssh/${CNTR_REGISTRY}-username"
+    local usernameEnvVarName=$(makeEnvVarName "_USERNAME")
     declare -n usernameEnvVarValue=${usernameEnvVarName}
     
-    USERNAME_TOKEN=${usernameEnvVarValue}
-    if [ -z "${USERNAME_TOKEN}" ]; then
+    local usernameToken=${usernameEnvVarValue}
+    if [ -z "${usernameToken}" ]; then
         echo "(username) Checking env var \"${usernameEnvVarName}\", not found"
-        USERNAME_TOKEN=$(getValueFromFile ${usernameFileName})
-        if [ -z "${USERNAME_TOKEN}" ]; then
+        usernameToken=$(getValueFromFile ${usernameFileName})
+        if [ -z "${usernameToken}" ]; then
             echo "(username) Checking file \"${usernameFileName}\", not found"
         else
             echo "(username) Checking file \"${usernameFileName}\", found"
@@ -136,48 +161,38 @@ getUsernameToken()
     else
         echo "(username) Checking env var \"${usernameEnvVarName}\", found"
     fi
+    if [ -z "${usernameToken}" ]; then
+        usernameToken=$(promptForUsernameToken)
+    fi
+    USERNAME_TOKEN=${usernameToken}
 }
 
 # ---------------------------------------------------------------------
 
-if [ -z ${CNTR_REGISTRY} ]; then
-    echo "Missing argument 2, CNTR_REGISTRY must be supplied"
-    exit 1   # exit error
-fi
+checkAlreadyLoggedIn()
+{
+    if cntrIsLoggedIn ${CNTR_TECH} ${CNTR_REGISTRY}; then
+        echo "(${CNTR_TECH}) Already logged in to ${CNTR_REGISTRY}"
+        exit 0   # exit success, already logged in
+    fi
+}
 
-if cntrIsLoggedIn ${CNTR_TECH} ${CNTR_REGISTRY}; then
-    echo "(${CNTR_TECH}) Already logged in to ${CNTR_REGISTRY}"
-    exit 0   # exit success, already logged in
-fi
+# ---------------------------------------------------------------------
+
+doLogin()
+{
+    ${CNTR_TECH} login --username ${USERNAME_TOKEN} \
+                       --password ${REGISTRY_TOKEN} ${CNTR_REGISTRY}
+}
+
+# ---------------------------------------------------------------------
 
 echo "(${CNTR_TECH}) Logging into container registry: ${CNTR_REGISTRY}"
+checkArgs
+checkAlreadyLoggedIn            # Exits script if already logged in
 echo "(${CNTR_REGISTRY}) Gathering credentials for Auto-Login"
-
-getRegistryToken
 getUsernameToken
-
-if [ -n "${REGISTRY_TOKEN}" -a -n "${USERNAME_TOKEN}" ]; then
-    echo "(${CNTR_REGISTRY}) Auto-login"
-else
-    echo "(${CNTR_REGISTRY}) Manual-login"
-fi
-
-if [ -n "${REGISTRY_TOKEN}" ]; then
-    PASSWORD_ARGS="--password ${REGISTRY_TOKEN}"
-else
-    # Leave PASSWORD_ARGS undefined, so that podman/docker
-    # will prompt for password.
-    :
-fi
-
-if [ -z "${USERNAME_TOKEN}" ]; then
-    promptForUsernameToken
-fi
-
-# Execute login. Let docker/podman prompt for password from 
-# command line, which happens if PASSWORD_ARGS is empty.
-#
-${CNTR_TECH} login --username ${USERNAME_TOKEN} \
-     ${PASSWORD_ARGS} ${CNTR_REGISTRY}
+getRegistryToken
+doLogin
 
 # ---------------------------------------------------------------------

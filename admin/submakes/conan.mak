@@ -34,6 +34,10 @@ endif
 
 include $(D_MAK)/conan-registry.mak
 
+ifndef CONAN_REGISTRY_FOR_PUBLISHING
+    $(error conan-registry.mak must define 'CONAN_REGISTRY_FOR_PUBLISHING')
+endif
+
 # ------------ Conan Folders/Files Section ------------
 
 # Locations must agree with CMake setup.
@@ -57,9 +61,7 @@ _CONAN_PY_FILE := $(_CONAN_CFG_DIR)/conanfile.py
 _CONAN_LOCKFILE_PROD  := $(_CONAN_CFG_DIR)/prod.lock
 _CONAN_LOCKFILE_DEBUG := $(_CONAN_CFG_DIR)/debug.lock
 
-# Accessing Conan Registries
-_CONAN_REPO   := conancenter
-_API_KEY_FILE := $(HOME)/.ssh/aws-artifactory-api-key.txt
+_CONAN_REGISTRY := $(CONAN_REGISTRY_FOR_PUBLISHING)
 
 # ------------ Conan Library Name Section ------------
 #
@@ -72,36 +74,6 @@ _API_KEY_FILE := $(HOME)/.ssh/aws-artifactory-api-key.txt
 define _LIB_PKG_NAME_CMD
 $$(sed -n "s/^.*name = \"\(.*\)\"/\1/p" $(_CONAN_PY_FILE))
 endef
-
-# ------------ Conan Login Check Section ------------
-
-# Define a reusable fragment for Conan login. Used in several rules.
-# Using a macro for this instead of a dependent rule. A dependent rule
-# would cause targets to be seen as always out-of-date.
-#
-define _CONAN_LOGIN_CHECK =
-	@if $(CPP_BLD_CNTR_EXEC)                                      \
-	    conan user | grep $(_CONAN_REPO) | grep -q -i None ; then \
-	    if [ -f $(_API_KEY_FILE) ]; then                          \
-	        echo "(conan)  Auto-login using $(_API_KEY_FILE)";    \
-	        $(CPP_BLD_CNTR_EXEC) conan user ${LOGNAME}            \
-	            -r=$(_CONAN_REPO)                                 \
-	            -p $$(cat $(_API_KEY_FILE));                      \
-	    else                                                      \
-	        echo "(conan)  Manual-login, no $(_API_KEY_FILE)";    \
-	        $(CPP_BLD_CNTR_EXEC) conan user ${LOGNAME}            \
-	            -r=$(_CONAN_REPO) -p ;                            \
-	    fi;                                                       \
-	else                                                          \
-	    echo "(conan)  Already logged in to $(_CONAN_REPO)";      \
-	fi
-endef
-
-# Dependency target for auto-login/prompt
-conan-login-check:
-	$(_CONAN_LOGIN_CHECK)
-
-.PHONY: conan-login-check
 
 # ------------ Conan Init Section ------------
 
@@ -132,19 +104,8 @@ $(CONAN_INSTALL_DONE_DEBUG) $(CONAN_INSTALL_DONE_PROD): $(_CONAN_PY_FILE)
 	    $(_CONAN_PY_FILE)
 	@touch $@
 
-#	    --output-folder="." \
-
-
 conan-setup-registries:
 	@echo "(conan) Setting up conan registries"
-
-trash1:
-	$(_CONAN_LOGIN_CHECK)
-	@$(CPP_BLD_CNTR_EXEC) conan install $(_CONAN_PY_FILE) \
-	    -of $(_ARG_INST_DIR) \
-	    --lockfile=$(_ARG_LOCKFILE) \
-	    --update
-	@touch $@
 
 .PHONY: conan conan-both conan-prod conan-debug
 
@@ -169,12 +130,11 @@ conan-update-debug: _ARG_INST_DIR := $(_CONAN_INST_DEBUG)
 conan-update-debug: _conan-update2
 
 _conan-update1 _conan-update2:
-	$(_CONAN_LOGIN_CHECK)
 	@echo "(conan)  Updating libraries ..."
 	@mkdir -p $(_ARG_INST_DIR)
 	@$(CPP_BLD_CNTR_EXEC) conan install $(_CONAN_PY_FILE) \
 	    --install-folder=$(_ARG_INST_DIR) \
-	    -o sgn_build_type=$(_ARG_BLD_TYPE) \
+	    --settings=build_type=$(_ARG_BLD_TYPE) \
             --update
 
 .PHONY: conan-update      conan-update-both \
@@ -216,14 +176,6 @@ _conan-lock1 _conan-lock2:
 	$(CPP_BLD_CNTR_EXEC) conan lock create $(_CONAN_PY_FILE) \
 	    --settings=build_type=$(_ARG_BLD_TYPE) \
 	    --lockfile-out=$(_ARG_LOCKFILE)
-
-trash33:
-	@echo "(conan) Creating Conan lockfile: $(_ARG_LOCKFILE)"
-	@mkdir -p $(_ARG_INST_DIR)
-	$(CPP_BLD_CNTR_EXEC) conan lock create $(_CONAN_PY_FILE) \
-	    --lockfile-out=$(_ARG_INST_DIR)/conan.lock \
-	    -o sgn_build_type=$(_ARG_BLD_TYPE)
-	cp $(_ARG_INST_DIR)/conan.lock $(_ARG_LOCKFILE)
 
 .PHONY: conan-lock conan-lock-both \
         conan-lock-prod conan-lock-debug \
@@ -376,43 +328,22 @@ _conan-pkg-export1 _conan-pkg-export2:
 # ------------ Conan Publishing Section ------------
 
 # Publishes the package already in Conan cache on the build
-# container to Artifactory.
+# container to the remote Conan registry.
 #
 # Note that the Conan cache may contain production, debug or both
 # library build types at the same time as they all considered part of
 # the very same Conan package version even though the individual
 # artifacts came from different folders.
 #
-# First warn and prompt user about publishing, since this is normally
-# done by pipeline CM builds.
-#
 conan-pkg-publish: conan-login-check
-ifdef CONAN_PUBLISH_FORCE
-	$(CPP_BLD_CNTR_EXEC) conan upload --remote=$(_CONAN_REPO) --all \
+	$(CPP_BLD_CNTR_EXEC) conan upload \
+	    --remote=$(_CONAN_REGISTRY) --all \
 	    $(_LIB_PKG_NAME_CMD)/$(VERSION_TRIPLET)@$(_CONAN_BRANCH)/$(_CONAN_CHANNEL) -c
-else
-	@echo "Warning: CI/CD pipelines normally upload artifacts"
-	@choice="yes no";          			  \
-	PS3="Continue?";           			  \
-	select w in $${choice};    			  \
-	do                         			  \
-	    if [ $${w} ]; then     			  \
-	        break;             			  \
-	    fi;                    			  \
-	done;                                             \
-	if [ $${w} == "yes" ]; then                       \
-	    make CONAN_PUBLISH_FORCE=1 conan-pkg-publish; \
-	else                                              \
-	    echo "Skipping";                              \
-	fi
-endif
 
-# Removes Conan package from Artifactory "conan-local" repo. Though
-# still shows in Artifactory "sgn-conan" repo which is the virtual
-# repo. This is proper behavior. See Artifactory documentation.
+# Removes Conan package from remote Conan registry. 
 #
 conan-pkg-remove: conan-login-check
-	$(CPP_BLD_CNTR_EXEC) conan remove -f --remote=$(_CONAN_REPO) \
+	$(CPP_BLD_CNTR_EXEC) conan remove -f --remote=$(_CONAN_REGISTRY) \
 	    $(_LIB_PKG_NAME_CMD)/$(VERSION_TRIPLET)
 
 .PHONY: conan-pkg-publish conan-pkg-remove
@@ -437,7 +368,7 @@ conan-pkg-verify-debug: _ARG_BLD_TYPE       := Debug
 conan-pkg-verify-debug: _ARG_PKG_VERIFY_DIR := $(_CONAN_PKG_DEBUG_VERIFY)
 conan-pkg-verify-debug: _conan-pkg-verify2
 
-_conan-pkg-verify1 _conan-pkg-verify2: conan-login-check
+_conan-pkg-verify1 _conan-pkg-verify2:
 	@echo "---------------------------------"
 	@echo ""
 	@echo "Verifying Conan packaging: ($(_ARG_BLD_TYPE))"
@@ -451,7 +382,7 @@ _conan-pkg-verify1 _conan-pkg-verify2: conan-login-check
 	        $(_ARG_PKG_VERIFY_DIR)/conanfile.txt'
 	$(CPP_BLD_CNTR_EXEC) conan install \
 	    $(_ARG_PKG_VERIFY_DIR)/conanfile.txt \
-		-o $(_LIB_PKG_NAME_CMD):sgn_build_type=$(_ARG_BLD_TYPE) \
+	    --settings=build_type=$(_ARG_BLD_TYPE) \
 	    --install-folder=$(_ARG_PKG_VERIFY_DIR)
 	$(CPP_BLD_CNTR_EXEC) cmake \
 	    -S $(_ARG_PKG_VERIFY_DIR) \
