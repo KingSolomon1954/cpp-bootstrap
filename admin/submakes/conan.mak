@@ -97,15 +97,13 @@ $(CONAN_INSTALL_DONE_PROD): _ARG_LOCKFILE := $(_CONAN_LOCKFILE_PROD)
 $(CONAN_INSTALL_DONE_DEBUG): _ARG_BLD_TYPE := Debug
 $(CONAN_INSTALL_DONE_DEBUG): _ARG_LOCKFILE := $(_CONAN_LOCKFILE_DEBUG)
 
-$(CONAN_INSTALL_DONE_DEBUG) $(CONAN_INSTALL_DONE_PROD): $(_CONAN_PY_FILE)
+$(CONAN_INSTALL_DONE_DEBUG) $(CONAN_INSTALL_DONE_PROD): \
+                            $(_CONAN_PY_FILE) $(CONAN_REGISTRY_SETUP_DONE)
 	$(CPP_BLD_CNTR_EXEC) conan install \
 	    --settings=build_type=$(_ARG_BLD_TYPE) \
 	    --lockfile=$(_ARG_LOCKFILE) \
 	    $(_CONAN_PY_FILE)
 	@touch $@
-
-conan-setup-registries:
-	@echo "(conan) Setting up conan registries"
 
 .PHONY: conan conan-both conan-prod conan-debug
 
@@ -198,7 +196,6 @@ _conan-lock1 _conan-lock2:
 #      conan-pkg-package:
 #      conan-pkg-export:
 #      conan-pkg-verify:
-
 
 # Fields that make up Conan package versioning/revisions
 _CONAN_CHANNEL := development
@@ -335,14 +332,14 @@ _conan-pkg-export1 _conan-pkg-export2:
 # the very same Conan package version even though the individual
 # artifacts came from different folders.
 #
-conan-pkg-publish: conan-login-check
+conan-pkg-publish:
 	$(CPP_BLD_CNTR_EXEC) conan upload \
 	    --remote=$(_CONAN_REGISTRY) --all \
 	    $(_LIB_PKG_NAME_CMD)/$(VERSION_TRIPLET)@$(_CONAN_BRANCH)/$(_CONAN_CHANNEL) -c
 
 # Removes Conan package from remote Conan registry. 
 #
-conan-pkg-remove: conan-login-check
+conan-pkg-remove:
 	$(CPP_BLD_CNTR_EXEC) conan remove -f --remote=$(_CONAN_REGISTRY) \
 	    $(_LIB_PKG_NAME_CMD)/$(VERSION_TRIPLET)
 

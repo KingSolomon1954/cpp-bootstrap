@@ -1,0 +1,26 @@
+D_ADMIN := admin
+D_BLD := _build
+
+CONAN_REGISTRIES := $(wildcard $(D_ADMIN)/conan/registry*.properties)
+
+$(D_BLD)/conan-publish-registry.mak:
+	f=$$(grep 'publish: yes' -l $(CONAN_REGISTRIES)); \
+	echo $${f}; \
+	if [ -n "$${f}" ]; then \
+	    name=$$(grep 'name:' $${f} | awk '{ print $$2 }'); \
+	else \
+	    name="NoRegistryForPublishing"; \
+	fi; \
+	echo $${name}
+
+howie:
+	f="$(shell grep D_ Makefile)"; echo $${f}
+
+howie2:
+	f=`grep 'publish: yes' -l $(CONAN_REGISTRIES)`; \
+	grep 'name:' $${f} | awk '{ print $$2 }'
+
+
+howie3:
+	f=$$(grep 'publish: yes' -l $(CONAN_REGISTRIES)); \
+	grep 'name:' $${f} | awk '{ print $$2 }'
