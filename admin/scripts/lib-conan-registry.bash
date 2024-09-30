@@ -170,3 +170,33 @@ conanAddRegistry()
 }
 
 # ----------------------------------------------------------------------
+#
+# CNTR_TECH=$1
+# CONAN_REGISTRY=$2
+# BLD_CNTR_NAME=$3
+#
+conanEnableRegistry()
+{
+    local tech=$1
+    local regy=$2
+    local bldCntrName=$3
+    
+    ${tech} exec ${bldCntrName} conan remote enable ${regy}
+}
+
+# ----------------------------------------------------------------------
+#
+# CNTR_TECH=$1
+# CONAN_REGISTRY=$2
+# BLD_CNTR_NAME=$3
+#
+conanDisableRegistry()
+{
+    local tech=$1
+    local regy=$2
+    local bldCntrName=$3
+    
+    ${tech} exec ${bldCntrName} conan remote disable ${regy}
+}
+
+# ----------------------------------------------------------------------

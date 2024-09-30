@@ -18,6 +18,9 @@ endif
 ifndef D_ADMIN
     $(error Parent makefile must define 'D_ADMIN')
 endif
+ifndef D_BLD
+    $(error Parent makefile must define 'D_BLD')
+endif
 
 include $(D_MAK)/container-tech.mak
 
@@ -69,47 +72,45 @@ conan-login-check: login-conancenter
 # Need to populate registries into Conan just once, at initialization
 # time and before any library retrieval is attempted.
 #
-# A registry can be configured with or without establishing a login to
-# it. If your project is a Conan library consumer, then generally you
-# don't need a login. conancenter works this way. But some registries
-# require a login even for consumer-only operations.
+# A registry can be configured in Conan with or without having Conan
+# establish a login to it. If your project is a Conan library consumer,
+# then generally you don't need a login. conancenter works this way. But
+# some registries require a login even for consumer-only operations.
 #
-# To populate registries automatically, the logic reads Conan registry
-# property files from admin/conan folder matching the pattern
-# "registry-*.properties". Uses properties found in these to setup each
-# registry.
+# To populate Conan registries automatically, the logic reads matching
+# Conan registry property files from admin/conan using the pattern:
+# "registry-*.properties". Properties found in these files are then used
+# to setup each registry.
 
 # Sentinel file so we setup registries just once.
 CONAN_REGISTRY_SETUP_DONE := $(D_BLD)/.conan-registry-setup-done
 
-$(CONAN_REGISTRY_SETUP_DONE): $(CONAN_REGISTRIES)
-	@echo "(conan) Setting up Conan registries"
-	$(D_SCP)/conan-registry-setup.bash \
-	    $(CNTR_TECH) $(CNTR_GCC_TOOLS_NAME)) $(CONAN_REGISTRIES)
+# Delegate to a script to setup Conan
+$(CONAN_REGISTRY_SETUP_DONE): $(_CONAN_REGISTRIES)
+	@$(D_SCP)/conan-registry-setup.bash \
+	    $(CNTR_TECH) $(CNTR_GCC_TOOLS_NAME) $(_CONAN_REGISTRIES)
 	@touch $@
 
-#	$(foreach reg,$(CONAN_REGISTRIES), \
+#	$(foreach reg,$(_CONAN_REGISTRIES), \
 #	    $(D_SCP)/conan-registry-setup.bash \
 #	        $(CNTR_TECH) $(reg) $(CNTR_GCC_TOOLS_NAME))
-#
-#	@echo $(D_SCP)/conan-registry-setup.bash $(CNTR_TECH) "conancenter" $(CNTR_GCC_TOOLS_NAME) "https://center.conan.io"
-#	@echo $(D_SCP)/conan-registry-login.bash $(CNTR_TECH) "conancenter" $(CNTR_GCC_TOOLS_NAME)
-#	@echo $(D_SCP)/conan-registry-setup.bash $(CNTR_TECH) "aws-arty"    $(CNTR_GCC_TOOLS_NAME) "https://aws.artifactory.io"
-#	@echo $(D_SCP)/conan-registry-login.bash $(CNTR_TECH) "aws-arty"    $(CNTR_GCC_TOOLS_NAME)
 
 conan-registry-setup: $(CONAN_REGISTRY_SETUP_DONE)
 
-CONAN_REGISTRIES := $(wildcard $(D_ADMIN)/conan/registry*.properties)
+_CONAN_REGISTRIES := $(wildcard $(D_ADMIN)/conan/registry*.properties)
 
-# Determine which Conan registry is to be used for publishing.  Search
-# the registry property files in the admin/conan folder and find the one
-# with "publish: yes". If multple registries are indicated for
-# publishing, only the first one found (the head -1 command) is used. It
-# is not an error if no registry is indicated for publishing, which is
-# typical for Conan consumer-only projects.
+# Determine which Conan registry is to be used for publishing. The
+# result of this is to set makefile variable
+# "CONAN_REGISTRY_FOR_PUBLISHING", which is used in conan.mak.
 #
-$(D_BLD)/conan-publish-registry.mak: $(CONAN_REGISTRIES) $(D_BLD)
-	@f=$$(grep 'publish: yes' -l $(CONAN_REGISTRIES) | head -1); \
+# Search for registry property files in the admin/conan folder looking
+# for the property "publish: yes". If multple registry files are found
+# to contain "publish: yes", only the first one found is used (the head
+# -1 command below). It is not an error if no registry is indicated for
+# publishing, which is typical for Conan consumer-only projects.
+#
+$(D_BLD)/conan-publish-registry.mak: $(_CONAN_REGISTRIES) $(D_BLD)
+	@f=$$(grep 'publish: yes' -l $(_CONAN_REGISTRIES) | head -1); \
 	if [ -n "$${f}" ]; then \
 	    name=$$(grep 'name:' $${f} | awk '{ print $$2 }'); \
 	else \
@@ -117,27 +118,9 @@ $(D_BLD)/conan-publish-registry.mak: $(CONAN_REGISTRIES) $(D_BLD)
 	fi; \
 	echo "CONAN_REGISTRY_FOR_PUBLISHING := $${name}" > $@
 
-# This include triggers the above rule early in makefile processing.
-# Need a value for CONAN_REGISTRY_FOR_PUBLISHING to be defined
-# ahead of 
+# The following triggers the above rule early in makefile
+# processing if the file is missing.
 #
 include $(D_BLD)/conan-publish-registry.mak
-
-endif
-
-ifdef trash1
-admin/conan/registry-aws-arty.mak
-name: aws-arty
-url: "https://aws.artifactory.io"
-login: [yes, no]
-enable: [yes,no]
-publish: [yes,no]
-
-admin/conan/registry-conancenter.mak
-name: conancenter
-url: "https://center.conan.io"
-login: [yes, no]
-enable: [yes,no]
-publish: [yes,no]
 
 endif

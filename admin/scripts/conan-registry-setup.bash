@@ -35,8 +35,8 @@ checkArgs()
 
 parseLine()
 {
-    local key=${line%% *}; # echo "key = ${key}"
-    local val=${line##* }; # echo "val = ${val}"
+    local key=${line%% *}; # grab up to first space
+    local val=${line##* }; # grab after first space
     case ${key} in
         "name:")     regyName=${val};;
         "url:")      regyUrl=${val};;
@@ -63,10 +63,10 @@ initVars()
 
 printVars()
 {
-    echo "name: ${regyName}"
-    echo "url: ${regyUrl}"
-    echo "login: ${doLogin}"
-    echo "enable: ${doEnable}"
+    echo "name:    ${regyName}"
+    echo "url:     ${regyUrl}"
+    echo "login:   ${doLogin}"
+    echo "enable:  ${doEnable}"
     echo "publish: ${doPublish}"
 }
 
@@ -110,62 +110,15 @@ checkYesNo()
 
 # ---------------------------------------------------------------------
 
-processOneFile()
-{
-    local propFile=$1
-    echo "Processing ${propFile}"
-    if [ ! -f ${propFile} ]; then
-        echo "${0}: Error: no such file: ${propFile}"
-        exit 1    # error
-    fi
-
-    initVars
-    
-    while read line; do
-        parseLine
-    done < ${propFile}
-    
-    checkEmptyVars
-    printVars
-    registryAdd
-    registryEnable
-    registryLogin
-}
-
-# ---------------------------------------------------------------------
-
-processFiles()
-{
-    for f in ${REGISTRY_PROPERTY_FILES}; do
-        processOneFile "$f"
-    done
-}
-
-# ---------------------------------------------------------------------
-
-CNTR_TECH=$1
-BLD_CNTR_NAME=$2
-REGISTRY_PROPERTY_FILES="${@:3}"
-
-# echo ${@:3}
-# echo "howie ${REGISTRY_PROPERTY_FILES}"
-
-checkArgs
-processFiles
-exit 0
-
-
-# ---------------------------------------------------------------------
-
 makeEnvVarName()    # $1 is suffix
 {
     # For example, if CONAN_REGISTRY = conan.io and $1 = "_PAT" 
     # then returns "CONAN_IO_PAT"
     
-    local name=${CONAN_REGISTRY/"."/"_"}  # conan.io --> conan_io
-    name=${name/"-"/"_"}                  # conan-io --> conan_io
-    name=${name^^}                        # convert to uppercase
-    name=${name}$1                        # add suffix
+    local name=${regyName/"."/"_"}  # conan.io --> conan_io
+    name=${name/"-"/"_"}            # conan-io --> conan_io
+    name=${name^^}                  # convert to uppercase
+    name=${name}$1                  # add suffix
     echo ${name}
 }
 
@@ -201,9 +154,47 @@ promptForRegistryToken()
 
 # ---------------------------------------------------------------------
 
+getValueFromFile()    # $1 is file name
+{
+    if [ -f $1 ]; then
+        cat $1
+    else
+        echo ""
+    fi
+}
+
+# ---------------------------------------------------------------------
+
+getUsernameToken()
+{
+    local usernameFileName="${HOME}/.ssh/${regyName}-username"
+    local usernameEnvVarName=$(makeEnvVarName "_USERNAME")
+    declare -n usernameEnvVarValue=${usernameEnvVarName}
+    
+    local usernameToken=${usernameEnvVarValue}
+    if [ -z "${usernameToken}" ]; then
+        echo "(username) Checking env-var \"${usernameEnvVarName}\", not found"
+        usernameToken=$(getValueFromFile ${usernameFileName})
+        if [ -z "${usernameToken}" ]; then
+            echo "(username) Checking file \"${usernameFileName}\", not found"
+        else
+            echo "(username) Checking file \"${usernameFileName}\", found"
+        fi
+    else
+        echo "(username) Checking env-var \"${usernameEnvVarName}\", found"
+    fi
+
+    if [ -z "${usernameToken}" ]; then
+        usernameToken=$(promptForUsernameToken)
+    fi
+    USERNAME_TOKEN=${usernameToken}
+}
+
+# ---------------------------------------------------------------------
+
 getRegistryToken()
 {
-    local tokenFileName="${HOME}/.ssh/${CONAN_REGISTRY}-token"
+    local tokenFileName="${HOME}/.ssh/${regyName}-token"
     local tokenEnvVarName=$(makeEnvVarName "_PAT")
     declare -n tokenEnvVarValue=${tokenEnvVarName}
 
@@ -229,101 +220,93 @@ getRegistryToken()
 
 # ---------------------------------------------------------------------
 
-getUsernameToken()
+registryAdd()
 {
-    local usernameFileName="${HOME}/.ssh/${CONAN_REGISTRY}-username"
-    local usernameEnvVarName=$(makeEnvVarName "_USERNAME")
-    declare -n usernameEnvVarValue=${usernameEnvVarName}
-    
-    local usernameToken=${usernameEnvVarValue}
-    if [ -z "${usernameToken}" ]; then
-        echo "(username) Checking env-var \"${usernameEnvVarName}\", not found"
-        usernameToken=$(getValueFromFile ${usernameFileName})
-        if [ -z "${usernameToken}" ]; then
-            echo "(username) Checking file \"${usernameFileName}\", not found"
-        else
-            echo "(username) Checking file \"${usernameFileName}\", found"
-        fi
-    else
-        echo "(username) Checking env-var \"${usernameEnvVarName}\", found"
-    fi
-
-    if [ -z "${usernameToken}" ]; then
-        usernameToken=$(promptForUsernameToken)
-    fi
-    USERNAME_TOKEN=${usernameToken}
-}
-
-# ---------------------------------------------------------------------
-
-getRegistryUrl()
-{
-    local urlFileName="${HOME}/.ssh/${CONAN_REGISTRY}-url"
-    local urlEnvVarUrl=$(makeEnvVarName "_URL")
-    declare -n urlEnvVarValue=${urlEnvVarUrl}
-
-    local registryUrl=${urlEnvVarValue}
-    if [ -z "${registryUrl}" ]; then
-        echo "(url) Checking env-var \"${urlEnvVarUrl}\", not found"
-        registryUrl=$(getValueFromFile ${urlFileName})
-        if [ -z "${registryUrl}" ]; then
-            echo "(url) Checking file \"${urlFileName}\", not found"
-        else
-            echo "(url) Checking file \"${urlFileName}\", found"
-        fi
-    else
-        echo "(url) Checking env-var \"${urlEnvVarUrl}\", found"
-    fi
-    if [ -z "${registryUrl}" ]; then
-        registryUrl=$(promptForUrl)
-    fi
-    REGISTRY_URL=${registryUrl}
-}
-
-# ---------------------------------------------------------------------
-
-checkHaveRegistry()
-{
-    if conanHaveRegistry ${CNTR_TECH} ${CONAN_REGISTRY} ${BLD_CNTR_NAME}; then
-        return 0    # Yes, have it.
+    if conanHaveRegistry ${CNTR_TECH} ${regyName} ${BLD_CNTR_NAME}; then
+        echo "(conan) Conan already has registry: ${regyName}, no action"
+        return 0    # return success
     fi
     
-    echo "(${CONAN_REGISTRY}) Adding Conan registry: ${CONAN_REGISTRY}"
-    getRegistryUrl
-    conanAddRegistry ${CNTR_TECH} ${CONAN_REGISTRY} \
-                     ${BLD_CNTR_NAME} ${REGISTRY_URL}
+    echo "(conan) Adding Conan registry: ${regyName}"
+    conanAddRegistry ${CNTR_TECH} ${regyName} ${BLD_CNTR_NAME} ${regyUrl}
 }
 
 # ---------------------------------------------------------------------
 
-checkAlreadyLoggedIn()
+registryEnable()
 {
-    if conanIsLoggedIn ${CNTR_TECH} ${CONAN_REGISTRY} ${BLD_CNTR_NAME}; then
-        echo "(${CONAN_REGISTRY}) Already logged in to ${CONAN_REGISTRY}"
-        exit 0   # exit success, already logged in
+    if [ ${doEnable} = "yes" ]; then
+        conanEnableRegistry ${CNTR_TECH} ${regyName} ${BLD_CNTR_NAME}
+    else
+        conanDisableRegistry ${CNTR_TECH} ${regyName} ${BLD_CNTR_NAME}
     fi
 }
 
 # ---------------------------------------------------------------------
 
-doLogin()
+registryLogin()
 {
-    # Change or set the username on the registry if different.
-    conanSetUsername ${CNTR_TECH} ${CONAN_REGISTRY} ${BLD_CNTR_NAME} ${USERNAME_TOKEN}
-
-    # Execute login.
-    conanLogin ${CNTR_TECH} ${CONAN_REGISTRY} ${BLD_CNTR_NAME} ${REGISTRY_TOKEN}
+    if [ ${doLogin} = "yes" ]; then
+        if conanIsLoggedIn ${CNTR_TECH} ${regyName} ${BLD_CNTR_NAME}; then
+            echo "(conan) Already logged in to ${regyName}"
+            return 0   # return success, already logged in
+        fi
+        echo "(${regyName}) Gathering credentials for Auto-Login"
+        getUsernameToken
+        getRegistryToken
+        # Change or set the username on the registry if different.
+        conanSetUsername ${CNTR_TECH} ${regyName} ${BLD_CNTR_NAME} ${USERNAME_TOKEN}
+        # Execute login.
+        conanLogin ${CNTR_TECH} ${regyName} ${BLD_CNTR_NAME} ${REGISTRY_TOKEN}
+    fi
 }
 
 # ---------------------------------------------------------------------
+
+parseFile()
+{
+    while read line; do
+        parseLine
+    done < ${propFile}
+}
+
+# ---------------------------------------------------------------------
+
+processOneFile()
+{
+    local propFile=$1
+    echo "Processing ${propFile}"
+
+    initVars
+    parseFile
+    checkEmptyVars
+    printVars
+    registryAdd
+    registryLogin
+    registryEnable
+}
+
+# ---------------------------------------------------------------------
+
+processFiles()
+{
+    for f in ${REGISTRY_PROPERTY_FILES}; do
+        processOneFile "$f"
+    done
+}
+
+# ---------------------------------------------------------------------
+
+CNTR_TECH=$1
+BLD_CNTR_NAME=$2
+REGISTRY_PROPERTY_FILES="${@:3}"
+
+# echo ${@:3}
+# echo "howie ${REGISTRY_PROPERTY_FILES}"
 
 echo "(conan) Setting up Conan registries"
 checkArgs
-checkHaveRegistry                  # Adds registry if missing
-checkAlreadyLoggedIn               # Exits script if already logged in
-echo "(${CONAN_REGISTRY}) Gathering credentials for Auto-Login"
-getUsernameToken
-getRegistryToken
-doLogin
+processFiles
+exit 0
 
 # ---------------------------------------------------------------------
