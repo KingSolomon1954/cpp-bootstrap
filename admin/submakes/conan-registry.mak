@@ -84,11 +84,18 @@ CONAN_REGISTRY_SETUP_DONE := $(D_BLD)/.conan-registry-setup-done
 
 $(CONAN_REGISTRY_SETUP_DONE): $(CONAN_REGISTRIES)
 	@echo "(conan) Setting up Conan registries"
-	@echo $(D_SCP)/conan-registry-setup.bash $(CNTR_TECH) "conancenter" $(CNTR_GCC_TOOLS_NAME) "https://center.conan.io"
-	@echo $(D_SCP)/conan-registry-login.bash $(CNTR_TECH) "conancenter" $(CNTR_GCC_TOOLS_NAME)
-	@echo $(D_SCP)/conan-registry-setup.bash $(CNTR_TECH) "aws-arty"    $(CNTR_GCC_TOOLS_NAME) "https://aws.artifactory.io"
-	@echo $(D_SCP)/conan-registry-login.bash $(CNTR_TECH) "aws-arty"    $(CNTR_GCC_TOOLS_NAME)
+	$(D_SCP)/conan-registry-setup.bash \
+	    $(CNTR_TECH) $(CNTR_GCC_TOOLS_NAME)) $(CONAN_REGISTRIES)
 	@touch $@
+
+#	$(foreach reg,$(CONAN_REGISTRIES), \
+#	    $(D_SCP)/conan-registry-setup.bash \
+#	        $(CNTR_TECH) $(reg) $(CNTR_GCC_TOOLS_NAME))
+#
+#	@echo $(D_SCP)/conan-registry-setup.bash $(CNTR_TECH) "conancenter" $(CNTR_GCC_TOOLS_NAME) "https://center.conan.io"
+#	@echo $(D_SCP)/conan-registry-login.bash $(CNTR_TECH) "conancenter" $(CNTR_GCC_TOOLS_NAME)
+#	@echo $(D_SCP)/conan-registry-setup.bash $(CNTR_TECH) "aws-arty"    $(CNTR_GCC_TOOLS_NAME) "https://aws.artifactory.io"
+#	@echo $(D_SCP)/conan-registry-login.bash $(CNTR_TECH) "aws-arty"    $(CNTR_GCC_TOOLS_NAME)
 
 conan-registry-setup: $(CONAN_REGISTRY_SETUP_DONE)
 
@@ -101,10 +108,8 @@ CONAN_REGISTRIES := $(wildcard $(D_ADMIN)/conan/registry*.properties)
 # is not an error if no registry is indicated for publishing, which is
 # typical for Conan consumer-only projects.
 #
-$(D_BLD)/conan-publish-registry.mak: $(CONAN_REGISTRIES)
-	@echo "howie Creating $@"
-	mkdir -p $(D_BLD)
-	f=$$(grep 'publish: yes' -l $(CONAN_REGISTRIES) | head -1); \
+$(D_BLD)/conan-publish-registry.mak: $(CONAN_REGISTRIES) $(D_BLD)
+	@f=$$(grep 'publish: yes' -l $(CONAN_REGISTRIES) | head -1); \
 	if [ -n "$${f}" ]; then \
 	    name=$$(grep 'name:' $${f} | awk '{ print $$2 }'); \
 	else \

@@ -73,8 +73,10 @@ ifneq ($(findstring clean,$(MAKECMDGOALS)),clean)
     -include $(DEFAULT_BLD_TYPE_FILE)
 endif
 
-$(DEFAULT_BLD_TYPE_FILE):
+$(D_BLD):
 	@mkdir -p $(D_BLD)
+
+$(DEFAULT_BLD_TYPE_FILE): $(D_BLD)
 	@echo "DEFAULT_BUILD_TYPE := Debug" > $@
 
 _set-build-type-prod:
