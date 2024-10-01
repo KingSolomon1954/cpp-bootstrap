@@ -34,10 +34,6 @@ endif
 
 include $(D_MAK)/conan-registry.mak
 
-ifndef CONAN_REGISTRY_FOR_PUBLISHING
-    $(error conan-registry.mak must define 'CONAN_REGISTRY_FOR_PUBLISHING')
-endif
-
 # ------------ Conan Folders/Files Section ------------
 
 # Locations must agree with CMake setup.

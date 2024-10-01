@@ -5,8 +5,8 @@
 # ---------------------------------------------------------------------
 
 CNTR_TECH=$1
-CONAN_REGISTRY=$2
-BLD_CNTR_NAME=$3
+BLD_CNTR_NAME=$2
+CONAN_REGISTRY=$3
 
 if [ -z ${CONAN_REGISTRY} ]; then
     echo "Missing argument 2, CONAN_REGISTRY must be supplied"
@@ -25,8 +25,10 @@ dirName=${tmp1%/*}  # remove last level in path
 
 source ${dirName}/lib-conan-registry.bash
 
-if conanIsLoggedIn ${CNTR_TECH} ${CONAN_REGISTRY} ${BLD_CNTR_NAME}; then
-    echo "(${CONAN_REGISTRY}) Already logged into ${CONAN_REGISTRY}"
+if conanIsLoggedIn ${CNTR_TECH} ${BLD_CNTR_NAME} ${CONAN_REGISTRY}; then
+    echo "(conan) Already logged into: ${CONAN_REGISTRY}"
 else
-    echo "(${CONAN_REGISTRY}) Not logged in to ${CONAN_REGISTRY}"
+    echo "(conan) Not logged into: ${CONAN_REGISTRY}"
 fi
+
+# ---------------------------------------------------------------------

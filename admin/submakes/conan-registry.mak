@@ -30,15 +30,15 @@ define CONAN_REGISTRY_TMPLT
 # $1 = Conan registry
 login-$(1):
 	@$$(D_SCP)/conan-registry-login.bash \
-	    $$(CNTR_TECH) $(1) $$(CNTR_GCC_TOOLS_NAME)
+	    $$(CNTR_TECH) $$(CNTR_GCC_TOOLS_NAME) $(1)
 
 logout-$(1):
 	@$$(D_SCP)/conan-registry-logout.bash \
-	    $$(CNTR_TECH) $(1) $$(CNTR_GCC_TOOLS_NAME)
+	    $$(CNTR_TECH) $$(CNTR_GCC_TOOLS_NAME) $(1)
 
 login-status-$(1):
 	@$$(D_SCP)/conan-registry-status.bash \
-	    $$(CNTR_TECH) $(1) $$(CNTR_GCC_TOOLS_NAME)
+	    $$(CNTR_TECH) $$(CNTR_GCC_TOOLS_NAME) $(1)
 
 .PHONY: login-$(1) logout-$(1) login-status-$(1)
 
@@ -48,24 +48,6 @@ logout-$(1),       Logout from $(1) registry\n\
 login-status-$(1), Show login status to $(1) registry\n\
 "
 endef
-
-# ------------- Expand Templates ------------
-
-$(eval $(call CONAN_REGISTRY_TMPLT,conancenter))
-$(eval $(call CONAN_REGISTRY_TMPLT,aws-arty))
-
-# ------ Identify Registry for Publishing  ------
-#
-# There can be several Conan registries. Of these registries,
-# identify the one to use for publishing our own packages.
-# This registry then requires a login when publishing. Other 
-# registries may or may not be readable without a login.
-#
-CONAN_REGISTRY_FOR_PUBLISHING := conancenter
-
-conan-login-check: login-conancenter
-
-.PHONY: conan-login-check
 
 # ------------- Initial Registry Setup ------------
 #
@@ -85,26 +67,36 @@ conan-login-check: login-conancenter
 # Sentinel file so we setup registries just once.
 CONAN_REGISTRY_SETUP_DONE := $(D_BLD)/.conan-registry-setup-done
 
-# Delegate to a script to setup Conan
+# Delegate to a script to setup Conan registries.
 $(CONAN_REGISTRY_SETUP_DONE): $(_CONAN_REGISTRIES)
 	@$(D_SCP)/conan-registry-setup.bash \
 	    $(CNTR_TECH) $(CNTR_GCC_TOOLS_NAME) $(_CONAN_REGISTRIES)
 	@touch $@
 
-#	$(foreach reg,$(_CONAN_REGISTRIES), \
-#	    $(D_SCP)/conan-registry-setup.bash \
-#	        $(CNTR_TECH) $(reg) $(CNTR_GCC_TOOLS_NAME))
-
 conan-registry-setup: $(CONAN_REGISTRY_SETUP_DONE)
 
-_CONAN_REGISTRIES := $(wildcard $(D_ADMIN)/conan/registry*.properties)
+_CONAN_REGISTRIES := $(wildcard $(D_ADMIN)/conan/registry-*.properties)
 
+# Get the name of each registry from the file name itself. Could instead
+# grep each file and lift out the name attribute from within but want to
+# avoid unconditional greps every invocation of make.
+#
+_CONAN_REGY_NAMES := $(notdir $(_CONAN_REGISTRIES))
+_CONAN_REGY_NAMES := $(subst registry-,,$(_CONAN_REGY_NAMES))
+_CONAN_REGY_NAMES := $(subst .properties,,$(_CONAN_REGY_NAMES))
+
+# ------------- Expand Templates ------------
+
+$(foreach reg,$(_CONAN_REGY_NAMES),$(eval $(call CONAN_REGISTRY_TMPLT,$(reg))))
+
+# ------ Identify Registry for Publishing  ------
+#
 # Determine which Conan registry is to be used for publishing. The
-# result of this is to set makefile variable
+# result of this logic is to set makefile variable
 # "CONAN_REGISTRY_FOR_PUBLISHING", which is used in conan.mak.
 #
 # Search for registry property files in the admin/conan folder looking
-# for the property "publish: yes". If multple registry files are found
+# for the property "publish: yes". If multiple registry files are found
 # to contain "publish: yes", only the first one found is used (the head
 # -1 command below). It is not an error if no registry is indicated for
 # publishing, which is typical for Conan consumer-only projects.
