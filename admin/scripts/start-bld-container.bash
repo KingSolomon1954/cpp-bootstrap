@@ -125,6 +125,8 @@ startFreshBuildContainer()
         local CNTR_ARGS="--security-opt=seccomp=unconfined"
     fi
 
+    echo "Starting ${CNTR_NAME}"
+
     # Start the container
     ${CNTR_TECH} run \
         ${CNTR_USER_FLAGS} \
@@ -137,8 +139,6 @@ startFreshBuildContainer()
         ${CNTR_PORT_FLAGS} \
         ${CNTR_ARGS} \
         --name ${CNTR_NAME} ${CNTR_PATH}
-
-    echo "Started ${CNTR_NAME}"
 
     # Since build containers tend to use the HOME directory for configs
     # when running build commands, also allow access to /root for the

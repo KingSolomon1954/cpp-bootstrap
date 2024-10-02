@@ -28,6 +28,7 @@ include $(D_MAK)/container-tech.mak
 
 define CONAN_REGISTRY_TMPLT
 # $1 = Conan registry
+
 login-$(1):
 	@$$(D_SCP)/conan-registry-login.bash \
 	    $$(CNTR_TECH) $$(CNTR_GCC_TOOLS_NAME) $(1)
@@ -59,60 +60,65 @@ endef
 # then generally you don't need a login. conancenter works this way. But
 # some registries require a login even for consumer-only operations.
 #
-# To populate Conan registries automatically, the logic reads matching
-# Conan registry property files from admin/conan using the pattern:
+# To populate Conan registries automatically, the logic reads Conan
+# registry property files from admin/conan matching the pattern:
 # "registry-*.properties". Properties found in these files are then used
 # to setup each registry.
 
-# Sentinel file so we setup registries just once.
-CONAN_REGISTRY_SETUP_DONE := $(D_BLD)/.conan-registry-setup-done
+# Sentinel file to setup registries just once. Tie in with conan.mak.
+CONAN_REGISTRY_SETUP_DONE := $(D_BLD)/conan-registry-setup-done
+
+_CONAN_REGY_PROP_FILES := $(wildcard $(D_ADMIN)/conan/registry-*.properties)
 
 # Delegate to a script to setup Conan registries.
-$(CONAN_REGISTRY_SETUP_DONE): $(_CONAN_REGISTRIES)
+$(CONAN_REGISTRY_SETUP_DONE): $(_CONAN_REGY_PROP_FILES) $(D_BLD)/conan-registry-vars.mak
 	@$(D_SCP)/conan-registry-setup.bash \
-	    $(CNTR_TECH) $(CNTR_GCC_TOOLS_NAME) $(_CONAN_REGISTRIES)
+	    $(CNTR_TECH) $(CNTR_GCC_TOOLS_NAME) $(_CONAN_REGY_PROP_FILES)
 	@touch $@
 
-conan-registry-setup: $(CONAN_REGISTRY_SETUP_DONE)
+$(D_BLD)/conan-registry-vars.mak:
+	@echo "(conan) Creating Conan registry-vars file"
+	@mkdir -p $(D_BLD)
+	@r_names=$$(grep 'name: ' $(_CONAN_REGY_PROP_FILES) | awk '{ ORS=" "; print $$2 }' ); \
+	echo "CONAN_REGISTRY_NAMES := $${r_names% *}" > $@
+	@f=$$(grep 'publish: yes' -l $(_CONAN_REGY_PROP_FILES) | head -1); \
+	if [ -n "$${f}" ]; then \
+	    p_name=$$(grep 'name:' $${f} | awk '{ print $$2 }'); \
+	else \
+	    p_name="NoRegistryFoundForPublishing"; \
+	fi; \
+	echo "CONAN_REGISTRY_FOR_PUBLISHING := $${p_name}" >> $@
 
-_CONAN_REGISTRIES := $(wildcard $(D_ADMIN)/conan/registry-*.properties)
-
-# Get the name of each registry from the file name itself. Could instead
-# grep each file and lift out the name attribute from within but want to
-# avoid unconditional greps every invocation of make.
-#
-_CONAN_REGY_NAMES := $(notdir $(_CONAN_REGISTRIES))
-_CONAN_REGY_NAMES := $(subst registry-,,$(_CONAN_REGY_NAMES))
-_CONAN_REGY_NAMES := $(subst .properties,,$(_CONAN_REGY_NAMES))
+ifneq ($(findstring clean,$(MAKECMDGOALS)),clean)
+    -include $(D_BLD)/conan-registry-vars.mak
+endif
 
 # ------------- Expand Templates ------------
 
-$(foreach reg,$(_CONAN_REGY_NAMES),$(eval $(call CONAN_REGISTRY_TMPLT,$(reg))))
+$(foreach reg,$(CONAN_REGISTRY_NAMES),$(eval $(call CONAN_REGISTRY_TMPLT,$(reg))))
 
-# ------ Identify Registry for Publishing  ------
-#
-# Determine which Conan registry is to be used for publishing. The
-# result of this logic is to set makefile variable
-# "CONAN_REGISTRY_FOR_PUBLISHING", which is used in conan.mak.
-#
-# Search for registry property files in the admin/conan folder looking
-# for the property "publish: yes". If multiple registry files are found
-# to contain "publish: yes", only the first one found is used (the head
-# -1 command below). It is not an error if no registry is indicated for
-# publishing, which is typical for Conan consumer-only projects.
-#
-$(D_BLD)/conan-publish-registry.mak: $(_CONAN_REGISTRIES) $(D_BLD)
-	@f=$$(grep 'publish: yes' -l $(_CONAN_REGISTRIES) | head -1); \
-	if [ -n "$${f}" ]; then \
-	    name=$$(grep 'name:' $${f} | awk '{ print $$2 }'); \
-	else \
-	    name="NoRegistryFoundForPublishing"; \
-	fi; \
-	echo "CONAN_REGISTRY_FOR_PUBLISHING := $${name}" > $@
+# ------------- Force Conan registry rebuild  ------------
 
-# The following triggers the above rule early in makefile
-# processing if the file is missing.
-#
-include $(D_BLD)/conan-publish-registry.mak
+conan-registry: conan-rm-sentinel $(CONAN_REGISTRY_SETUP_DONE)
+
+conan-rm-sentinel:
+	@rm -f $(CONAN_REGISTRY_SETUP_DONE)
+
+.PHONY: conan-registry conan-rm-sentinel
+
+# ------------- Conan registy show ------------
+
+conan-registry-show:
+	@$(CNTR_TECH) exec $(CNTR_GCC_TOOLS_NAME) conan remote list
+	@$(CNTR_TECH) exec -t $(CNTR_GCC_TOOLS_NAME) conan remote list-users
+
+.PHONY: conan-registry-show
+
+# ------------ Help Section ------------
+
+HELP_TXT += "\n\
+conan-registry,      Manually trigger Conan registry setup\n\
+conan-registry-show, Show Conan registries and users\n\
+"
 
 endif
