@@ -15,14 +15,14 @@
 # Reads credentials (personal access token(PAT) or password and
 # user name) from envionment variables if found:
 #
-# checks for env variable <REGISTRY>_PAT      ("." turned into underscore)
+# checks for env variable <REGISTRY>_PAT      ("-" turned into underscore)
 # checks for env variable <REGISTRY>_USERNAME
 #
-# For example, if container registry is `conan.io` then looks
+# For example, if container registry is `aws-arty` then looks
 # for these environment variables:
 #
-#   CONAN_IO_PAT         # personal access token / password
-#   CONAN_IO_USERNAME    # login user name for this registry
+#   AWS_ARTY_PAT         # personal access token / password
+#   AWS_ARTY_USERNAME    # login user name for this registry
 #
 # Reads credentials (personal access token(PAT) or password and
 # user name) from files if found:
@@ -30,18 +30,18 @@
 # checks for access token in file in `~/.ssh/<REGISTRY>-token`
 # checks for username file in `~/.ssh/<REGISTRY>-username`
 #
-# For example, if container registry is `conan.io` then looks
+# For example, if container registry is `aws-arty` then looks
 # for these files:
 #
-#   $HOME/.ssh/conan.io-token     # personal access token / password
-#   $HOME/.ssh/conan.io-username  # login user name for this registry
+#   $HOME/.ssh/aws-arty-token     # personal access token / password
+#   $HOME/.ssh/aws-arty-username  # login user name for this registry
 #
 # These files have just a single line each. For example:
 #
-# > cat $HOME/.ssh/conan.io-token
-# ccenter_675b9Jam99721
-# > cat $HOME/.ssh/conan.io-username
-# Elvis
+# > cat $HOME/.ssh/aws-arty-username
+# ElvisTheDeveloper
+# > cat $HOME/.ssh/aws-arty-token
+# aws_arty_675b9Jam99721
 #
 # if no env-var or file, then prompts for PAT/password
 # if no env-var or file, then prompts for username
