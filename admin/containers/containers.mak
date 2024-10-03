@@ -18,7 +18,7 @@ include $(D_MAK)/container-tech.mak
 include $(D_MAK)/container-names-gcc14.mak
 include $(D_MAK)/container-names-gcc11.mak
 include $(D_MAK)/container-names-sphinx.mak
-include $(D_MAK)/registry-login.mak
+include $(D_MAK)/container-registry.mak
 
 _D_CNTR_FILES := $(D_CNTRS)/container-files
 

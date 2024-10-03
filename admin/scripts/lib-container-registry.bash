@@ -6,21 +6,19 @@
 #
 # Functions prefixed with cr (container registry)
 #
-# crHaveLocalImage()
-# crIsLoggedIn()
-# crLogoutRegistry()
-# crStartExitedContainer()
-# crIsContainerRunning()
-# crIsContainerExited()
+# cntrHaveLocalImage()
+# cntrIsLoggedIn()
+# cntrLogoutRegistry()
+# cntrStartExitedContainer()
+# cntrIsContainerRunning()
+# cntrIsContainerExited()
 #
-# CR_PAT  Container Registry Personal Access Token
-
 # ---------------------------------------------------------------------
 #
 # CNTR_TECH=$1
 # CNTR_PATH=$2
 #
-crHaveLocalImage()
+cntrHaveLocalImage()
 {
     local tech=$1
     local path=$2
@@ -36,7 +34,7 @@ crHaveLocalImage()
 # CNTR_TECH=$1
 # CNTR_REGISTRY=$2
 #
-crIsLoggedIn()
+cntrIsLoggedIn()
 {
     local tech=$1
     local registry=$2
@@ -55,7 +53,7 @@ crIsLoggedIn()
         fi
         return 1      # return false, not logged in
     fi
-    echo "Bad CNTR_TECH arg in crIsLoggedIn()"
+    echo "Bad CNTR_TECH arg in cntrIsLoggedIn()"
     exit 1   # Fatal exit here.
 }
 
@@ -64,11 +62,11 @@ crIsLoggedIn()
 # CNTR_TECH=$1
 # CNTR_REGISTRY=$2
 #
-crLogoutRegistry()
+cntrLogoutRegistry()
 {
     local tech=$1
     local registry=$2
-    echo "${tech} logout ${registry}"
+    # echo "${tech} logout ${registry}"
     ${tech} logout ${registry}
 }
 
@@ -77,11 +75,11 @@ crLogoutRegistry()
 # CNTR_TECH=$1
 # CNTR_NAME=$2
 #
-crStartExitedContainer()
+cntrStartExitedContainer()
 {
     local tech=$1
     local name=$2
-    echo "${tech} start ${name}"
+    # echo "${tech} start ${name}"
     ${tech} start ${name}
 }
 
@@ -92,7 +90,7 @@ crStartExitedContainer()
 #
 # Statuses (created, running, paused, exited)
 #
-crIsContainerRunning()
+cntrIsContainerRunning()
 {
     local tech=$1
     local name=$2
@@ -110,7 +108,7 @@ crIsContainerRunning()
 #
 # Statuses (created, running, paused, exited)
 #
-crIsContainerExited()
+cntrIsContainerExited()
 {
     local tech=$1
     local name=$2

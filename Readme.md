@@ -26,11 +26,11 @@ fill-in-the-blanks documentation.
 ## Features
 
 - Top level Makefile framework for launching targets
+- Uses [containers](#containerized-tools) for build tools (compiler, CMake, auto-docs, etc)
 - CMake used only for C++ compilation/linking
-- Uses [containers](#containerized-tools) for build tools (compiler, auto-docs, etc)
 - [Production and debug](#simultaneous-production-and-debug-trees) trees
   in same workspace simultaneously
-- Setup with [Conan](https://conan.io/) v2.0 C++ libary management
+- [Setup](#conan-setup) with [Conan](https://conan.io/) v2.0 C++ libary management
 - Configured as a consumer of Conan libraries (not a producer)
 - Also setup for two locally developed internal-only libraries
 - Automated [documentation generation](#documentation-generation) with
@@ -211,12 +211,121 @@ firefox _build/site/index.html
        ├── Contributing.md
        └── License.md
 
-## Conan
+## Conan Setup
 
 - Setup as a consumer of Conan libraries, not a producer
+- Conan library cache is held on the build container, not the host machine
+- Automated Conan registry login scheme, supports multiple registries
 - Uses Conan lockfiles for locking down library versions for stable
   repeatable builds
-- Conan library repository cache is on the build container
+- Makefile provides convenient commands to manipulate Conan on the container
+
+### Conan Auto-Registry Setup
+
+C++ Bootstrap comes prepared with two Conan Registry files already
+filled out.
+
+* `admin/conan/registry-conancenter.properties`
+* `admin/conan/registry-aws-arty.properties`
+
+C++ Bootstrap populates Conan registries into Conan just once, at build
+initialization time, before any library retrieval is attempted.  And it
+re-populates these later if/when a new container is started, or if a
+registry file changes.
+
+To add or remove registries, just add or delete a file having the
+following naming pattern:
+
+    admin/conan/registry-*.properties
+    
+Properties found in these files are then used to setup each registry in
+Conan. The parsing is not sophisticated or flexible, uses grep, so
+please adhere closely to the layout in the files.
+
+A Conan registry file looks like this:
+
+``` bash
+> cat admin/conan/registry-aws-arty.properties 
+name: aws-arty
+url: https://aws.artifactory.io
+login: no
+enable: yes
+publish: yes
+
+```
+
+**name:** name of the Conan registry<br>
+**url:** the registry server<br>
+**login:** [yes|no] perform automated login<br>
+**enable:** [yes|no] use or hide this registry<br>
+**publish:** [yes|no] identify this registry as the one to publish our packages to
+
+### Conan Auto-Login
+
+A registry can be configured in Conan with or without having Conan
+establish a login to it. If your project is a Conan library consumer,
+then generally you don't need a login. conancenter works this way. But
+some registries require a login even for consumer-only operations.
+
+The two registry files that come with C++ Bootstrap currently specify
+`login: no`. If a registry requires a login, change the login attribute
+to `login: yes`.
+
+C++ Bootstrap supports automated as well as manual login.
+
+For automation, login credentials are read from the following locations
+in the given order, keying off of the name of the registry in 
+the property file (i.e., `name: <registry>`).
+
+  1. from environment variables
+  2. from files
+  3. from command line prompt
+
+#### From Environment Variables
+
+Reads credentials (personal access token(PAT) or password and
+user name) from these envionment variables if found:
+
+    <REGISTRY>_USERNAME
+    <REGISTRY>_PAT      ("-" turned into underscore)
+
+For example, if Conan registry is `aws-arty` then looks
+for these environment variables:
+
+    AWS_ARTY_USERNAME    # login user name for this registry
+    AWS_ARTY_PAT         # personal access token / password
+
+#### From Files
+
+Reads credentials (personal access token(PAT) or password and
+user name) from files if found:
+
+    ~/.ssh/<REGISTRY>-username
+    ~/.ssh/<REGISTRY>-token`
+
+For example, if container registry is `aws-arty` then looks
+for these files:
+
+    $HOME/.ssh/aws-arty-username  # login user name for this registry
+    $HOME/.ssh/aws-arty-token     # personal access token / password
+
+These files have just a single line each. For example:
+
+``` bash
+> cat $HOME/.ssh/aws-arty-username
+ElvisTheDeveloper
+> cat $HOME/.ssh/aws-arty-token
+aws_regy_675b9Jam99721
+```
+
+#### From Command Line Prompt
+
+if no env-var or file, then prompts for PAT/password<br>
+if no env-var or file, then prompts for username
+
+### Conan Library Publishing
+
+TBS
 
 ## Containerized Tools
 

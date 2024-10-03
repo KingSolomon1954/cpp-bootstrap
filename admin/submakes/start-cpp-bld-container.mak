@@ -15,19 +15,18 @@ ifndef D_SCP
 endif
 
 ifdef NO_BLD_CNTR
-    WORK_TOP := .
-    CPP_BLD_CNTR_EXEC :=
-else
-    WORK_TOP := /work/$(notdir $(CURDIR))
-    # Use -it because makefile/scripts prompts the user for input at times
-    CPP_BLD_CNTR_EXEC = $(CNTR_TECH) exec -it --workdir $(WORK_TOP) $(CNTR_GCC_TOOLS_NAME)
-endif
 
-ifdef NO_BLD_CNTR
+WORK_TOP := .
+CPP_BLD_CNTR_EXEC :=
 
 start-cpp-bld-container:
 
 else
+
+WORK_TOP := /work/$(notdir $(CURDIR))
+# Use -it because makefile/scripts need to prompt the user for 
+# input at times, plus Conan and CMake will render output in color.
+CPP_BLD_CNTR_EXEC = $(CNTR_TECH) exec -it --workdir $(WORK_TOP) $(CNTR_GCC_TOOLS_NAME)
 
 include $(D_MAK)/container-tech.mak
 include $(D_MAK)/container-names-gcc14.mak

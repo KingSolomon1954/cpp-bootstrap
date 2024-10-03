@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# File: registry-logout.bash
+# File: registry-status.bash
 #
 # ---------------------------------------------------------------------
 
@@ -19,8 +19,8 @@ dirName=${tmp1%/*}  # remove last level in path
 
 source ${dirName}/lib-container-registry.bash
 
-if crIsLoggedIn ${CNTR_TECH} ${CNTR_REGISTRY}; then
-    crLogoutRegistry ${CNTR_TECH} ${CNTR_REGISTRY}
+if cntrIsLoggedIn ${CNTR_TECH} ${CNTR_REGISTRY}; then
+    echo "(${CNTR_TECH}) Currently logged in to ${CNTR_REGISTRY}"
 else
-    echo "(${CNTR_TECH}) Already logged out of ${CNTR_REGISTRY}"
+    echo "(${CNTR_TECH}) Currently not logged in to ${CNTR_REGISTRY}"
 fi
