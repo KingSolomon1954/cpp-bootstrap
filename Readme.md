@@ -17,8 +17,8 @@ Add some status badges eventually.
 </p>
 
 <p align="center">
-Provides a pre-canned C++ project layout along with automation and
-fill-in-the-blanks documentation.
+Provides a pre-canned C++ project layout along with automation,
+containerized tools and fill-in-the-blanks documentation.
 </p>
 
 ---
