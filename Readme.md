@@ -188,7 +188,8 @@ Pages](https://kingsolomon1954.github.io/cpp-bootstrap).
 
 - Single version file in project root, supports repeatable builds
 - All built artifacts obtain version information from this one file
-- CMake auto generates build info, `BuildInfo` class available to app
+- CMake auto generates build info, C++ Bootstrap [BuildInfo class](https://kingsolomon1954.github.io/cpp-bootstrap/doxygen/html/classLibGen_1_1BuildInfo.html)
+  available to app
 - Auto-documentation and containers use same version file
 - Semantic versioning
 
@@ -248,6 +249,27 @@ touch ./docs/site/.nojekyll
 git add -A ./docs/site
 git commit -m "Website update"
 
+```
+
+### Spell Checking Docs
+
+* Spell checking can be performed against a given file or a tree of files
+* Spell checking is invoked via Makefile target
+* Spell checking can be run in interactive or batch mode
+* Interactive mode lets you fix spelling in-place, file by file
+* Underlying (containerized) tool is [hunspell](https://linux.die.net/man/1/hunspell)
+
+Makefile targets for spelling:
+
+    spelling-clean - Deletes spelling artifacts
+    spelling-help  - Displays help for spelling usage
+    spelling-it    - Spell checks all docs in interactive mode
+    spelling       - Spell checks all docs in batch mode
+
+For more details invoke:
+
+``` bash
+make spelling-help
 ```
 
 ## Containerized Tools
@@ -540,7 +562,7 @@ make unit-test
 bd bin/redflame
 ```
 
-## 6. Customize
+## 5. Customize
 
 Customize the project to be your own.
 
@@ -614,14 +636,13 @@ build has taken place and thus CMake is properly configured.
 
 ### Compiling a Specific Target
 
-Often it is preferable to compile only the target under change, instead
-of invoking the entire build.
+Often it is preferable and more efficient to compile only the target
+under change as opposed to invoking the entire build.
 
 Assuming you have the [aliases](#handy-aliases-for-build-container)
 defined above:
 
 ```bash
 bd make help        # See the CMake targets
-bd make lib-gen     # Build just the lib-gen library
+bd make lib-gen     # Build just the lib-gen library target
 ```
-
