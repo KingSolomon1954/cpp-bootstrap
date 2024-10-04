@@ -1,0 +1,84 @@
+# This file is executed by the 'make analysis-help' target
+# and displays the content below.
+#
+# See admin/submakes/cpp-static-analysis.mak
+#
+# Be aware that running this file directly on the command line
+# won't render bold/colors properly since there will be 
+# too many escapes. See colors.bash for description.
+
+# Include bolding/color capability.
+submake_dir=$1
+. ${submake_dir}/help-files/colors.bash
+
+OLD_IFS="$IFS"
+IFS=
+while read line; do
+    echo $line
+done << TheEnd
+${BRIGHT}NAME${CLEAR}
+    C++ Static Analysis
+
+${BRIGHT}DESCRIPTION${CLEAR}
+    Static analysis can be performed against all source code
+    in the repository or against a single individual file. 
+    Underlying tool is 'cppcheck'. See cppcheck man page.
+
+    See https://cppcheck.sourceforge.io/manual.html
+
+${BRIGHT}Static Analysis of Entire Repo:${CLEAR}
+    > make analysis
+    > open _build/static-analysis/report/index.html
+
+${BRIGHT}Static Analysis of a Single File:${CLEAR}
+    Invoke target with path and a suffix of '.sta'
+
+    > make main/src/RedFlame.sta
+    # Results are output as text to the console.
+    # Be aware there is no output if file has no errors.
+
+${BRIGHT}Suppressing Errors:${CLEAR}
+    Static analysis may report errors that you feel should be
+    ignored. If so, cppcheck allows suppression of these.
+
+    The makefile looks a suppression-list file that is
+    fed to cppcheck.
+    
+    \$\(D_ADMIN\)/static-analysis/suppression-list.txt
+
+    See the cppcheck manual for suppression file format details, 
+    An entry has this format:
+
+    [error]:[file]:[line] // suppress error seen in this file at lineno
+    [error]:[file]        // suppress error seen in this file at any lineno
+    [error]               // suppress error seen in any file at any lineno
+
+    Here is an example entry:
+
+    leakReturnValNotUsed:/work/main/src/RedFlame.cpp:54
+
+${BRIGHT}Repository Setup:${CLEAR}
+    Instructions on how to incorporate in repo makefile
+
+    1. Top level makefile includes submake
+    include \$\(D_MAK\)/cpp-static-analysis.mak
+
+    2. Top level makefile defines D_SRCS variable, where to find sources
+    D_SRCS := main/include main/src lib-gen/include lib-gen/src ...
+
+${BRIGHT}FILES${CLEAR}
+    Ephemeral build folder for artifacts
+    _build/static-analysis
+
+    Static analysis results file
+    _build/static-analysis/report/index.html
+
+    Suppression file to suppress errors
+    admin/static-analysis/suppression-list.txt
+
+${BRIGHT}ENVIRONMENT${CLEAR}
+    Docker/Podman
+    Normal Linux utils
+TheEnd
+
+IFS="$OLD_IFS"

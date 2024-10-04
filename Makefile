@@ -41,6 +41,9 @@ D_MAK   := $(D_ADMIN)/submakes
 D_SCP   := $(D_ADMIN)/scripts
 D_CONAN := $(D_ADMIN)/conan
 D_CNTRS := $(D_ADMIN)/containers
+D_SRCS  := lib-gen/include lib-gen/src \
+           lib-codec/include lib-codec/src \
+           main/include main/src
 
 all: all-relay
 
@@ -51,7 +54,7 @@ include $(D_MAK)/conan.mak
 include $(D_MAK)/unit-test-cpp.mak
 include $(D_CNTRS)/containers.mak
 # include $(D_MAK)/cpp-coverage.mak
-# include $(D_MAK)/cpp-static-analysis.mak
+include $(D_MAK)/cpp-static-analysis.mak
 # include $(D_MAK)/uncrustify.mak
 # include $(D_MAK)/repo-login.mak
 include $(D_MAK)/spelling.mak

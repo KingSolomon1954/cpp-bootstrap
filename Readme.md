@@ -40,7 +40,7 @@ containerized tools and fill-in-the-blanks documentation.
 - [doctest](https://github.com/doctest/doctest) unit testing framework
 - Single ["version"](#versioning) file in top level folder drives all targets
 - Clean unpolluted [top level folder](#project-layout)
-- Code analysis via cppcheck (not implemented yet)
+- [Static code analysis](#static-code-analysis) via [cppcheck](https://cppcheck.sourceforge.io/manual.html)
 - GitHub Continuous Integration (not implemented yet)
 - Spell checking on docs, batch or interactive mode
 
@@ -529,6 +529,26 @@ if no env-var or file, then prompts for username
 ### Conan Library Publishing
 
 TBS
+
+## Static Code Analysis
+
+Static code analysis can be performed against all source code in the
+repository or against a single file. Built-in support for error
+suppression-list. Underlying tool is a containerized `cppcheck`.
+
+The following makefile targets are available:
+
+    analysis       - Runs C++ static analysis against repo
+    analysis-clean - Deletes C++ static analysis artifacts
+    <filepath>.sta - Runs C++ static analysis on given file
+    analysis-help  - Displays help for C++ static analysis
+
+Find results in `_build/static-analysis/report/index.html`.
+
+``` bash
+make analysis
+firefox _build/static-analysis/report/index.html
+```
 
 ## Getting Started
 
