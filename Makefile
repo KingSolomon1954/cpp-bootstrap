@@ -51,10 +51,10 @@ include $(D_MAK)/container-tech.mak
 include $(D_MAK)/version-vars.mak
 include $(D_MAK)/cpp.mak
 include $(D_MAK)/conan.mak
-include $(D_MAK)/unit-test-cpp.mak
-include $(D_CNTRS)/containers.mak
-# include $(D_MAK)/cpp-coverage.mak
+include $(D_MAK)/cpp-unit-test.mak
+include $(D_MAK)/cpp-coverage.mak
 include $(D_MAK)/cpp-static-analysis.mak
+include $(D_CNTRS)/containers.mak
 # include $(D_MAK)/uncrustify.mak
 # include $(D_MAK)/repo-login.mak
 include $(D_MAK)/spelling.mak

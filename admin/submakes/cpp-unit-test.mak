@@ -50,7 +50,7 @@ unit-test-both: unit-test-debug unit-test-prod
 _utp _utd:
 	$(CPP_BLD_CNTR_EXEC) ctest --test-dir $(_ARG_BLD_DIR) \
 	    --output-junit ${_UT_REPORT}
-	@echo "Find unit test results in $(D_BLD)/$(_UT_REPORT)"
+	@echo "Find unit test results in $(_ARG_BLD_DIR)/$(_UT_REPORT)"
 
 .PHONY: unit-test      unit-test-both \
         unit-test-prod unit-test-debug \

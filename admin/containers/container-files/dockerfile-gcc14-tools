@@ -6,6 +6,7 @@ RUN apt update && apt install -y \
         gdb \
         gdbserver \
         valgrind \
+        lcov
   && cd /tmp \
   && wget https://github.com/conan-io/conan/releases/download/2.4.0/conan-2.4.0-linux-x86_64.tgz \
   && tar -xvf conan-2.4.0-linux-x86_64.tgz \

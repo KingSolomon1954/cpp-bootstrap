@@ -38,9 +38,10 @@ containerized tools and fill-in-the-blanks documentation.
 - Documentation tools - Sphinx, Doxygen, PlantUML
 - All documentation organized together under a single static website
 - [doctest](https://github.com/doctest/doctest) unit testing framework
+- Unit test [code coverage](#code-coverage) using [lcov](https://github.com/linux-test-project/lcov)
+- [Static code analysis](#static-code-analysis) via [cppcheck](https://cppcheck.sourceforge.io/manual.html)
 - Single ["version"](#versioning) file in top level folder drives all targets
 - Clean unpolluted [top level folder](#project-layout)
-- [Static code analysis](#static-code-analysis) via [cppcheck](https://cppcheck.sourceforge.io/manual.html)
 - GitHub Continuous Integration (not implemented yet)
 - Spell checking on docs, batch or interactive mode
 
@@ -549,6 +550,15 @@ Find results in `_build/static-analysis/report/index.html`.
 make analysis
 firefox _build/static-analysis/report/index.html
 ```
+
+## Code Coverage
+
+``` bash
+make coverage
+```
+
+Rebuilds the debug tree with CMake flags enabling coverage
+and then invokes the CMake `coverage` target.
 
 ## Getting Started
 
