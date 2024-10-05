@@ -12,7 +12,7 @@ find_package(doctest REQUIRED)
 include(CTest)       # Include CMake's test runner
 enable_testing()     # Add a CMake target called "test" to run unit tests
 
-# include(coverage)
+include(coverage)
 
 # Hack. Move file to correct location - workaround Conan bug
 if (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/CMakeUserPresets.json)
