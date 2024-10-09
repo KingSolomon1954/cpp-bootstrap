@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<analyzerinfo hash="4092952667620690394">
+  <FileInfo check="CheckUnusedFunctions">
+    <functioncall functionName="BLD_BRANCH"/>
+    <functioncall functionName="BLD_COMMIT_HASH"/>
+    <functioncall functionName="BLD_CREATOR"/>
+    <functioncall functionName="BLD_DATETIME"/>
+    <functioncall functionName="BLD_EPOCH"/>
+    <functioncall functionName="BLD_MAJOR"/>
+    <functioncall functionName="BLD_MINOR"/>
+    <functioncall functionName="BLD_NUMBER"/>
+    <functioncall functionName="BLD_PATCH"/>
+    <functioncall functionName="BuildInfo"/>
+    <functioncall functionName="appName_"/>
+    <functioncall functionName="bldNum_"/>
+    <functioncall functionName="branch_"/>
+    <functioncall functionName="commitHash_"/>
+    <functioncall functionName="creator_"/>
+    <functioncall functionName="dateTime_"/>
+    <functioncall functionName="doublet_"/>
+    <functioncall functionName="epochSecs_"/>
+    <functioncall functionName="major_"/>
+    <functioncall functionName="minor_"/>
+    <functioncall functionName="patch_"/>
+    <functioncall functionName="quadlet_"/>
+    <functioncall functionName="str"/>
+    <functioncall functionName="triplet_"/>
+  </FileInfo>
+</analyzerinfo>

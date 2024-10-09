@@ -38,7 +38,8 @@ PNGS := $(addprefix $(D_IMAGES_PUB)/, $(PNGS))
 
 # --------- Documenation Targets Section ---------
 
-docs: docs-prep-out docs-png docs-sphinx docs-doxygen docs-coverage
+docs: docs-prep-out docs-png docs-sphinx \
+      docs-doxygen docs-coverage docs-static-analysis
 
 # Dependencies for doc targest
 
@@ -49,6 +50,8 @@ docs-sphinx: docs-png docs-sphinx-cmd
 docs-doxygen: docs-sphinx docs-doxygen-cmd
 
 docs-coverage: docs-sphinx docs-coverage-cmd
+
+docs-static-analysis: docs-sphinx docs-static-analysis-cmd
 
 docs-clean:
 	rm -rf $(DOCS_OUT)
@@ -63,11 +66,12 @@ docs-prep-out:
 .PHONY: docs          docs-clean \
         docs-prep-out docs-png \
         docs-sphinx   docs-doxygen \
-        docs-coverage
+        docs-coverage docs-static-analysis
 
 include $(D_MAK)/docs-sphinx.mak
 include $(D_MAK)/docs-doxygen.mak
 include $(D_MAK)/docs-coverage.mak
+include $(D_MAK)/docs-static-analysis.mak
 include $(D_MAK)/docs-plantuml.mak
 include $(D_MAK)/docs-publish.mak
 

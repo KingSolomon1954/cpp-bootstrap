@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<analyzerinfo hash="14214560667075078333">
+  <FileInfo check="CheckUnusedFunctions">
+    <functioncall functionName="CodecFast"/>
+  </FileInfo>
+</analyzerinfo>

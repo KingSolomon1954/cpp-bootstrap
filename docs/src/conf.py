@@ -39,6 +39,7 @@ include_patterns = ['index.rst',
                     'licenses**',
                     'manpage**',
                     'rest-api**',
+                    'static-analysis**',
                     'user-guide**']
 
 # exclude_patterns = ['misc/abc.rst']
