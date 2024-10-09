@@ -22,13 +22,14 @@ Documentation for |AppName| version |version|.
     :maxdepth: 1
     :hidden:
 
-    Manpage <manpage/manpage>
-    User Guide <user-guide/user-guide>
-    External API (REST) <rest-api/html/index>
+    Manpage                <manpage/manpage>
+    User Guide             <user-guide/user-guide>
+    External API (REST)    <rest-api/html/index>
     Internal API (Doxygen) <doxygen/html/index>
-    Design Document <design-doc/design-doc>
-    Licenses <licenses/licenses>
-    Open Source Inventory <licenses/opensource>
+    Code Coverage Results  <code-coverage/html/index>
+    Design Document        <design-doc/design-doc>
+    Licenses               <licenses/licenses>
+    Open Source Inventory  <licenses/opensource>
 
 The following documents are available:
 ======================================
@@ -45,6 +46,9 @@ The following documents are available:
 :doc:`Internal API<doxygen/html/index>`
     Documentation for internal elements auto-generated from 
     source code.
+
+:doc:`Code Coverage Results<code-coverage/html/index>`
+    Results from running code coverage analysis(lcov).
 
 :doc:`Design Document<design-doc/design-doc>`
     Documentation of the design of the application.
