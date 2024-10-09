@@ -552,6 +552,12 @@ make static-analysis
 firefox _build/static-analysis/report/index.html
 ```
 
+The static analysis report is included and published as part of the site
+documentation. A newer static analysis report replaces a previous one
+provided the newer static analysis report is available at the time `make
+docs` is invoked. If no static analysis report is available at that
+time, then the last published static analysis report remains.
+
 ## Code Coverage
 
 To get a code coverage report, invoke the following makefile
@@ -572,10 +578,11 @@ flags. These flags slow down compiles dramatically. Therefore this
 separate makefile target is available for when you want focus on this
 area.
 
-Note that the latest code coverage report will be included as part of
-the site documentation provided the coverage report is available at the
-time `make docs` is invoked. If no coverage report is available, then
-the last code coverage report to be published remains.
+The code coverage report is included and published as part of the site
+documentation. A newer code coverage report replaces a previous one
+provided the newer coverage report is available at the time `make docs`
+is invoked. If no coverage report is available at that time, then the
+last published code coverage report remains.
 
 ## Getting Started
 
