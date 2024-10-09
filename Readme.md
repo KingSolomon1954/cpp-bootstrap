@@ -38,7 +38,7 @@ containerized tools and fill-in-the-blanks documentation.
 - Documentation tools - Sphinx, Doxygen, PlantUML
 - All documentation organized together under a single static website
 - [doctest](https://github.com/doctest/doctest) unit testing framework
-- Unit test [code coverage](#code-coverage) using [lcov](https://github.com/linux-test-project/lcov)
+- [code coverage](#code-coverage) using [lcov](https://github.com/linux-test-project/lcov)
 - [Static code analysis](#static-code-analysis) via [cppcheck](https://cppcheck.sourceforge.io/manual.html)
 - Single ["version"](#versioning) file in top level folder drives all targets
 - Clean unpolluted [top level folder](#project-layout)
@@ -226,20 +226,21 @@ firefox _build/site/index.html
 
 ### Pubishing the Docs
 
-From top level folder, invoke:
+When satisfied with the site docs, from top level folder, invoke the
+following to publish the site.
 
 ```bash
 make docs-publish
 ```
 
-The static website built in `_build/site`, is now copied over to
+The static website sitting in `_build/site`, is now copied over to the
 `docs/site` folder and then checked into Git (not pushed yet). When your
 branch is merged to main, a GitHub action kicks in and publishes
 `docs/site` to GitHub Pages. You will need to configure GitHub pages in
 your repository. To configure it, visit your <GitHub
 repo>/Settings->Pages->GitHub Pages.
 
-The docs-publish rule looks like this:
+The docs-publish rule looks something like this:
 
 ``` bash
 > make -n docs-publish
@@ -248,7 +249,7 @@ mkdir -p ./docs/site
 cp -r ./_build/site/* ./docs/site/
 touch ./docs/site/.nojekyll
 git add -A ./docs/site
-git commit -m "Website update"
+git commit -m "Publish docs"
 
 ```
 
@@ -267,7 +268,7 @@ Makefile targets for spelling:
     spelling-it    - Spell checks all docs in interactive mode
     spelling       - Spell checks all docs in batch mode
 
-For more details invoke:
+For full details invoke:
 
 ``` bash
 make spelling-help
@@ -553,12 +554,28 @@ firefox _build/static-analysis/report/index.html
 
 ## Code Coverage
 
+To get a code coverage report, invoke the following makefile
+target.
+
 ``` bash
 make coverage
+firefox _build/debug/coverage/index.html
 ```
 
-Rebuilds the debug tree with CMake flags enabling coverage
-and then invokes the CMake `coverage` target.
+This target rebuilds the debug tree with flags enabling coverage
+and profiling, then invokes the CMake `coverage` target which
+invokes unit tests along with `gcov`. Find the report in the
+`_build/debug/coverage` folder.
+
+Note that normal debug builds do not enable coverage / profiling
+flags. These flags slow down compiles dramatically. Therefore this
+separate makefile target is available for when you want focus on this
+area.
+
+Note that the latest code coverage report will be included as part of
+the site documentation provided the coverage report is available at the
+time `make docs` is invoked. If no coverage report is available, then
+the last code coverage report to be published remains.
 
 ## Getting Started
 

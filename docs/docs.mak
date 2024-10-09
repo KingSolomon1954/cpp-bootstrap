@@ -74,11 +74,11 @@ include $(D_MAK)/docs-publish.mak
 # ------------ Help Section ------------
 
 HELP_TXT += "\n\
-docs,          Build docs\n\
+docs,          Builds all the docs\n\
 docs-clean,    Deletes generated docs\n\
-docs-doxygen,  Generate only C++ API docs\n\
-docs-coverage, Copy code coverage files into docs tree\n\
-docs-sphinx,   Generate only Sphinx docs\n\
-docs-png,      Generate only PNG files\n\
+docs-doxygen,  Generates only C++ API docs\n\
+docs-coverage, Copies code coverage files into docs tree\n\
+docs-sphinx,   Generates only Sphinx docs\n\
+docs-png,      Generates only PNG files\n\
 "
 endif
