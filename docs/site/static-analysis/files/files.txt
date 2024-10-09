@@ -1,0 +1,8 @@
+BuildInfo.a1::/work/lib-gen/src/BuildInfo.cpp
+StringUtils.a1::/work/lib-gen/src/StringUtils.cpp
+CodecFast.a1::/work/lib-codec/src/CodecFast.cpp
+CodecSlow.a1::/work/lib-codec/src/CodecSlow.cpp
+EnumChannelDirection.a1::/work/lib-codec/src/EnumChannelDirection.cpp
+Properties.a1::/work/main/src/Properties.cpp
+RedFlame.a1::/work/main/src/RedFlame.cpp
+main.a1::/work/main/src/main.cpp

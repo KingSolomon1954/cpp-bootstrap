@@ -4,8 +4,8 @@
 #
 # -----------------------------------------------------------------
 
-ifndef _INCLUDE_CPP_COVERAGE_MAK
-_INCLUDE_CPP_COVERAGE_MAK := 1
+ifndef _INCLUDE_CPP_CODE_COVERAGE_MAK
+_INCLUDE_CPP_CODE_COVERAGE_MAK := 1
 
 ifndef D_BLD
     $(error parent makefile must define 'D_BLD')
@@ -30,7 +30,7 @@ _CVG_UT_REPORT := coverage/unit-test-run.xml
 # target available with CMake. First we reconfigure CMake for a Debug
 # build and COVERAGE on. Requires gcov utilities available in the path.
 #
-coverage: conan-debug
+code-coverage: conan-debug
 	$(CPP_BLD_CNTR_EXEC) cmake $(CMAKE_ARGS) -S $(WORK_TOP) -B $(D_BLD_DEBUG) \
 	    -DCMAKE_BUILD_TYPE=Debug -DCOVERAGE=ON \
 	    -DCoverage_JUNIT_OUTPUT=$(_CVG_UT_REPORT)
@@ -40,14 +40,14 @@ coverage: conan-debug
 	@echo "Find coverage/profiling results in $(_CVG_REPORT)"
 	@echo "Find unit-test run in $(D_BLD_DEBUG)/$(_CVG_UT_REPORT)"
 
-coverage-clean:
+code-coverage-clean:
 	rm -rf $(_D_CVG)
 
-.PHONY: coverage coverage-clean
+.PHONY: code-coverage code-coverage-clean
 
 HELP_TXT += "\n\
-coverage,       Rebuild w/debug/profiling - run unit tests\n\
-coverage-clean, Deletes coverage artifacts\n\
+code-coverage,       Rebuild w/debug/profiling - run unit tests\n\
+code-coverage-clean, Deletes code coverage artifacts\n\
 "
 
 endif

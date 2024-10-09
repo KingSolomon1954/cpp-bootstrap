@@ -540,15 +540,15 @@ suppression-list. Underlying tool is a containerized `cppcheck`.
 
 The following makefile targets are available:
 
-    analysis       - Runs C++ static analysis against repo
-    analysis-clean - Deletes C++ static analysis artifacts
-    <filepath>.sta - Runs C++ static analysis on given file
-    analysis-help  - Displays help for C++ static analysis
+    static-analysis       - Runs C++ static analysis against repo
+    static-analysis-clean - Deletes C++ static analysis artifacts
+    static-analysis-help  - Displays help for C++ static analysis
+    <filepath>.sta        - Runs C++ static analysis on given file
 
 Find results in `_build/static-analysis/report/index.html`.
 
 ``` bash
-make analysis
+make static-analysis
 firefox _build/static-analysis/report/index.html
 ```
 
@@ -558,7 +558,7 @@ To get a code coverage report, invoke the following makefile
 target.
 
 ``` bash
-make coverage
+make code-coverage
 firefox _build/debug/coverage/index.html
 ```
 

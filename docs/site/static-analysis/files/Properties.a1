@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<analyzerinfo hash="16522013131241692129">
+  <FileInfo check="CheckUnusedFunctions">
+    <functioncall functionName="Properties"/>
+  </FileInfo>
+</analyzerinfo>

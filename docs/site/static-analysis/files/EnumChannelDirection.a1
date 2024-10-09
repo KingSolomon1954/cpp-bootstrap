@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<analyzerinfo hash="13541168782152069178">
+  <FileInfo check="Uninitialized variables">
+    <unsafe-usage my-id="/work/lib-codec/src/EnumChannelDirection.cpp:163:1" my-argnr="1" my-argname="out" file="/work/lib-codec/src/EnumChannelDirection.cpp" line="165" col="5" value="0"/>
+  </FileInfo>
+  <FileInfo check="CheckUnusedFunctions">
+    <functioncall functionName="Forward"/>
+    <functioncall functionName="Invalid"/>
+    <functioncall functionName="NotApplicable"/>
+    <functioncall functionName="Return"/>
+    <functioncall functionName="enumerators"/>
+    <functioncall functionName="false"/>
+    <functioncall functionName="insensitiveEquals"/>
+    <functioncall functionName="invalid_argument"/>
+    <functioncall functionName="listAsString"/>
+    <functioncall functionName="toString"/>
+    <functioncall functionName="trimEnd"/>
+    <functioncall functionName="true"/>
+  </FileInfo>
+</analyzerinfo>

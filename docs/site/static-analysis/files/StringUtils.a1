@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<analyzerinfo hash="4706983751946473908">
+  <FileInfo check="CheckUnusedFunctions">
+    <functioncall functionName="begin"/>
+    <functioncall functionName="empty"/>
+    <functioncall functionName="end"/>
+    <functioncall functionName="equal"/>
+    <functioncall functionName="erase"/>
+    <functioncall functionName="false"/>
+    <functioncall functionName="find"/>
+    <functioncall functionName="find_first_not_of"/>
+    <functioncall functionName="find_first_of"/>
+    <functioncall functionName="find_last_not_of"/>
+    <functioncall functionName="insensitivePredicate"/>
+    <functioncall functionName="insert"/>
+    <functioncall functionName="length"/>
+    <functioncall functionName="result"/>
+    <functioncall functionName="rfind"/>
+    <functioncall functionName="s"/>
+    <functioncall functionName="s2"/>
+    <functioncall functionName="size"/>
+    <functioncall functionName="string"/>
+    <functioncall functionName="tolower"/>
+    <functioncall functionName="toupper"/>
+    <functioncall functionName="trimEnd"/>
+    <functioncall functionName="trimFront"/>
+    <functioncall functionName="va_end"/>
+    <functioncall functionName="va_start"/>
+    <functioncall functionName="vsnprintf"/>
+  </FileInfo>
+</analyzerinfo>

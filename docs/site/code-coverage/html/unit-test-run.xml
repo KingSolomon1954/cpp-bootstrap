@@ -6,9 +6,9 @@
 	skipped="0"
 	hostname="a176f0e67719"
 	time="0"
-	timestamp="2024-10-08T15:47:34"
+	timestamp="2024-10-09T17:21:18"
 	>
-	<testcase name="LibGen::BuildInfoTest: all" classname="LibGen::BuildInfoTest: all" time="0.00420467" status="run">
+	<testcase name="LibGen::BuildInfoTest: all" classname="LibGen::BuildInfoTest: all" time="0.0172364" status="run">
 		<system-out>[doctest] doctest version is "2.4.11"
 [doctest] run with "--help" for options
 ===============================================================================
@@ -17,7 +17,7 @@
 [doctest] Status: SUCCESS!
 </system-out>
 	</testcase>
-	<testcase name="LibGen::StringUtilsTest: all" classname="LibGen::StringUtilsTest: all" time="0.00455835" status="run">
+	<testcase name="LibGen::StringUtilsTest: all" classname="LibGen::StringUtilsTest: all" time="0.0105555" status="run">
 		<system-out>[doctest] doctest version is "2.4.11"
 [doctest] run with "--help" for options
 ===============================================================================
@@ -26,7 +26,7 @@
 [doctest] Status: SUCCESS!
 </system-out>
 	</testcase>
-	<testcase name="LibCodec::CodecFast:all" classname="LibCodec::CodecFast:all" time="0.00369454" status="run">
+	<testcase name="LibCodec::CodecFast:all" classname="LibCodec::CodecFast:all" time="0.00904782" status="run">
 		<system-out>[doctest] doctest version is "2.4.11"
 [doctest] run with "--help" for options
 ===============================================================================
@@ -35,7 +35,7 @@
 [doctest] Status: SUCCESS!
 </system-out>
 	</testcase>
-	<testcase name="LibCodec::CodecSlow:all" classname="LibCodec::CodecSlow:all" time="0.00408164" status="run">
+	<testcase name="LibCodec::CodecSlow:all" classname="LibCodec::CodecSlow:all" time="0.00992764" status="run">
 		<system-out>[doctest] doctest version is "2.4.11"
 [doctest] run with "--help" for options
 ===============================================================================
@@ -44,7 +44,7 @@
 [doctest] Status: SUCCESS!
 </system-out>
 	</testcase>
-	<testcase name="LibCodec::EnumChannelDirectionTest: toString" classname="LibCodec::EnumChannelDirectionTest: toString" time="0.00417274" status="run">
+	<testcase name="LibCodec::EnumChannelDirectionTest: toString" classname="LibCodec::EnumChannelDirectionTest: toString" time="0.0100754" status="run">
 		<system-out>[doctest] doctest version is "2.4.11"
 [doctest] run with "--help" for options
 ===============================================================================
@@ -53,7 +53,7 @@
 [doctest] Status: SUCCESS!
 </system-out>
 	</testcase>
-	<testcase name="LibCodec::EnumChannelDirectionTest: fromString" classname="LibCodec::EnumChannelDirectionTest: fromString" time="0.00424983" status="run">
+	<testcase name="LibCodec::EnumChannelDirectionTest: fromString" classname="LibCodec::EnumChannelDirectionTest: fromString" time="0.0180387" status="run">
 		<system-out>[doctest] doctest version is "2.4.11"
 [doctest] run with "--help" for options
 ===============================================================================
@@ -62,7 +62,7 @@
 [doctest] Status: SUCCESS!
 </system-out>
 	</testcase>
-	<testcase name="LibCodec::EnumChannelDirectionTest: isConvertibleFrom" classname="LibCodec::EnumChannelDirectionTest: isConvertibleFrom" time="0.00450845" status="run">
+	<testcase name="LibCodec::EnumChannelDirectionTest: isConvertibleFrom" classname="LibCodec::EnumChannelDirectionTest: isConvertibleFrom" time="0.0100837" status="run">
 		<system-out>[doctest] doctest version is "2.4.11"
 [doctest] run with "--help" for options
 ===============================================================================
@@ -71,7 +71,7 @@
 [doctest] Status: SUCCESS!
 </system-out>
 	</testcase>
-	<testcase name="LibCodec::EnumChannelDirectionTest: fromUnsigned" classname="LibCodec::EnumChannelDirectionTest: fromUnsigned" time="0.0100566" status="run">
+	<testcase name="LibCodec::EnumChannelDirectionTest: fromUnsigned" classname="LibCodec::EnumChannelDirectionTest: fromUnsigned" time="0.0111011" status="run">
 		<system-out>[doctest] doctest version is "2.4.11"
 [doctest] run with "--help" for options
 ===============================================================================
@@ -80,7 +80,7 @@
 [doctest] Status: SUCCESS!
 </system-out>
 	</testcase>
-	<testcase name="LibCodec::EnumChannelDirectionTest: listAsString" classname="LibCodec::EnumChannelDirectionTest: listAsString" time="0.00443644" status="run">
+	<testcase name="LibCodec::EnumChannelDirectionTest: listAsString" classname="LibCodec::EnumChannelDirectionTest: listAsString" time="0.0108359" status="run">
 		<system-out>[doctest] doctest version is "2.4.11"
 [doctest] run with "--help" for options
 ===============================================================================
@@ -89,7 +89,7 @@
 [doctest] Status: SUCCESS!
 </system-out>
 	</testcase>
-	<testcase name="LibCodec::EnumChannelDirectionTest: ostreamOperator" classname="LibCodec::EnumChannelDirectionTest: ostreamOperator" time="0.00426523" status="run">
+	<testcase name="LibCodec::EnumChannelDirectionTest: ostreamOperator" classname="LibCodec::EnumChannelDirectionTest: ostreamOperator" time="0.0109732" status="run">
 		<system-out>[doctest] doctest version is "2.4.11"
 [doctest] run with "--help" for options
 ===============================================================================
@@ -98,7 +98,7 @@
 [doctest] Status: SUCCESS!
 </system-out>
 	</testcase>
-	<testcase name="main::Properties:all" classname="main::Properties:all" time="0.00284907" status="run">
+	<testcase name="main::Properties:all" classname="main::Properties:all" time="0.0070419" status="run">
 		<system-out>[doctest] doctest version is "2.4.11"
 [doctest] run with "--help" for options
 ===============================================================================
@@ -107,7 +107,7 @@
 [doctest] Status: SUCCESS!
 </system-out>
 	</testcase>
-	<testcase name="main::RedFlame:all" classname="main::RedFlame:all" time="0.00293" status="run">
+	<testcase name="main::RedFlame:all" classname="main::RedFlame:all" time="0.00714396" status="run">
 		<system-out>[doctest] doctest version is "2.4.11"
 [doctest] run with "--help" for options
 ===============================================================================
