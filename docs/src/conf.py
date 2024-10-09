@@ -33,12 +33,13 @@ source_suffix = ['.rst']
 # Explicitly specify RST file locations
 # Use `**` wildcard to include all subfolders recursively
 include_patterns = ['index.rst',
-                    'doxygen**',
-                    'rest-api**',
+                    'code-coverage**',
                     'design-doc**',
+                    'doxygen**',
+                    'licenses**',
                     'manpage**',
-                    'user-guide**',
-                    'licenses**']
+                    'rest-api**',
+                    'user-guide**']
 
 # exclude_patterns = ['misc/abc.rst']
 

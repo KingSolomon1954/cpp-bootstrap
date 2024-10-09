@@ -108,7 +108,7 @@ Processing Flow
 <Describe processing flow to agree with diagram>
 
 .. figure:: /images/pub/ProcessingFlow.png
-    :alt: Procssing Flow
+    :alt: Processing Flow
 
     **Figure:** Processing Flow
 
@@ -276,7 +276,7 @@ The following quality attributes are less of a concern in this design:
 | *Configurability*
 | *Accuracy*
 | *Repeatability*
-| *Buildable(ility)*
+| *Buildability*
 | *Flexibility*
 | *Portability*
 | *Reusability*

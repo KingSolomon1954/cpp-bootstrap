@@ -38,7 +38,7 @@ PNGS := $(addprefix $(D_IMAGES_PUB)/, $(PNGS))
 
 # --------- Documenation Targets Section ---------
 
-docs: docs-prep-out docs-png docs-sphinx docs-doxygen
+docs: docs-prep-out docs-png docs-sphinx docs-doxygen docs-coverage
 
 # Dependencies for doc targest
 
@@ -47,6 +47,8 @@ docs-png: docs-png-cmd
 docs-sphinx: docs-png docs-sphinx-cmd
 
 docs-doxygen: docs-sphinx docs-doxygen-cmd
+
+docs-coverage: docs-sphinx docs-coverage-cmd
 
 docs-clean:
 	rm -rf $(DOCS_OUT)
@@ -58,22 +60,25 @@ docs-prep-out:
 	rm -rf   $(DOCS_OUT)
 	mkdir -p $(DOCS_OUT)
 
-.PHONY: docs          docs-png     \
-        docs-clean    docs-doxygen \
-        docs-prep-out docs-sphinx 
+.PHONY: docs          docs-clean \
+        docs-prep-out docs-png \
+        docs-sphinx   docs-doxygen \
+        docs-coverage
 
 include $(D_MAK)/docs-sphinx.mak
 include $(D_MAK)/docs-doxygen.mak
+include $(D_MAK)/docs-coverage.mak
 include $(D_MAK)/docs-plantuml.mak
 include $(D_MAK)/docs-publish.mak
 
 # ------------ Help Section ------------
 
 HELP_TXT += "\n\
-docs,         Build docs\n\
-docs-clean,   Deletes generated docs\n\
-docs-doxygen, Generate only C++ API docs\n\
-docs-sphinx,  Generate only Sphinx docs\n\
-docs-png,     Generate only PNG files\n\
+docs,          Builds all the docs\n\
+docs-clean,    Deletes generated docs\n\
+docs-doxygen,  Generates only C++ API docs\n\
+docs-coverage, Copies code coverage files into docs tree\n\
+docs-sphinx,   Generates only Sphinx docs\n\
+docs-png,      Generates only PNG files\n\
 "
 endif
