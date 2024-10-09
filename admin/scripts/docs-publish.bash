@@ -33,11 +33,11 @@ checkArgs()
         exit 1   # exit error
     fi
     if [ ! -d ${DOCS_OUT} ]; then
-        echo "${0}: DOCS_OUT is not a directory: ${DOCS_OUT}"
+        echo "${0}: DOCS_OUT not exists or not a directory: ${DOCS_OUT}"
         exit 1   # exit error
     fi
     if [ ! -d ${DOCS_PUB} ]; then
-        echo "${0}: DOCS_PUB is not a directory: ${DOCS_PUB}"
+        echo "${0}: DOCS_PUB not exists or not a directory: ${DOCS_PUB}"
         exit 1   # exit error
     fi
 }
@@ -116,7 +116,7 @@ doRestoreStaticAnalysis()
 
 # ---------------------------------------------------------------------
 
-echo "Publishing docs"
+echo "Publishing docs to ${DOCS_PUB}"
 
 checkArgs $*
 rm -rf ${DOCS_TMP}; mkdir -p ${DOCS_TMP}
@@ -125,7 +125,6 @@ doPreserveCodeCoverage
 doPreserveStaticAnalysis
 
 # Safe now to replace docs/site with _build/site
-
 git rm -q -r ${DOCS_PUB}/*
 mkdir -p ${DOCS_PUB}
 cp -p -r ${DOCS_OUT}/* ${DOCS_PUB}/
@@ -135,9 +134,8 @@ doRestoreCodeCoverage
 doRestoreStaticAnalysis
 
 # Checkin to Git
-
 git add -A ${DOCS_PUB}
 git commit -m "Publish documentation"
-"Reminder: need to \"git push\" when ready."
+echo "Reminder: issue \"git push\" when ready."
 
 # ---------------------------------------------------------------------

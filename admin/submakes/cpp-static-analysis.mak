@@ -35,9 +35,9 @@ _STA_HELP_FILE     := $(D_MAK)/help-files/help-cpp-static-analysis
 
 # ------------ Repo Analysis Section ------------
 
-analysis: analysis-report
+static-analysis: static-analysis-report
 
-analysis-report: $(_STA_INDEX_FILE)
+static-analysis-report: $(_STA_INDEX_FILE)
 
 $(_STA_INDEX_FILE): $(_STA_RESULTS_FILE)
 	$(CNTR_TECH) run --rm \
@@ -59,13 +59,14 @@ $(_STA_RESULTS_FILE): _create-sta_dirs
 	    --output-file=/work/$(_STA_RESULTS_FILE) \
 	    $(addprefix /work/,$(D_SRCS))
 
-analysis-clean:
+static-analysis-clean:
 	rm -rf $(_STA_DIR)
 
 _create-sta_dirs:
 	mkdir -p $(_D_STA_FILES) $(_D_STA_REPORT)
 
-.PHONY: analysis analysis-report analysis-clean _create-sta_dirs
+.PHONY: static-analysis static-analysis-clean \
+        static-analysis-report _create-sta_dirs
 
 # ------------ Individual File Analysis Section ------------
 
@@ -82,16 +83,16 @@ _create-sta_dirs:
 
 # ------------ Help Section ------------
 
-analysis-help: $(_STA_HELP_FILE)
+static-analysis-help: $(_STA_HELP_FILE)
 	@$(_STA_HELP_FILE) $(D_MAK)
 
-.PHONY: analysis-help
+.PHONY: static-analysis-help
 
 HELP_TXT += "\n\
 <filepath>.sta, Runs C++ static analysis on given file\n\
-analysis,       Runs C++ static analysis against repo\n\
-analysis-clean, Deletes C++ static analysis artifacts\n\
-analysis-help,  Displays help for C++ static analysis\n\
+static-analysis,       Runs C++ static analysis against repo\n\
+static-analysis-clean, Deletes C++ static analysis artifacts\n\
+static-analysis-help,  Displays help for C++ static analysis\n\
 "
 
 endif

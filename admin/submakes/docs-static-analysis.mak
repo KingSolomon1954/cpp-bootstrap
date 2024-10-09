@@ -16,7 +16,7 @@ endif
 
 docs-static-analysis-cmd:
 	# Copying static analysis folder if it exists
-	if [ -f $(D_BLD)/static-analysis/report/index.html ]; then \
+	@if [ -f $(D_BLD)/static-analysis/report/index.html ]; then \
 	    rm -rf $(DOCS_OUT)/static-analysis/* ; \
 	    cp -p -r $(D_BLD)/static-analysis/* \
                 $(DOCS_OUT)/static-analysis ; \
