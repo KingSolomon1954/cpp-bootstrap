@@ -1,6 +1,7 @@
 # Typical workspace files
 .vscode
 _build
+Readme.html
 *~
 \#*\#
 .#*
