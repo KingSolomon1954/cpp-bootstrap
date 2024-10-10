@@ -41,7 +41,6 @@ unit-test-prod: _utp
 unit-test-debug: _ARG_BLD_DIR := $(D_BLD_DEBUG)
 unit-test-debug: _utd
 
-# Do unit-test-prod last so it wins when reporting to developer center
 unit-test-both: unit-test-debug unit-test-prod
 
 # Run unit tests by invoking the CMake ctest utility
@@ -52,9 +51,9 @@ _utp _utd:
 	    --output-junit ${_UT_REPORT}
 	@echo "Find unit test results in $(_ARG_BLD_DIR)/$(_UT_REPORT)"
 
-.PHONY: unit-test      unit-test-both \
+.PHONY: unit-test      unit-tests \
         unit-test-prod unit-test-debug \
-        _utp           _utd
+        unit-test-both _utp _utd
 
 # ------------ Help Section ------------
 

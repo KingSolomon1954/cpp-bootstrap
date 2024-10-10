@@ -101,6 +101,7 @@ Jump ahead to [Getting Started](#getting-started) if you're so inclined.
     │  ├── conan
     │  ├── containers
     │  ├── scripts
+    │  ├── static-analysis
     │  └── submakes
     └── etc
        ├── Contributing.md
@@ -263,10 +264,12 @@ git commit -m "Publish docs"
 
 Makefile targets for spelling:
 
-    spelling-clean - Deletes spelling artifacts
-    spelling-help  - Displays help for spelling usage
-    spelling-it    - Spell checks all docs in interactive mode
-    spelling       - Spell checks all docs in batch mode
+    spelling-clean    - Deletes spelling artifacts
+    spelling-help     - Displays help for spelling usage
+    spelling-it       - Spell checks all docs in interactive mode
+    spelling          - Spell checks all docs in batch mode
+    <filepath>.bspell - Spell checks given file in batch mode
+    <filepath>.ispell - Spell checks given file interactively
 
 For full details invoke:
 
@@ -338,9 +341,9 @@ source admin/scripts/devenv.bash
 Supports automated and manual login into container registries.
 
 Each container image can come from a different registry.  The registry
-C++ Bootstrap uses for a given container image is specified in the
+that C++ Bootstrap uses for a given container image is specified in the
 `admin/submakes/container-names-<tool>.mak`. Each containerized tool has
-its own file.
+its own container-names file.
 
 Currently supports:
 
