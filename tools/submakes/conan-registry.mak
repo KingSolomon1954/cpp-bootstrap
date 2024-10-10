@@ -15,8 +15,8 @@ endif
 ifndef D_MAK
     $(error Parent makefile must define 'D_MAK')
 endif
-ifndef D_ADMIN
-    $(error Parent makefile must define 'D_ADMIN')
+ifndef D_TOOLS
+    $(error Parent makefile must define 'D_TOOLS)
 endif
 ifndef D_BLD
     $(error Parent makefile must define 'D_BLD')
@@ -61,14 +61,14 @@ endef
 # some registries require a login even for consumer-only operations.
 #
 # To populate Conan registries automatically, the logic reads Conan
-# registry property files from admin/conan matching the pattern:
+# registry property files from tools/conan matching the pattern:
 # "registry-*.properties". Properties found in these files are then used
 # to setup each registry.
 
 # Sentinel file to setup registries just once. Tie in with conan.mak.
 CONAN_REGISTRY_SETUP_DONE := $(D_BLD)/conan-registry-setup-done
 
-_CONAN_REGY_PROP_FILES := $(wildcard $(D_ADMIN)/conan/registry-*.properties)
+_CONAN_REGY_PROP_FILES := $(wildcard $(D_TOOLS)/conan/registry-*.properties)
 
 # Delegate to a script to setup Conan registries.
 $(CONAN_REGISTRY_SETUP_DONE): $(_CONAN_REGY_PROP_FILES) $(D_BLD)/conan-registry-vars.mak

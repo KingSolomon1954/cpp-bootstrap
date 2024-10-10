@@ -13,8 +13,8 @@ endif
 ifndef D_MAK
     $(error Parent makefile must define 'D_MAK')
 endif
-ifndef TOP
-    $(error Parent makefile must define 'TOP')
+ifndef D_SRC
+    $(error Parent makefile must define 'D_SRC')
 endif
 
 include $(D_MAK)/start-cpp-bld-container.mak
@@ -32,13 +32,13 @@ CONAN_INSTALL_DONE_DEBUG := $(D_BLD_DEBUG)/generators/.init-done
 # -------- CMake Section --------
 
 $(D_BLD_PROD)/Makefile: $(CONAN_INSTALL_DONE_PROD)
-	$(CPP_BLD_CNTR_EXEC) cmake $(TOP) \
+	$(CPP_BLD_CNTR_EXEC) cmake $(D_SRC) \
 	    -B $(D_BLD_PROD) \
 	    -DCMAKE_BUILD_TYPE=Release \
 	    -DCMAKE_TOOLCHAIN_FILE=generators/conan_toolchain.cmake
 
 $(D_BLD_DEBUG)/Makefile: $(CONAN_INSTALL_DONE_DEBUG)
-	$(CPP_BLD_CNTR_EXEC) cmake $(TOP) \
+	$(CPP_BLD_CNTR_EXEC) cmake $(D_SRC) \
 	    -B $(D_BLD_DEBUG) \
 	    -DCMAKE_BUILD_TYPE=Debug \
 	    -DCMAKE_TOOLCHAIN_FILE=generators/conan_toolchain.cmake \

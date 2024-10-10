@@ -1,7 +1,7 @@
 # This file is executed by the 'make analysis-help' target
 # and displays the content below.
 #
-# See admin/submakes/cpp-static-analysis.mak
+# See tools/submakes/cpp-static-analysis.mak
 #
 # Be aware that running this file directly on the command line
 # won't render bold/colors properly since there will be 
@@ -44,7 +44,7 @@ ${BRIGHT}Suppressing Errors:${CLEAR}
     The makefile looks a suppression-list file that is
     fed to cppcheck.
     
-    \$\(D_ADMIN\)/static-analysis/suppression-list.txt
+    \$\(D_TOOLS\)/static-analysis/suppression-list.txt
 
     See the cppcheck manual for suppression file format details, 
     An entry has this format:
@@ -74,7 +74,7 @@ ${BRIGHT}FILES${CLEAR}
     _build/static-analysis/report/index.html
 
     Suppression file to suppress errors
-    admin/static-analysis/suppression-list.txt
+    tools/static-analysis/suppression-list.txt
 
 ${BRIGHT}ENVIRONMENT${CLEAR}
     Docker/Podman

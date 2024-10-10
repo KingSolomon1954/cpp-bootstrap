@@ -63,40 +63,42 @@ Jump ahead to [Getting Started](#getting-started) if you're so inclined.
 
 **Top Level View**
 
-    ├── main
-    ├── lib-gen
-    ├── lib-codec
-    ├── docs
-    ├── admin
-    ├── etc
-    └── _build
+    ├── src/
+    ├── docs/
+    ├── tools/
+    ├── etc/
+    ├── _build/
+    ├── Makefile
+    ├── version
+    └── Readme.md
 
 **Two Level View**
 
-    ├── CMakeLists.txt
     ├── Makefile
     ├── Readme.md
     ├── version
-    ├── main
-    │  ├── include
-    │  ├── src
-    │  ├── utest
-    │  └── CMakeLists.txt
-    ├── lib-gen
-    │  ├── include
-    │  ├── src
-    │  ├── utest
-    │  └── CMakeLists.txt
-    ├── lib-codec
-    │  ├── include
-    │  ├── src
-    │  ├── utest
-    │  └── CMakeLists.txt
+    ├── src/
+    │  ├── CMakeLists.txt
+    │  ├── main
+    │  │  ├── include
+    │  │  ├── src
+    │  │  ├── utest
+    │  │  └── CMakeLists.txt
+    │  ├── lib-gen
+    │  │  ├── include
+    │  │  ├── src
+    │  │  ├── utest
+    │  │  └── CMakeLists.txt
+    │  └── lib-codec
+    │     ├── include
+    │     ├── src
+    │     ├── utest
+    │     └── CMakeLists.txt
     ├── docs
     │  ├── src
     │  ├── site
     │  └── docs.mak
-    ├── admin
+    ├── tools
     │  ├── cmake
     │  ├── conan
     │  ├── containers
@@ -105,7 +107,10 @@ Jump ahead to [Getting Started](#getting-started) if you're so inclined.
     │  └── submakes
     └── etc
        ├── Contributing.md
-       └── License.md
+       └── License
+
+Generally conforms to
+[PitchFork](https://github.com/vector-of-bool/pitchfork) project layout.
 
 ## Example Usages
 
@@ -189,11 +194,31 @@ Pages](https://kingsolomon1954.github.io/cpp-bootstrap).
 ## Versioning
 
 - Single version file in project root, supports repeatable builds
-- All built artifacts obtain version information from this one file
-- CMake auto generates build info, C++ Bootstrap [BuildInfo class](https://kingsolomon1954.github.io/cpp-bootstrap/doxygen/html/classLibGen_1_1BuildInfo.html)
-  available to app
-- Auto-documentation and containers use same version file
 - Semantic versioning
+
+``` bash
+cat version
+1.0.0
+```
+
+- All built artifacts obtain version information from this one file
+- Auto-documentation and containers use this version file
+- CMake is configured to use this version file
+- In addition, C++ Bootstrap supplies its own `buildinfodefs.cmake` to
+  auto generate additional build info. Versioning is then made available
+  to the application via the [BuildInfo
+  class](https://kingsolomon1954.github.io/cpp-bootstrap/doxygen/html/classLibGen_1_1BuildInfo.html)
+  in lib-gen
+
+``` bash
+> ./bin/redflame
+RedFlame v1.0.0-1728572288
+    Built by: root
+    Build date: 2024-10-10T07:58:08-07:00
+    Build epoch: 1728572288
+    Build branch: ProjectRestructure
+    Last commit hash: 932a53f3827f1e1d
+```
 
 ## Documentation Generation
 

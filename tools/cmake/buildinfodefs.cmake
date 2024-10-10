@@ -33,7 +33,11 @@
 # In this section we gather up and set the variables we want 
 # to feed to the application as build information.
 
-if (EXISTS ${PROJECT_SOURCE_DIR}/.git)
+if (NOT PROJECT_TOP)
+    message(FATAL_ERROR "PROJECT_TOP not found. Aborting...")
+endif()
+
+if (EXISTS ${PROJECT_TOP}/.git)
     # Get timestamp from last commit log entry.
     execute_process(COMMAND
         git log -1 --pretty=%ct         #  unix time stamp

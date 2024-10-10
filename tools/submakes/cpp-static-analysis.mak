@@ -16,6 +16,9 @@ endif
 ifndef D_SRCS
     $(error Parent makefile must define 'D_SRCS')
 endif
+ifndef D_TOOLS
+    $(error Parent makefile must define 'D_TOOLS)
+endif
 
 include $(D_MAK)/container-tech.mak
 include $(D_MAK)/container-names-cppcheck.mak
@@ -30,7 +33,7 @@ _D_STA_FILES       := $(D_BLD)/static-analysis/files
 _D_STA_REPORT      := $(D_BLD)/static-analysis/report
 _STA_INDEX_FILE    := $(D_BLD)/static-analysis/report/index.html
 _STA_RESULTS_FILE  := $(D_BLD)/static-analysis/files/results.xml
-_STA_SUPPRESS_FILE := $(D_ADMIN)/static-analysis/suppression-list.txt
+_STA_SUPPRESS_FILE := $(D_TOOLS)/static-analysis/suppression-list.txt
 _STA_HELP_FILE     := $(D_MAK)/help-files/help-cpp-static-analysis
 
 # ------------ Repo Analysis Section ------------

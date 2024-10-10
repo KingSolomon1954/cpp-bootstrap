@@ -35,15 +35,20 @@
 TOP     := .
 D_MAIN  := $(TOP)/main
 D_DOCS  := $(TOP)/docs
-D_ADMIN := $(TOP)/admin
+D_TOOLS := $(TOP)/tools
+D_SRC   := $(TOP)/src
 D_BLD  	:= $(TOP)/_build
-D_MAK   := $(D_ADMIN)/submakes
-D_SCP   := $(D_ADMIN)/scripts
-D_CONAN := $(D_ADMIN)/conan
-D_CNTRS := $(D_ADMIN)/containers
-D_SRCS  := lib-gen/include lib-gen/src \
-           lib-codec/include lib-codec/src \
-           main/include main/src
+D_MAK   := $(D_TOOLS)/submakes
+D_SCP   := $(D_TOOLS)/scripts
+D_CONAN := $(D_TOOLS)/conan
+D_CNTRS := $(D_TOOLS)/containers
+
+D_SRCS  := $(D_SRC)/main/src \
+           $(D_SRC)/main/include \
+           $(D_SRC)/lib-gen/src \
+           $(D_SRC)/lib-gen/include \
+           $(D_SRC)/lib-codec/src \
+           $(D_SRC)/lib-codec/include
 
 all: all-relay
 

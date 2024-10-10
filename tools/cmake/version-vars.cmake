@@ -1,8 +1,12 @@
-# cmake fragment to setup version variables.
+# CMake fragment to setup version variables.
 # Reads version information from the 'version' file
 # expected in the repo root folder.
 
-file(STRINGS "${CMAKE_CURRENT_SOURCE_DIR}/version" VERSION_TRIPLET)
+if (NOT PROJECT_TOP)
+    message(FATAL_ERROR "PROJECT_TOP not found. Aborting...")
+endif()
+
+file(STRINGS "${PROJECT_TOP}/version" VERSION_TRIPLET)
 string(REGEX REPLACE "([0-9]+)\\.[0-9]+\\.[0-9]+.*" "\\1" PROJECT_VERSION_MAJOR ${VERSION_TRIPLET})
 string(REGEX REPLACE "[0-9]+\\.([0-9]+)\\.[0-9]+.*" "\\1" PROJECT_VERSION_MINOR ${VERSION_TRIPLET})
 string(REGEX REPLACE "[0-9]+\\.[0-9]+\\.([0-9]+).*" "\\1" PROJECT_VERSION_PATCH ${VERSION_TRIPLET})
