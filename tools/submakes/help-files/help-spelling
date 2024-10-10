@@ -1,7 +1,7 @@
 # This file is executed by the 'make spelling-help' target
 # and displays the content below.
 #
-# See admin/submakes/spelling.mak
+# See tools/submakes/spelling.mak
 #
 # Be aware that running this file directly on the command line
 # won't render bold/colors properly since there will be 

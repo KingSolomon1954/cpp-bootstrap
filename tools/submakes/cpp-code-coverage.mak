@@ -31,7 +31,7 @@ _CVG_UT_REPORT := coverage/unit-test-run.xml
 # build and COVERAGE on. Requires gcov utilities available in the path.
 #
 code-coverage: conan-debug
-	$(CPP_BLD_CNTR_EXEC) cmake $(CMAKE_ARGS) -S $(WORK_TOP) -B $(D_BLD_DEBUG) \
+	$(CPP_BLD_CNTR_EXEC) cmake $(CMAKE_ARGS) -S $(WORK_TOP)/src -B $(D_BLD_DEBUG) \
 	    -DCMAKE_BUILD_TYPE=Debug -DCOVERAGE=ON \
 	    -DCoverage_JUNIT_OUTPUT=$(_CVG_UT_REPORT)
 	$(CPP_BLD_CNTR_EXEC) make -C $(D_BLD_DEBUG) -j $$(nproc)

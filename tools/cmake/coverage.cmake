@@ -3,7 +3,7 @@ if(CMAKE_BUILD_TYPE STREQUAL "Debug")
 
   if(COVERAGE)
     set(Coverage_JUNIT_OUTPUT "report.xml" CACHE STRING "Filename where test report is stored" )
-    include(${PROJECT_SOURCE_DIR}/admin/cmake/CodeCoverage.cmake)
+    include(${PROJECT_TOP}/tools/cmake/CodeCoverage.cmake)
     set(Coverage_LCOV_ARGS "-b ${PROJECT_SOURCE_DIR}")
     
     if(NOT COVERAGE_EXCLUDES)

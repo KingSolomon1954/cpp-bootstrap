@@ -25,8 +25,10 @@ set(PROJ_COMPILE_OPTIONS
     -O3
 )
 
+set(PROJECT_TOP ${PROJECT_SOURCE_DIR}/..)
+
 list(APPEND CMAKE_MODULE_PATH
-    ${CMAKE_SOURCE_DIR}/admin/cmake
+    ${PROJECT_TOP}/tools/cmake
 )
 
 include(gen)
