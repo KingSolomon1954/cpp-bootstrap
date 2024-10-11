@@ -1,7 +1,9 @@
 {
     "version": "0.5",
     "requires": [
-        "doctest/2.4.11#a4211dfc329a16ba9f280f9574025659%1681601797.282"
+        "rang/3.2#59ed4601f856325fb467bbec56183016%1679252415.349",
+        "doctest/2.4.11#a4211dfc329a16ba9f280f9574025659%1681601797.282",
+        "cxxopts/3.2.0#8026d4f53938b476b36288e5d006bcfb%1707978559.524"
     ],
     "build_requires": [],
     "python_requires": [],

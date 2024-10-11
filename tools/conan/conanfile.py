@@ -4,7 +4,7 @@ from conan import ConanFile
 from conan.tools.cmake import CMake
 
 class AppRecipe(ConanFile):
-    name = "RedFlame"  # Is the library name published to Conan Center
+    name = "RedFlame"  # Library name published to Conan Center
     license = "MIT Software License"
     settings = "os", "compiler", "build_type", "arch"
     generators = "CMakeToolchain", "CMakeDeps"
@@ -19,9 +19,8 @@ class AppRecipe(ConanFile):
         self.folders.generators = os.path.join("_build", btype, "generators")
 
     def requirements(self):
-        # self.requires("gtest/[~1.12]")
-        # self.requires("zlib/[~1.2]")
-        # self.requires("bzip2/[~1.0]")
+        self.requires("cxxopts/3.2.0")
+        self.requires("rang/3.2")
         self.requires("doctest/[~2.4.11]")
         
     def build_requirements(self):

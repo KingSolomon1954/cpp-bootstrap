@@ -4,7 +4,11 @@
 #
 # --------------------------------------------------------
 
+find_package(cxxopts REQUIRED)
+find_package(rang REQUIRED)
+
 add_library(main STATIC
+    src/CommandLine.cpp
     src/RedFlame.cpp
     src/Properties.cpp
 )
@@ -16,7 +20,8 @@ target_include_directories(main
 target_link_libraries(main
     PUBLIC lib-gen
     PUBLIC lib-codec
-    PUBLIC ${CONAN_LIBS}
+    PUBLIC cxxopts::cxxopts
+    PUBLIC rang::rang
 )
 
 target_compile_options(main
