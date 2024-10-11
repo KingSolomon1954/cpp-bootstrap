@@ -16,9 +16,9 @@ target_include_directories(lib-gen
     PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/include
 )
 
-target_link_libraries(lib-gen
-    PUBLIC ${CONAN_LIBS}
-)
+# target_link_libraries(lib-gen
+#     PUBLIC ${CONAN_LIBS}
+# )
 
 target_compile_definitions(lib-gen
     PRIVATE $<$<CONFIG:Debug>:

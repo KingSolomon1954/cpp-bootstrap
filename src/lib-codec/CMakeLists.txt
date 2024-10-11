@@ -16,7 +16,6 @@ target_include_directories(lib-codec
 
 target_link_libraries(lib-codec
     PUBLIC lib-gen
-    PUBLIC ${CONAN_LIBS}
 )
 
 target_compile_definitions(lib-codec
