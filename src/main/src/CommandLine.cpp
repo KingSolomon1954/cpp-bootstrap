@@ -29,7 +29,7 @@ Constructor
 CommandLine::CommandLine(int argc, char* argv[],
                          const LibGen::BuildInfo& bld)
 {
-    cxxopts::Options options("test", "A brief description");
+    cxxopts::Options options("C++Bootstrap", "A brief description");
 
     options.add_options()
         ("f,foo", "Param foo",

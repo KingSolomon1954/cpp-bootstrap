@@ -22,7 +22,7 @@ all the values explicitly.
 @param appName
     The name of the application.
 */
-BuildInfo::BuildInfo(const std::string& appName)
+BuildInfo::BuildInfo(std::string_view appName)
     : appName_    (appName)
     , major_      (BLD_MAJOR)
     , minor_      (BLD_MINOR)
@@ -92,16 +92,16 @@ Construct a BuildInfo object with the supplied build info.
     The hash of the last commit associated with this build.
 */
 BuildInfo::BuildInfo(
-    const std::string& appName,
-    unsigned           bldMajor,
-    unsigned           bldMinor,
-    unsigned           bldPatch,
-    unsigned           bldNumber,
-    unsigned           bldEpochSecs,
-    const std::string& bldDateTime,
-    const std::string& bldCreator,
-    const std::string& bldBranch,
-    const std::string& bldCommitHash)
+    std::string_view appName,
+    unsigned         bldMajor,
+    unsigned         bldMinor,
+    unsigned         bldPatch,
+    unsigned         bldNumber,
+    unsigned         bldEpochSecs,
+    std::string_view bldDateTime,
+    std::string_view bldCreator,
+    std::string_view bldBranch,
+    std::string_view bldCommitHash)
     : appName_    (appName)
     , major_      (bldMajor)
     , minor_      (bldMinor)
@@ -139,7 +139,7 @@ BuildInfo::~BuildInfo()
 
 Returns the application's name.
 */
-const std::string&
+std::string_view
 BuildInfo::appName() const 
 {
     return appName_;
@@ -150,7 +150,7 @@ BuildInfo::appName() const
 Returns the string major.minor.patch-bldNum
 
 */
-const std::string&
+std::string_view
 BuildInfo::quadlet() const 
 {
     return quadlet_;
@@ -161,7 +161,7 @@ BuildInfo::quadlet() const
 Returns the string major.minor.patch.
 
 */
-const std::string&
+std::string_view
 BuildInfo::triplet() const
 {
     return triplet_;
@@ -172,7 +172,7 @@ BuildInfo::triplet() const
 Returns the string major.minor
 
 */
-const std::string&
+std::string_view
 BuildInfo::doublet() const
 {
     return doublet_;
@@ -185,7 +185,7 @@ RFC 3339 (https://tools.ietf.org/html/rfc3339) which is itself a
 subset of ISO 8601 date time interchange format.
 
 */
-const std::string&
+std::string_view
 BuildInfo::dateTime() const 
 {
     return dateTime_;
@@ -196,7 +196,7 @@ BuildInfo::dateTime() const
 Returns the user that triggered the build.
 
 */
-const std::string&
+std::string_view
 BuildInfo::creator() const 
 {
     return creator_;
@@ -207,7 +207,7 @@ BuildInfo::creator() const
 Returns the git branch the associated with this build.
 
 */
-const std::string&
+std::string_view
 BuildInfo::branch() const 
 {
     return branch_;
@@ -219,7 +219,7 @@ Returns the hash of the last commit on this branch at the time
 the build was triggered.
 
 */
-const std::string&
+std::string_view
 BuildInfo::commitHash() const 
 {
     return commitHash_;
@@ -264,7 +264,7 @@ Returns the build number.
 
 */
 unsigned      
-BuildInfo::number() const
+BuildInfo::bldnum() const
 {
     return bldNum_;
 }

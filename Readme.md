@@ -627,22 +627,19 @@ See if your host environment is suitable enough for `make help`.
 make help
 ```
 
-### 3. Create the Build and Sphinx Container
-
-Create your own local Build and Sphinx containers (for now).
-
-See [switching build container](#switching-build-container) and
-[switching sphinx container](#switching-sphinx-container) below.
-
-TODO: future - make containers available in DockerHub.
-
-### 4. Compile, Link, Test and Run
+### 3. Compile, Link, Test and Run
 
 ```bash
 make
 make unit-test
 bd bin/redflame
 ```
+
+## 4. Automate Registry Logins
+
+Setup login credentials in `~/.ssh`. See
+[Container Registry Login](#container-registry-login) and
+[Conan Auto-Login](#conan-auto-login).
 
 ## 5. Customize
 
@@ -652,7 +649,8 @@ Customize the project to be your own.
 
 ### Switching Build Container
 
-Modify file `admin/submakes/container-names-gcc14.mak` as follows:
+Assuming you want to use your own locally built build container,
+modify file `admin/submakes/container-names-gcc14.mak` as follows:
 
 Change:
 
@@ -664,7 +662,9 @@ To:
     CNTR_GCC_14_TOOLS_REPO  := localhost
     CNTR_GCC_14_TOOLS_IMAGE := gcc14-tools
 
-Now build the container image:
+If you haven't already built your own build container image, you can
+invoke the following makefile target. This target uses the docker
+spec file at `tools/containers/container-files/dockerfile-gcc14-tools`.
 
 ```bash
 make cntr-build-gcc14-tools
@@ -678,7 +678,8 @@ something like this:
 
 ### Switching Sphinx Container
 
-Modify file `admin/submakes/container-names-sphinx.mak` as follows:
+Assuming you want to use your own locally built Sphinx container,
+modify file `admin/submakes/container-names-sphinx.mak` as follows:
 
 Change:
 
@@ -690,7 +691,9 @@ To:
     CNTR_SPHINX_REPO  := localhost
     CNTR_SPHINX_IMAGE := sphinx
 
-Now build the container image:
+If you haven't already built your own Sphinx container image, you can
+invoke the following makefile target. This target uses the docker
+spec file at `tools/containers/container-files/dockerfile-sphinx`.
 
 ```bash
 make cntr-build-sphinx-tools

@@ -14,7 +14,7 @@ using std::string;
 
 TEST_CASE("LibGen::BuildInfoTest: all")
 {
-    const std::string name("C++Starter");
+    std::string name("C++Starter");
     BuildInfo b(name);
     CHECK(b.appName() == name);
     CHECK(!b.quadlet().empty());
@@ -27,9 +27,12 @@ TEST_CASE("LibGen::BuildInfoTest: all")
     CHECK(!b.major() >= 0);
     CHECK(!b.minor() >= 0);
     CHECK(!b.patch() >= 0);
-    CHECK(!b.number() >= 0);
+    CHECK(!b.bldnum() >= 0);
     CHECK(!b.shortInfo().empty());
     CHECK(!b.fullInfo().empty());
+    // confirm appName and name are de-coupled
+    name = "trash";
+    CHECK(b.appName() == "C++Starter");
 }
 
 //----------------------------------------------------------------
