@@ -22,5 +22,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: in container or host
+        run: type -a gcc
       - name: Make help
         run: make help
