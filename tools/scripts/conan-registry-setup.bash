@@ -116,14 +116,17 @@ echo "HOWIE "
 conan profile list
 conan config home
 echo "HOWIE listing /root"
-ls /root
+ls -lisa /root
 echo "Done listing /root"
 echo "HOWIE listing /"
-ls /
+ls -lisa /
 echo "Done listing /"
 echo "HOWIE listing /github"
-ls /github
+ls -lisa /github
 echo "Done listing /github"
+echo "HOWIE listing /github/home"
+ls -lisa /github/home
+echo "Done listing /github/home"
 
     echo "(conan) Adding Conan registry: ${regyName}"
     if conanHaveRegistry ${CNTR_TECH} ${BLD_CNTR_NAME} ${regyName}; then
