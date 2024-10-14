@@ -127,6 +127,7 @@ echo "Done listing /github"
 echo "HOWIE listing /github/home"
 ls -lisa /github/home
 echo "Done listing /github/home"
+echo "HOWIE HOME=$HOME USER=$LOGNAME"
 
     echo "(conan) Adding Conan registry: ${regyName}"
     if conanHaveRegistry ${CNTR_TECH} ${BLD_CNTR_NAME} ${regyName}; then
