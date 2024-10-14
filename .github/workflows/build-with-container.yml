@@ -32,4 +32,4 @@ jobs:
       - name: where are we
         run: ls
       - name: Build it
-        run: make
+        run: make NO_BLD_CNTR=1
