@@ -22,6 +22,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: fix directory safe
+        run: git config --global --add safe.directory /__w/cpp-bootstrap/cpp-bootstrap
+ 
       - name: in container or host
         run: which gcc
       - name: Make something
