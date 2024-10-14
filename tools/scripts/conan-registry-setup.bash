@@ -112,6 +112,11 @@ checkYesNo()
 
 registryAdd()
 {
+echo "HOWIE "    
+conan profile list
+ls /root
+conan config home
+
     echo "(conan) Adding Conan registry: ${regyName}"
     if conanHaveRegistry ${CNTR_TECH} ${BLD_CNTR_NAME} ${regyName}; then
         echo "(conan) Conan already has registry: ${regyName}, no action"
