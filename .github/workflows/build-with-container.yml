@@ -1,0 +1,26 @@
+name: Build with container
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+      - master
+      - trybuild
+
+jobs:
+
+  container-build:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/kingsolomon1954/containers/gcc14-tools:14.2.0
+      volumes:
+        - ${{github.workspace}}:/work
+      options: --cpus 1
+
+    steps:
+      - name: Checkout repository
+      - uses: actions/checkout@v4
+
+      - name: Make help
+        run: make help
