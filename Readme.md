@@ -1,22 +1,12 @@
 <!---
 
-Add some status badges eventually.
+Add some status badges eventually. Some examples:
 [![codecov](https://codecov.io/gh/filipdutescu/modern-cpp-template/branch/master/graph/badge.svg)](https://codecov.io/gh/filipdutescu/modern-cpp-template)
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/filipdutescu/modern-cpp-template)](https://github.com/filipdutescu/modern-cpp-template/releases)
-
-![LogoBootstrap60x90](https://github.com/user-attachments/assets/92fe4271-e308-45e4-9afc-b049fa4c3e0f)
-
-![Bootstrap](docs/src/images/pub/LogoBootstrap60x90.png)
-
-
 [![Test](https://github.com/scylladb/seastar/actions/workflows/tests.yaml/badge.svg)](https://github.com/scylladb/seastar/actions/workflows/tests.yaml)
 [![Version](https://img.shields.io/github/tag/scylladb/seastar.svg?label=version&colorB=green)](https://github.com/scylladb/seastar/releases)
 [![License: Apache2](https://img.shields.io/github/license/scylladb/seastar.svg)](https://github.com/scylladb/seastar/blob/master/LICENSE)
-[![n00b issues](https://img.shields.io/github/issues/scylladb/seastar/n00b.svg?colorB=green)](https://github.com/scylladb/seastar/labels/n00b)
-
-Introduction
-
-
+![LogoBootstrap60x90](https://github.com/user-attachments/assets/92fe4271-e308-45e4-9afc-b049fa4c3e0f)
 -->
 
 <h1 align="center">C++ Bootstrap Project</h1>
@@ -342,6 +332,24 @@ make spelling-help
   the entire environment as coherent tool set
 - *Prevents conflicts* between host and runners that might use different
   tools and/or libraries for other activities
+
+### The Build Container 
+
+The build container houses executables for the compiler, CMake, and
+Conan along with additional utilities.
+
+The build container, if it is not already running, is automatically
+started upon issuing a `make` that involves compiling or Conan related
+targets. The build container runs in detached mode and hangs around for
+further future commands. The makefile framework arranges commands to be
+issued to the build container using docker/podman exec. The build
+container is special in that it hangs around, while other containers,
+such as those used for building documentation, will exit after running
+their command.
+
+The Conan registry and Conan library cache live on the build container.
+If the container is removed and restarted then the Conan setup will
+be applied again and libraries will be retrieved again.
 
 ### Handy Aliases for Build Container
 
