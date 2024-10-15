@@ -8,6 +8,9 @@ on:
       - master
       - trybuild
 
+env:
+  CONAN_USER_HOME: /root
+      
 jobs:
 
   container-build:
