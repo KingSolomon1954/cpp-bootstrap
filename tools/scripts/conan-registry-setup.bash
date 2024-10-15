@@ -112,9 +112,12 @@ checkYesNo()
 
 registryAdd()
 {
+echo "HOWIE who am I: $(whoami)"
 echo "HOWIE "    
 conan profile list
 conan config home
+echo "HOWIE touch /root/howie.txt"
+touch /root/howie.txt
 echo "HOWIE listing /root"
 ls -lisa /root
 echo "Done listing /root"
@@ -131,6 +134,8 @@ echo "HOWIE HOME=$HOME USER=$LOGNAME"
 echo "HOWIE env"
 env
 echo "HOWIE done"
+
+echo "GITHUB_ACTOR=KingSolomon1954"
 
     echo "(conan) Adding Conan registry: ${regyName}"
     if conanHaveRegistry ${CNTR_TECH} ${BLD_CNTR_NAME} ${regyName}; then
