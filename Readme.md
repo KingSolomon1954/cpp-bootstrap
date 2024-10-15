@@ -31,7 +31,8 @@ containerized tools and fill-in-the-blanks documentation.
 </p>
 
 ---
-[![Build](https://github.com/kingsolomon1954/bpp-bootstrap/actions/workflows/build-with-container.yml/badge.svg)](https://github.com/kingsolomon1954/cpp-bootstrap/actions/workflows/build-with-container.yml)
+
+[![Build](https://img.shields.io/github/actions/workflow/status/kingsolomon1954/cpp-bootstrap/build-with-container.yml)](https://github.com/kingsolomon1954/cpp-bootstrap/actions/workflows/build-with-container.yml)
 
 ## Features
 
