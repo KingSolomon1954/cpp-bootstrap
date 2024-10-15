@@ -71,7 +71,7 @@ endif()
 # Build creator whether in git tree or not
 if (DEFINED ENV{GITHUB_ACTOR})
     set(BLD_CREATOR ENV{GITHUB_ACTOR})
-elif (DEFINED ENV{LOGNAME})
+elseif (DEFINED ENV{LOGNAME})
     set(BLD_CREATOR ENV{LOGNAME})
 else()
     # We're on build container so this will always
