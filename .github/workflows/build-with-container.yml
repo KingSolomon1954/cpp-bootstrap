@@ -29,11 +29,11 @@ jobs:
       - name: fix directory safe
         run: git config --global --add safe.directory /__w/cpp-bootstrap/cpp-bootstrap
  
-      - name: in container or host
-        run: gcc --version
-      - name: Make something
-        run: make -n clean
-      - name: where are we
-        run: ls
+      - name: Build debug
+        run: make NO_BLD_CNTR=1 debug
+      - name: Build production
+        run: make NO_BLD_CNTR=1 prod
       - name: Build it
         run: make NO_BLD_CNTR=1
+      - name: Run unit tests
+        run: make unit-test-debug
