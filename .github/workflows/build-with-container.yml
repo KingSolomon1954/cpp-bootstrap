@@ -16,7 +16,7 @@ env:
   # Therefore build process can't find conan profile in /root/.conan2
   # Directly setting HOME ourselves solves this. Might create other
   # problems later - don't know, we'll see.
-  CONAN_HOME: /root
+  CONAN_HOME: /root/.conan2
 
 jobs:
 
