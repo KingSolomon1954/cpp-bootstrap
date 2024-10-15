@@ -70,9 +70,9 @@ endif()
 
 # Build creator whether in git tree or not
 if (DEFINED ENV{GITHUB_ACTOR})
-    set(BLD_CREATOR ENV{GITHUB_ACTOR})
+    set(BLD_CREATOR $ENV{GITHUB_ACTOR})
 elseif (DEFINED ENV{LOGNAME})
-    set(BLD_CREATOR ENV{LOGNAME})
+    set(BLD_CREATOR $ENV{LOGNAME})
 else()
     # We're on build container so this will always
     # come back as root. Need to explore if this
