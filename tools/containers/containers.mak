@@ -20,7 +20,7 @@ include $(D_MAK)/container-names-gcc11.mak
 include $(D_MAK)/container-names-sphinx.mak
 include $(D_MAK)/container-registry.mak
 
-_D_CNTR_FILES := $(D_CNTRS)/container-files
+_D_CNTR_FILES := $(D_CNTRS)/spec-files
 
 cntr-build-gcc14-tools:
 	# Building gcc14 tools container

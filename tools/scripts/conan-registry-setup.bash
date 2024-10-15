@@ -112,34 +112,36 @@ checkYesNo()
 
 registryAdd()
 {
-echo "HOWIE who am I: $(whoami)"
-echo "HOWIE "    
-conan profile list
-conan config home
-echo "HOWIE touch /root/howie.txt"
-touch /root/howie.txt
-echo "HOWIE listing /root"
-ls -lisa /root
-echo "Done listing /root"
-echo "HOWIE listing /"
-ls -lisa /
-echo "Done listing /"
-echo "HOWIE listing /github"
-ls -lisa /github
-echo "Done listing /github"
-echo "HOWIE listing /github/home"
-ls -lisa /github/home
-echo "Done listing /github/home"
-echo "HOWIE HOME=$HOME USER=$LOGNAME"
-echo "HOWIE env"
-env
-echo "HOWIE done"
+if [ -n "" ]; then
+    echo "HOWIE who am I: $(whoami)"
+    echo "HOWIE "    
+    conan profile list
+    conan config home
+    echo "HOWIE touch /root/howie.txt"
+    touch /root/howie.txt
+    echo "HOWIE listing /root"
+    ls -lisa /root
+    echo "Done listing /root"
+    echo "HOWIE listing /"
+    ls -lisa /
+    echo "Done listing /"
+    echo "HOWIE listing /github"
+    ls -lisa /github
+    echo "Done listing /github"
+    echo "HOWIE listing /github/home"
+    ls -lisa /github/home
+    echo "Done listing /github/home"
+    echo "HOWIE HOME=$HOME USER=$LOGNAME"
+    echo "HOWIE env"
+    env
+    echo "HOWIE done"
 
-echo "GITHUB_ACTOR=KingSolomon1954"
+    echo "GITHUB_ACTOR=KingSolomon1954"
+fi
 
     echo "(conan) Adding Conan registry: ${regyName}"
     if conanHaveRegistry ${CNTR_TECH} ${BLD_CNTR_NAME} ${regyName}; then
-        echo "(conan) Conan already has registry: ${regyName}, no action"
+        echo "(conan) Conan registry already added: ${regyName}, no action"
         return 0    # return success
     fi
     conanAddRegistry ${CNTR_TECH} ${BLD_CNTR_NAME} ${regyName} ${regyUrl}
@@ -209,7 +211,7 @@ CNTR_TECH=$1
 BLD_CNTR_NAME=$2
 REGISTRY_PROPERTY_FILES="${@:3}"
 
-echo "(conan) Setting up Conan registries"
+echo "(conan) Adding Conan registries"
 checkArgs
 processFiles
 
