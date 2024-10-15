@@ -10,6 +10,7 @@ on:
 
 env:
   CONAN_USER_HOME: /root
+  HOME: /root
       
 jobs:
 
