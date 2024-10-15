@@ -32,6 +32,6 @@ jobs:
       - name: Indicate safe directory 
         run: git config --global --add safe.directory /__w/cpp-bootstrap/cpp-bootstrap
       - name: Build debug and prod
-        run: make NO_BLD_CNTR=1 -j both
+        run: make NO_BLD_CNTR=1 both
       - name: Run unit tests
         run: make NO_BLD_CNTR=1 unit-test-both
