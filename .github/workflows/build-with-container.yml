@@ -29,13 +29,9 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
-      - name: fix directory safe
+      - name: Indicate safe directory 
         run: git config --global --add safe.directory /__w/cpp-bootstrap/cpp-bootstrap
- 
-      - name: Build debug
-        run: make NO_BLD_CNTR=1 debug
-      - name: Build production
-        run: make NO_BLD_CNTR=1 prod
+      - name: Build debug and prod
+        run: make NO_BLD_CNTR=1 -j both
       - name: Run unit tests
-        run: make NO_BLD_CNTR=1 unit-test-debug
+        run: make NO_BLD_CNTR=1 unit-test-both
