@@ -10,14 +10,6 @@ on:
   # Allow manually triggering from GitHub Actions tab
   workflow_dispatch:
 
-# env:
-  # On desktop, in container, whoami is "root" and HOME is /root.
-  # On GitHub,  in container, whoami is "root" and HOME is /github/home.
-  # Therefore build process can't find conan profile in /root/.conan2
-  # Directly setting HOME ourselves solves this. Might create other
-  # problems later - don't know, we'll see.
-  # CONAN_HOME: /root/.conan2
-
 jobs:
 
   container-build:
@@ -37,3 +29,5 @@ jobs:
         run: make NO_BLD_CNTR=1 both
       - name: Run unit tests
         run: make NO_BLD_CNTR=1 unit-test-both
+      - name: Run app
+        run: _build/debug/bin/redflame
