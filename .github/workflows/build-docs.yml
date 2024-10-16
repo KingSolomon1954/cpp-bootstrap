@@ -1,0 +1,24 @@
+name: Build docs
+
+on:
+  push:
+    branches:
+      - 'trybuild-*'
+#     - main
+#     - master
+
+  # Allow manually triggering from GitHub Actions tab
+  workflow_dispatch:
+
+jobs:
+
+  build-docs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Install podman
+        run: apt install -y podman
+      - name: Confirm podman
+        run: podman --version
+      - name: Checkout repository
+        uses: actions/checkout@v4
