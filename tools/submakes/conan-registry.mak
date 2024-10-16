@@ -65,13 +65,25 @@ endef
 # "registry-*.properties". Properties found in these files are then used
 # to setup each registry.
 
+# Sentinel file to setup profile just once.
+_CONAN_PROFILE_SETUP_DONE := $(D_BLD)/conan-profile-setup-done
+
+$(_CONAN_PROFILE_SETUP_DONE):
+	@if ! $(CPP_BLD_CNTR_EXEC) conan profile path default > /dev/null 2>&1; then \
+	    echo "(conan) Setting up default profile"; \
+	    $(CPP_BLD_CNTR_EXEC) conan profile detect; \
+	fi
+	@touch $@
+
 # Sentinel file to setup registries just once. Tie in with conan.mak.
 CONAN_REGISTRY_SETUP_DONE := $(D_BLD)/conan-registry-setup-done
 
 _CONAN_REGY_PROP_FILES := $(wildcard $(D_TOOLS)/conan/registry-*.properties)
 
 # Delegate to a script to setup Conan registries.
-$(CONAN_REGISTRY_SETUP_DONE): $(_CONAN_REGY_PROP_FILES) $(D_BLD)/conan-registry-vars.mak
+$(CONAN_REGISTRY_SETUP_DONE): $(_CONAN_PROFILE_SETUP_DONE) \
+                              $(_CONAN_REGY_PROP_FILES) \
+                              $(D_BLD)/conan-registry-vars.mak
 	@$(D_SCP)/conan-registry-setup.bash \
 	    $(CNTR_TECH) $(CNTR_GCC_TOOLS_NAME) $(_CONAN_REGY_PROP_FILES)
 	@touch $@

@@ -14,6 +14,22 @@
 # conanHaveRegistry()
 # conanAddRegistry()
 #
+# ----------------------------------------------------------------------
+#
+# Helper function whether to invoke command in container.
+# 
+# CNTR_TECH=$1
+# BLD_CNTR_NAME=$2
+#
+techCmd()
+{
+    if [ -z "${NO_BLD_CNTR}" ]; then
+        echo -n "$1 exec $2"
+    else
+        echo -n ""
+    fi
+}
+
 # ---------------------------------------------------------------------
 #
 # CNTR_TECH=$1
@@ -26,7 +42,8 @@ conanIsLoggedIn()
     local bldCntrName=$2
     local regy=$3
 
-    if ${tech} exec ${bldCntrName} conan remote list-users | \
+    local cmd=$(techCmd $1 $2)
+    if ${cmd} conan remote list-users | \
         sed -n "/${regy}:/,+2p" | grep -i "true"; then \
         return 0    # return true, logged in
     fi
@@ -45,7 +62,8 @@ conanLogoutRegistry()
     local bldCntrName=$2
     local regy=$3
 
-    ${tech} exec ${bldCntrName} conan remote logout ${regy}
+    local cmd=$(techCmd $1 $2)
+    ${cmd} conan remote logout ${regy}
 }
 
 # ---------------------------------------------------------------------
@@ -53,7 +71,7 @@ conanLogoutRegistry()
 promptForUsernameToken()
 {
     read -p "(${CONAN_REGISTRY}) Username: " uname
-    echo "${uname}"
+    echo -n "${uname}"
     # Maybe default to LOGNAME if user just presses enter
     # echo "Default = ${LOGNAME}"
     # Use LOGNAME if user enters empty
@@ -67,7 +85,7 @@ promptForUsernameToken()
 promptForRegistryToken()
 {
     read -s -p "(${regy}) Password: " passwd
-    echo "${passwd}"
+    echo -n "${passwd}"
 }
 
 # ---------------------------------------------------------------------
@@ -77,7 +95,7 @@ getValueFromFile()    # $1 is file name
     if [ -f $1 ]; then
         cat $1
     else
-        echo ""
+        echo -n
     fi
 }
 
@@ -92,7 +110,7 @@ makeEnvVarName()    # $1 is suffix
     name=${name/"-"/"_"}        # conan-io --> conan_io
     name=${name^^}              # convert to uppercase
     name=${name}$1              # add suffix
-    echo ${name}
+    echo -n ${name}
 }
 
 # ---------------------------------------------------------------------
@@ -181,7 +199,8 @@ conanGetUsername()
     # What's left is the actual username, so that gets echo'ed and
     # becomes the return value of this function.
 
-    ${tech} exec ${bldCntrName} conan remote list-users ${regy} | \
+    local cmd=$(techCmd $1 $2)
+    ${cmd} conan remote list-users ${regy} | \
         sed -n "/${regy}:/,+1p" | tail -1 | \
         sed -e "s/  Username://" -e "s/ //g"
 }
@@ -207,7 +226,8 @@ conanSetUsername()
     existingUsername=$(conanGetUsername ${tech} ${regy} ${bldCntrName})
     # Change usernames if they are different
     if [[ "${uname}" != "${existingUsername}" ]]; then
-        ${tech} exec ${bldCntrName} conan remote set-user ${regy} ${uname}
+        local cmd=$(techCmd $1 $2)
+        ${cmd} conan remote set-user ${regy} ${uname}
     fi
 }
 
@@ -236,7 +256,8 @@ conanLogin()
     # TODO: figure out how Auth works, because "conan remote auth"
     # command does not take an arg for password.
     # Execute login.
-    ${tech} exec ${bldCntrName} conan remote auth ${regy} # ${REGISTRY_TOKEN}
+    local cmd=$(techCmd $1 $2)
+    ${cmd} conan remote auth ${regy} # ${REGISTRY_TOKEN}
 }
 
 # ----------------------------------------------------------------------
@@ -251,7 +272,8 @@ conanHaveRegistry()
     local bldCntrName=$2
     local regy=$3
 
-    if ${tech} exec ${bldCntrName} conan remote list | grep -q ${regy}; then
+    local cmd=$(techCmd $1 $2)
+    if ${cmd} conan remote list | grep -q ${regy}; then
         return 0   # return true, found it
     fi
     return 1       # return false, not found
@@ -275,8 +297,9 @@ conanAddRegistry()
         echo "(conan) lib-conan-registry.bash: conanAddRegistry(): Must supply Conan Registry URL"
         return 1  # return false, make no change
     fi
-
-    ${tech} exec ${bldCntrName} conan remote add -f ${regy} ${url}
+    
+    local cmd=$(techCmd $1 $2)
+    ${cmd} conan remote add -f ${regy} ${url}
 }
 
 # ----------------------------------------------------------------------
@@ -291,7 +314,8 @@ conanEnableRegistry()
     local bldCntrName=$2
     local regy=$3
 
-    ${tech} exec ${bldCntrName} conan remote enable ${regy}
+    local cmd=$(techCmd $1 $2)
+    ${cmd} conan remote enable ${regy}
 }
 
 # ----------------------------------------------------------------------
@@ -306,7 +330,8 @@ conanDisableRegistry()
     local bldCntrName=$2
     local regy=$3
 
-    ${tech} exec ${bldCntrName} conan remote disable ${regy}
+    local cmd=$(techCmd $1 $2)
+    ${cmd} conan remote disable ${regy}
 }
 
 # ----------------------------------------------------------------------
@@ -321,7 +346,8 @@ conanIsRegistryEnabled()
     local bldCntrName=$2
     local regy=$3
 
-    ${tech} exec ${bldCntrName} conan remote list  | \
+    local cmd=$(techCmd $1 $2)
+    ${cmd} conan remote list  | \
         grep ${regy} | grep -i "Enabled: True" > /dev/null
 }
 

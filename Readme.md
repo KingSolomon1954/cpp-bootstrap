@@ -1,13 +1,12 @@
 <!---
 
-Add some status badges eventually.
+Add some status badges eventually. Some examples:
 [![codecov](https://codecov.io/gh/filipdutescu/modern-cpp-template/branch/master/graph/badge.svg)](https://codecov.io/gh/filipdutescu/modern-cpp-template)
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/filipdutescu/modern-cpp-template)](https://github.com/filipdutescu/modern-cpp-template/releases)
-
+[![Test](https://github.com/scylladb/seastar/actions/workflows/tests.yaml/badge.svg)](https://github.com/scylladb/seastar/actions/workflows/tests.yaml)
+[![Version](https://img.shields.io/github/tag/scylladb/seastar.svg?label=version&colorB=green)](https://github.com/scylladb/seastar/releases)
+[![License: Apache2](https://img.shields.io/github/license/scylladb/seastar.svg)](https://github.com/scylladb/seastar/blob/master/LICENSE)
 ![LogoBootstrap60x90](https://github.com/user-attachments/assets/92fe4271-e308-45e4-9afc-b049fa4c3e0f)
-
-![Bootstrap](docs/src/images/pub/LogoBootstrap60x90.png) 
-
 -->
 
 <h1 align="center">C++ Bootstrap Project</h1>
@@ -22,6 +21,8 @@ containerized tools and fill-in-the-blanks documentation.
 </p>
 
 ---
+
+[![Build](https://img.shields.io/github/actions/workflow/status/kingsolomon1954/cpp-bootstrap/build-with-container.yml)](https://github.com/kingsolomon1954/cpp-bootstrap/actions/workflows/build-with-container.yml)
 
 ## Features
 
@@ -142,7 +143,7 @@ Assuming you have the handy
 sitting in the top folder, then:
 
 ```bash
-bd bin/redflame    # run the app out of debug tree 
+bd bin/redflame    # run the app out of debug tree
 bp bin/redflame    # run the app out of production tree
 ```
 
@@ -160,10 +161,10 @@ root#./_build/debug/bin/redflame    # run the debug app
 ### Run Unit Tests
 
 ```bash
-make unit-test          # runs unit tests for default build 
-make unit-test-debug    # runs unit tests for debug build 
-make unit-test-prod     # runs unit tests for prod build 
-make unit-test-both     # runs unit tests for prod and debug build 
+make unit-test          # runs unit tests for default build
+make unit-test-debug    # runs unit tests for debug build
+make unit-test-prod     # runs unit tests for prod build
+make unit-test-both     # runs unit tests for prod and debug build
 ```
 
 Or directly run a unit test executable. Assuming you have the handy
@@ -232,7 +233,7 @@ RedFlame v1.0.0-1728572288
   [read-the-docs](https://sphinx-rtd-theme.readthedocs.io/en/stable/index.html)
   theme
 - [Doxygen](https://www.doxygen.nl/) for internal API
-- [PlantUML](https://plantuml.com/) to auto build diagrams 
+- [PlantUML](https://plantuml.com/) to auto build diagrams
 - Makefile auto-generates PlantUML files into PNG files
 - Create or modify PlantUML files in `docs/src/images/src`
 - Suffix for PlantUML files must be `.puml`
@@ -332,6 +333,24 @@ make spelling-help
 - *Prevents conflicts* between host and runners that might use different
   tools and/or libraries for other activities
 
+### The Build Container 
+
+The build container houses executables for the compiler, CMake, and
+Conan along with additional utilities.
+
+The build container, if it is not already running, is automatically
+started upon issuing a `make` that involves compiling or Conan related
+targets. The build container runs in detached mode and hangs around for
+further future commands. The makefile framework arranges commands to be
+issued to the build container using docker/podman exec. The build
+container is special in that it hangs around, while other containers,
+such as those used for building documentation, will exit after running
+their command.
+
+The Conan registry and Conan library cache live on the build container.
+If the container is removed and restarted then the Conan setup will
+be applied again and libraries will be retrieved again.
+
 ### Handy Aliases for Build Container
 
 Here's several handy bash aliases that make working with the Build
@@ -384,13 +403,13 @@ in the order shown:
 2. from files
 3. otherwise command line prompt
 
-Reads credentials (personal access token(PAT) or password and 
+Reads credentials (personal access token(PAT) or password and
 user name) from these environment variables if found:
 
 - reads env variable `<REGISTRY>_PAT`      ("." turned into underscore)
 - reads env variable `<REGISTRY>_USERNAME`
 
-For example, if the container registry is `docker.io` then looks 
+For example, if the container registry is `docker.io` then looks
 for these environment variables:
 
 ``` bash
@@ -398,13 +417,13 @@ for these environment variables:
   DOCKER_IO_USERNAME    # login user name for this registry
 ```
 
-Reads credentials (personal access token(PAT) or password and 
+Reads credentials (personal access token(PAT) or password and
 user name) from these files if found:
 
 - reads access token file: `$HOME/.ssh/<REGISTRY>-token`
 - reads username file: `$HOME/.ssh/<REGISTRY>-username`
 
-For example, if container registry is `docker.io` then looks 
+For example, if container registry is `docker.io` then looks
 for these files:
 
 ``` bash
@@ -452,7 +471,7 @@ To add or remove registries, just add or delete a file having the
 following naming pattern:
 
     admin/conan/registry-*.properties
-    
+
 Properties found in these files are then used to setup each registry in
 Conan. The parsing is not sophisticated or flexible, uses simple greps,
 so please adhere closely to the layout in the files.
@@ -460,7 +479,7 @@ so please adhere closely to the layout in the files.
 A Conan registry file looks like this:
 
 ``` bash
-> cat admin/conan/registry-aws-arty.properties 
+> cat admin/conan/registry-aws-arty.properties
 name: aws-arty
 url: https://aws.artifactory.io
 login: no
@@ -507,7 +526,7 @@ attribute to `login: yes`.
 C++ Bootstrap supports automated as well as manual login.
 
 For automation, login credentials are read from the following locations
-in the given order, keying off of the name of the registry in 
+in the given order, keying off of the name of the registry in
 the property file (i.e., `name: <registry>`).
 
   1. from environment variables

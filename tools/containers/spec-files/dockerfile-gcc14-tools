@@ -12,6 +12,4 @@ RUN apt update && apt install -y \
   && tar -xvf conan-2.4.0-linux-x86_64.tgz \
   && mv bin/_internal /usr/bin \
   && mv bin/conan /usr/bin \
-  && rm conan-2.4.0-linux-x86_64.tgz \
-  && cd / \
-  && conan profile detect
+  && rm conan-2.4.0-linux-x86_64.tgz

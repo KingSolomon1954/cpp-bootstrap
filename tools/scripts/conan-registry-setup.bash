@@ -114,7 +114,7 @@ registryAdd()
 {
     echo "(conan) Adding Conan registry: ${regyName}"
     if conanHaveRegistry ${CNTR_TECH} ${BLD_CNTR_NAME} ${regyName}; then
-        echo "(conan) Conan already has registry: ${regyName}, no action"
+        echo "(conan) Conan registry already added: ${regyName}, no action"
         return 0    # return success
     fi
     conanAddRegistry ${CNTR_TECH} ${BLD_CNTR_NAME} ${regyName} ${regyUrl}
@@ -184,7 +184,7 @@ CNTR_TECH=$1
 BLD_CNTR_NAME=$2
 REGISTRY_PROPERTY_FILES="${@:3}"
 
-echo "(conan) Setting up Conan registries"
+echo "(conan) Adding Conan registries"
 checkArgs
 processFiles
 

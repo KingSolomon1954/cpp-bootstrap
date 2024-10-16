@@ -1,12 +1,14 @@
-name: Build with container
+name: Build
 
 on:
-  workflow_dispatch:
   push:
     branches:
       - main
       - master
       - trybuild
+
+  # Allow manually triggering from GitHub Actions tab
+  workflow_dispatch:
 
 jobs:
 
@@ -20,7 +22,12 @@ jobs:
 
     steps:
       - name: Checkout repository
-      - uses: actions/checkout@v4
-
-      - name: Make help
-        run: make help
+        uses: actions/checkout@v4
+      - name: Indicate safe directory
+        run: git config --global --add safe.directory /__w/cpp-bootstrap/cpp-bootstrap
+      - name: Build debug and prod
+        run: make NO_BLD_CNTR=1 both
+      - name: Run unit tests
+        run: make NO_BLD_CNTR=1 unit-test-both
+#     - name: Run app
+#       run: _build/debug/bin/redflame
