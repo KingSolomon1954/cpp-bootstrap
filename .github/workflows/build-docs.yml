@@ -22,14 +22,18 @@ jobs:
         uses: actions/checkout@v4
       - name: Build debug
         run: make debug
+      - name: Run unit tests on debug 
+        run: make unit-test-debug
       - name: Build prod
         run: make prod
-      - name: Run unit tests
-        run: make unit-test-both
-      - name: Run code coverage
-        run: make code-coverage
+      - name: Run unit tests on prod 
+        run: make unit-test-prod
       - name: Run static analysis
         run: make static-analysis
+      - name: Run code coverage
+        run: make code-coverage
+      - name: Build docs
+        run: make docs
         
 #      - name: Generate docs
 #        run: make docs
