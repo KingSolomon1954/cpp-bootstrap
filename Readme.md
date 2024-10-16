@@ -253,21 +253,21 @@ firefox _build/site/index.html
 
 ### Pubishing the Docs
 
-When satisfied with the site docs, from top level folder, invoke the
-following to publish the site.
+When satisfied with the generated site docs, from top level folder,
+invoke the following to publish the site.
 
 ```bash
 make docs-publish
 ```
 
-The static website sitting in `_build/site`, is now copied over to the
-`docs/site` folder and then checked into Git (not pushed yet). When your
-branch is merged to main, a GitHub action kicks in and publishes
-`docs/site` to GitHub Pages. You will need to configure GitHub pages in
-your repository. To configure it, visit your <GitHub
-repo>/Settings->Pages->GitHub Pages.
+The generated static website sitting in `_build/site`, is copied over to
+the `docs/site` folder and then checked into Git (not pushed yet). Later
+when your branch is merged to main, a GitHub action kicks in and
+publishes `docs/site` folder to the actual GitHub Pages website. The
+`docs/site` folder is hard coded into the `deploy-gh-pages.yml` GitHub
+action.
 
-The docs-publish rule looks something like this:
+The makefile `docs-publish` rule looks something like this:
 
 ``` bash
 > make -n docs-publish
@@ -279,6 +279,26 @@ git add -A ./docs/site
 git commit -m "Publish docs"
 
 ```
+
+You may need to configure GitHub pages in your repository. Not sure if
+the GitHub pages settings come across from the template repo. To
+configure it, visit your <GitHub repo>/Settings->Pages->GitHub
+Pages. Ensure the `Build and deployment` section, under
+`Source` is selected for `GitHub Actions`.
+
+### Doxygen Setup
+
+Doxygen config file is setup to treat warnings as errors. This is easy
+to maintain on new projects, but this setting might be too strict for
+some projects with already existing code. Change the
+`docs/src/doxygen/Doxyfile` setting from `WARN_AS_ERROR =
+FAIL_ON_WARNINGS` to `WARN_AS_ERROR = NO`.
+
+Not every single function or class is documented in doxygen style, nor
+should they be.  Only those functions and classes that are meant to be
+public need doxygen comments, because you want these to appear in the
+published API. Private functions should still be documented, in general
+at your discretion, but do not need doxygen style comments.
 
 ### Spell Checking Docs
 
@@ -324,8 +344,8 @@ make spelling-help
 **Why Containers**
 
 - *Avoids complex tool* management on host, avoids tool version pollution
-- *Consistent predictable* environment on both host and pipeline/runner
-  machines
+- *Consistent predictable* identical environment and workflow on both
+  host and pipeline/runner machines
 - *Avoids dependency issues* and version conflicts on the host and
   pipeline/runner machines
 - *Reproducible builds* the set of containers used in a build captures
@@ -338,18 +358,44 @@ make spelling-help
 The build container houses executables for the compiler, CMake, and
 Conan along with additional utilities.
 
-The build container, if it is not already running, is automatically
-started upon issuing a `make` that involves compiling or Conan related
-targets. The build container runs in detached mode and hangs around for
-further future commands. The makefile framework arranges commands to be
-issued to the build container using docker/podman exec. The build
-container is special in that it hangs around, while other containers,
-such as those used for building documentation, will exit after running
-their command.
+C++ Bootstrap provides a build container already setup for gcc14, C++20,
+CMake and Conan 2.0 -
+`ghcr.io/kingsolomon1954/containers/gcc14-tools:14.2.0`.  The makefile
+has targets to build, push, and pull the build container.
 
-The Conan registry and Conan library cache live on the build container.
-If the container is removed and restarted then the Conan setup will
-be applied again and libraries will be retrieved again.
+``` bash
+cntr-build-gcc14-tools - Creates gcc14-tools image
+cntr-pull-gcc14-tools  - Pulls   gcc14-tools from ghcr.io
+cntr-push-gcc14-tools  - Pushes  gcc14-tools to ghcr.io
+```
+
+See the docker file here:
+`tools/containers/spec-files/dockerfile-gcc14-tools`.
+
+The build container, if it is not already running, is automatically
+started upon issuing any `make` target that involves compiling or
+linking.  The build container runs in detached mode and hangs around for
+further future commands which execute immediately since the container is
+already running. The makefile framework arranges commands to be issued
+to the build container using docker/podman `exec` command. The build
+container is special in that it hangs around. Other containers, such as
+those used for building documentation, start and exit after running
+their commands.
+
+The strategy used with the build container is to mount your local
+workspace. The compiler operates against your local workspace files
+without any copying.  You are thus free to use any editors/IDE,
+Git tools, etc., on your host computer as normal.
+
+Be aware that the Conan registry and Conan library cache live on the
+build container, not on your workspace. If the container is removed and
+restarted then the Conan setup will be applied again and libraries will
+be retrieved again.  This is purposely setup in this fashion (using the
+container to hold the Conan cache) so that the same build container
+instance, and thus all the Conan libraries, can be shared across
+different repositories, resulting in significant efficiencies in
+multi-repo projects, even though not much benefit for this single repo
+C++ Bootstrap project.
 
 ### Handy Aliases for Build Container
 
