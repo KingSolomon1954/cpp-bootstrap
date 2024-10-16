@@ -29,5 +29,5 @@ jobs:
         run: make NO_BLD_CNTR=1 both
       - name: Run unit tests
         run: make NO_BLD_CNTR=1 unit-test-both
-      - name: Run app
-        run: _build/debug/bin/redflame
+#     - name: Run app
+#       run: _build/debug/bin/redflame

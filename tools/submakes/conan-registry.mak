@@ -65,6 +65,7 @@ endef
 # "registry-*.properties". Properties found in these files are then used
 # to setup each registry.
 
+# Sentinel file to setup profile just once.
 _CONAN_PROFILE_SETUP_DONE := $(D_BLD)/conan-profile-setup-done
 
 $(_CONAN_PROFILE_SETUP_DONE):
