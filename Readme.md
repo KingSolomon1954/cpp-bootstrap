@@ -22,7 +22,7 @@ containerized tools and fill-in-the-blanks documentation.
 
 ---
 
-[![Build](https://img.shields.io/github/actions/workflow/status/kingsolomon1954/cpp-bootstrap/build-with-container.yml)](https://github.com/kingsolomon1954/cpp-bootstrap/actions/workflows/build-with-container.yml)
+[![Build](https://img.shields.io/github/actions/workflow/status/kingsolomon1954/cpp-bootstrap/build.yml)](https://github.com/kingsolomon1954/cpp-bootstrap/actions/workflows/build.yml)
 
 ## Features
 
