@@ -20,8 +20,16 @@ jobs:
         run: sudo apt install -y podman
       - name: Checkout repository
         uses: actions/checkout@v4
-      - name: build
-        run: make
+      - name: Build debug
+        run: make debug
+      - name: Build prod
+        run: make prod
+      - name: Run unit tests
+        run: make unit-test-both
+      - name: Run code coverage
+        run: make coverage
+      - name: Run static analysis
+        run: make coverage
         
 #      - name: Generate docs
 #        run: make docs
