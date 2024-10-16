@@ -138,6 +138,9 @@ BuildInfo::~BuildInfo()
 /*-----------------------------------------------------------*//**
 
 Returns the application's name.
+
+@return
+    The app name.
 */
 std::string_view
 BuildInfo::appName() const 
@@ -149,6 +152,8 @@ BuildInfo::appName() const
 
 Returns the string major.minor.patch-bldNum
 
+@return
+    major.minor.patch.bldNum as a string
 */
 std::string_view
 BuildInfo::quadlet() const 
@@ -160,6 +165,8 @@ BuildInfo::quadlet() const
 
 Returns the string major.minor.patch.
 
+@return
+    major.minor.patch as a string
 */
 std::string_view
 BuildInfo::triplet() const
@@ -171,6 +178,8 @@ BuildInfo::triplet() const
 
 Returns the string major.minor
 
+@return
+    major.minor as a string
 */
 std::string_view
 BuildInfo::doublet() const
@@ -180,10 +189,12 @@ BuildInfo::doublet() const
 
 /*-----------------------------------------------------------*//**
 
-Returns the date & time of the build as a string in accordance with
-RFC 3339 (https://tools.ietf.org/html/rfc3339) which is itself a
+Returns the date & time of the build as a string formated in accordance
+with RFC 3339 (https://tools.ietf.org/html/rfc3339) which is itself a
 subset of ISO 8601 date time interchange format.
 
+@return
+    The date and time of the build.
 */
 std::string_view
 BuildInfo::dateTime() const 
@@ -195,6 +206,8 @@ BuildInfo::dateTime() const
 
 Returns the user that triggered the build.
 
+@return
+    The user name that triggered the build.
 */
 std::string_view
 BuildInfo::creator() const 
@@ -204,8 +217,10 @@ BuildInfo::creator() const
 
 /*-----------------------------------------------------------*//**
 
-Returns the git branch the associated with this build.
+Returns the Git branch the associated with this build.
 
+@return
+    The name of the branch.
 */
 std::string_view
 BuildInfo::branch() const 
@@ -218,6 +233,8 @@ BuildInfo::branch() const
 Returns the hash of the last commit on this branch at the time
 the build was triggered.
 
+@return
+    The commit hash.
 */
 std::string_view
 BuildInfo::commitHash() const 
@@ -229,6 +246,8 @@ BuildInfo::commitHash() const
 
 Returns the major version.
 
+@return
+    The major version number.
 */
 unsigned      
 BuildInfo::major() const
@@ -240,6 +259,8 @@ BuildInfo::major() const
 
 Returns the minor version.
 
+@return
+    The minor version number.
 */
 unsigned      
 BuildInfo::minor() const
@@ -251,6 +272,8 @@ BuildInfo::minor() const
 
 Returns the patch version.
 
+@return
+    The patch version number.
 */
 unsigned      
 BuildInfo::patch() const
@@ -262,6 +285,8 @@ BuildInfo::patch() const
 
 Returns the build number.
 
+@return
+    The build number.
 */
 unsigned      
 BuildInfo::bldnum() const
@@ -273,6 +298,8 @@ BuildInfo::bldnum() const
 
 Returns the epoch in seconds.
 
+@return
+    The epoch in seconds.
 */
 unsigned      
 BuildInfo::epoch() const
@@ -289,6 +316,9 @@ This is just the quadlet prepended with the application name.
 Example formatted output looks like this:
 
     AppName v2.3.1-1608191117
+
+@return
+    A short form of version info.
 */
 std::string
 BuildInfo::shortInfo() const
@@ -313,6 +343,8 @@ Example formatted output looks like this:
        Last commit hash: empty (not in a repo)
 @endcode
 
+@return
+    A long form of version info.
 */
 std::string
 BuildInfo::fullInfo() const

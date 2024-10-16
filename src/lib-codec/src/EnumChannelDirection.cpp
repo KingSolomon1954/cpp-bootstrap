@@ -157,6 +157,9 @@ Stream output operator for ::ChannelDirection.
 @param[in] d
     The channel direction.
 
+@return
+    The output stream.
+
 @ingroup free
 */
 std::ostream&
