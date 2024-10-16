@@ -12,7 +12,7 @@ on:
 
 jobs:
 
-  Build
+  Build:
     runs-on: ubuntu-latest
 
     steps:
@@ -32,7 +32,7 @@ jobs:
         run: make static-analysis
       - name: Run code coverage
         run: make code-coverage
-#       Build docs to catch any errors. Want to fail the build if so.
-#       Note this does not and should not publish docs even upon success.
+        # Build docs to catch any errors. Want to fail the build if so.
+        # Note this does not and should not publish docs even upon success.
       - name: Build docs
         run: make docs
