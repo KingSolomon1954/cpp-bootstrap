@@ -27,9 +27,9 @@ jobs:
       - name: Run unit tests
         run: make unit-test-both
       - name: Run code coverage
-        run: make coverage
+        run: make code-coverage
       - name: Run static analysis
-        run: make coverage
+        run: make static-analysis
         
 #      - name: Generate docs
 #        run: make docs
