@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #
-# File: registry-status.bash
+# File: container-registry-status.bash
 #
 # ---------------------------------------------------------------------
 

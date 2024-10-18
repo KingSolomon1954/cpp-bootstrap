@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #
-# File: registry-logout.bash
+# File: container-registry-logout.bash
 #
 # ---------------------------------------------------------------------
 

@@ -7,6 +7,10 @@ Add some status badges eventually. Some examples:
 [![Version](https://img.shields.io/github/tag/scylladb/seastar.svg?label=version&colorB=green)](https://github.com/scylladb/seastar/releases)
 [![License: Apache2](https://img.shields.io/github/license/scylladb/seastar.svg)](https://github.com/scylladb/seastar/blob/master/LICENSE)
 ![LogoBootstrap60x90](https://github.com/user-attachments/assets/92fe4271-e308-45e4-9afc-b049fa4c3e0f)
+
+bash $(curl https://codecov.io/bash) -X gcov
+
+
 -->
 
 <h1 align="center">C++ Bootstrap Project</h1>
@@ -23,6 +27,7 @@ containerized tools and fill-in-the-blanks documentation.
 ---
 
 [![Build](https://img.shields.io/github/actions/workflow/status/kingsolomon1954/cpp-bootstrap/build.yml)](https://github.com/kingsolomon1954/cpp-bootstrap/actions/workflows/build.yml)
+[![Version](https://img.shields.io/github/v/release/kingsolomon1954/cpp-bootstrap)](https://github.com/kingsolomon1954/cpp-bootstrap/releases)
 
 ## Features
 
@@ -43,7 +48,7 @@ containerized tools and fill-in-the-blanks documentation.
 - [Static code analysis](#static-code-analysis) via [cppcheck](https://cppcheck.sourceforge.io/manual.html)
 - Single ["version"](#versioning) file in top level folder drives all targets
 - Clean unpolluted [top level folder](#project-layout)
-- GitHub Continuous Integration (not implemented yet)
+- GitHub Continuous Integration
 - Spell checking on docs, batch or interactive mode
 
 See the auto-generated documentation here on [Github

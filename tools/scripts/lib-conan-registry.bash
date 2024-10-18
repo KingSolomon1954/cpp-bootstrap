@@ -253,11 +253,8 @@ conanLogin()
     # Change or set the username on the registry if different.
     conanSetUsername ${tech} ${bldCntrName} ${regy} ${USERNAME_TOKEN}
 
-    # TODO: figure out how Auth works, because "conan remote auth"
-    # command does not take an arg for password.
-    # Execute login.
     local cmd=$(techCmd $1 $2)
-    ${cmd} conan remote auth ${regy} # ${REGISTRY_TOKEN}
+    ${cmd} conan remote login -p ${REGISTRY_TOKEN} ${regy} ${USERNAME_TOKEN}
 }
 
 # ----------------------------------------------------------------------
