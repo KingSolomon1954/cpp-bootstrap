@@ -9,8 +9,9 @@ Add some status badges eventually. Some examples:
 ![LogoBootstrap60x90](https://github.com/user-attachments/assets/92fe4271-e308-45e4-9afc-b049fa4c3e0f)
 
 bash $(curl https://codecov.io/bash) -X gcov
+https://kingsolomon1954.github.io/cpp-bootstrap/code-coverage/html/unit-test-cpp-percentage
 
-
+Coverage-69.7
 -->
 
 <h1 align="center">C++ Bootstrap Project</h1>
@@ -28,6 +29,7 @@ containerized tools and fill-in-the-blanks documentation.
 
 [![Build](https://img.shields.io/github/actions/workflow/status/kingsolomon1954/cpp-bootstrap/build.yml)](https://github.com/kingsolomon1954/cpp-bootstrap/actions/workflows/build.yml)
 [![Version](https://img.shields.io/github/v/release/kingsolomon1954/cpp-bootstrap)](https://github.com/kingsolomon1954/cpp-bootstrap/releases)
+[![Coverage](https://img.shields.io/codecov/c/github/kingsolomon1954/cpp-bootstrap)](https://kingsolomon1954.github.io/cpp-bootstrap/code-coverage/html/unit-test-cpp-percentage)
 
 ## Features
 
