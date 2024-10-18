@@ -29,7 +29,7 @@ containerized tools and fill-in-the-blanks documentation.
 
 [![Build](https://img.shields.io/github/actions/workflow/status/kingsolomon1954/cpp-bootstrap/build.yml)](https://github.com/kingsolomon1954/cpp-bootstrap/actions/workflows/build.yml)
 [![Version](https://img.shields.io/github/v/release/kingsolomon1954/cpp-bootstrap)](https://github.com/kingsolomon1954/cpp-bootstrap/releases)
-[![Coverage](https://img.shields.io/codecov/c/github/kingsolomon1954/cpp-bootstrap)](https://kingsolomon1954.github.io/cpp-bootstrap/code-coverage/html/unit-test-cpp-percentage)
+[![Coverage](https://img.shields.io/codecov/c/github/kingsolomon1954/cpp-bootstrap)](https://kingsolomon1954.github.io/cpp-bootstrap/code-coverage/html)
 
 ## Features
 
