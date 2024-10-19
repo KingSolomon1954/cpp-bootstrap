@@ -1,22 +1,9 @@
 <!---
 
 Add some status badges eventually. Some examples:
-[![codecov](https://codecov.io/gh/filipdutescu/modern-cpp-template/branch/master/graph/badge.svg)](https://codecov.io/gh/filipdutescu/modern-cpp-template)
-[![GitHub release (latest by date)](https://img.shields.io/github/v/release/filipdutescu/modern-cpp-template)](https://github.com/filipdutescu/modern-cpp-template/releases)
-[![Test](https://github.com/scylladb/seastar/actions/workflows/tests.yaml/badge.svg)](https://github.com/scylladb/seastar/actions/workflows/tests.yaml)
 [![Version](https://img.shields.io/github/tag/scylladb/seastar.svg?label=version&colorB=green)](https://github.com/scylladb/seastar/releases)
 [![License: Apache2](https://img.shields.io/github/license/scylladb/seastar.svg)](https://github.com/scylladb/seastar/blob/master/LICENSE)
 ![LogoBootstrap60x90](https://github.com/user-attachments/assets/92fe4271-e308-45e4-9afc-b049fa4c3e0f)
-
-bash $(curl https://codecov.io/bash) -X gcov
-https://kingsolomon1954.github.io/cpp-bootstrap/code-coverage/html/unit-test-cpp-percentage
-[![Coverage](https://img.shields.io/codecov/c/github/kingsolomon1954/cpp-bootstrap)](https://kingsolomon1954.github.io/cpp-bootstrap/code-coverage/html/unit-test-cpp-percentage)
-
-
-GIST_TOKEN_CPP_BOOTSTRAP_COVERAGE
-https://gist.github.com/KingSolomon1954/4697bf130c4eacbfced9059ef9aa04a3
-Coverage-69.7
-[![Coverage](https://img.shields.io/codecov/c/github/kingsolomon1954/cpp-bootstrap)](https://kingsolomon1954.github.io/cpp-bootstrap/code-coverage/code-coverage-badge.yml)
 
 -->
 
@@ -36,6 +23,7 @@ containerized tools and fill-in-the-blanks documentation.
 [![Build](https://img.shields.io/github/actions/workflow/status/kingsolomon1954/cpp-bootstrap/build.yml)](https://github.com/kingsolomon1954/cpp-bootstrap/actions/workflows/build.yml)
 [![Version](https://img.shields.io/github/v/release/kingsolomon1954/cpp-bootstrap)](https://github.com/kingsolomon1954/cpp-bootstrap/releases)
 [![Coverage](https://img.shields.io/badge/dynamic/yaml?url=https%3A%2F%2Fkingsolomon1954.github.io%2Fcpp-bootstrap%2Fcode-coverage%2Fhtml%2Fcode-coverage-badge.yml&query=badge.coverage-percent&suffix=%25&label=coverage)](https://kingsolomon1954.github.io/cpp-bootstrap/code-coverage/html/index.html)
+[![Analysis](https://img.shields.io/badge/dynamic/yaml?url=https%3A%2F%2Fkingsolomon1954.github.io%2Fcpp-bootstrap%2Fstatic-analysis%2F%2Fstatic-analysis-badge.yml&query=badge.error-count&suffix=%20errors&label=analysis)](https://kingsolomon1954.github.io/cpp-bootstrap/static-analysis/report/index.html)
 
 ## Features
 

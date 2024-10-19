@@ -35,6 +35,7 @@ _STA_INDEX_FILE    := $(D_BLD)/static-analysis/report/index.html
 _STA_RESULTS_FILE  := $(D_BLD)/static-analysis/files/results.xml
 _STA_SUPPRESS_FILE := $(D_TOOLS)/static-analysis/suppression-list.txt
 _STA_HELP_FILE     := $(D_MAK)/help-files/help-cpp-static-analysis
+_STA_BADGE_FILE    := $(D_BLD)/static-analysis/report/static-analysis-badge.yml
 
 # ------------ Repo Analysis Section ------------
 
@@ -51,6 +52,10 @@ $(_STA_INDEX_FILE): $(_STA_RESULTS_FILE)
 	    --file=/work/$(_STA_RESULTS_FILE) \
 	    --source-dir=/work/$(_D_STA_FILES) \
 	    --report-dir=/work/$(_D_STA_REPORT)
+	@echo "Creating badge file"
+	@value=$$(grep --count '<error>' $(_STA_RESULTS_FILE)); \
+	echo "badge:" > $(_STA_BADGE_FILE); \
+	echo "  error-count: $${value}" >> $(_STA_BADGE_FILE)
 
 $(_STA_RESULTS_FILE): _create-sta_dirs
 	$(CNTR_TECH) run --rm \
