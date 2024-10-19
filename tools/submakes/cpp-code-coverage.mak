@@ -40,8 +40,6 @@ code-coverage: conan-debug
 	@echo "Find coverage/profiling results in $(_CVG_REPORT)"
 	@echo "Find unit-test run in $(D_BLD_DEBUG)/$(_CVG_UT_REPORT)"
 
-#	@echo -n "$$(grep -oP -e '(?<=class="headerCovTableEntryLo">).*?(?=%</td>)|(?<=class="headerCovTableEntryMed">).*?(?=%</td>)' $(_CVG_REPORT) | head -n 1)" > $(_CVG_PERCENT)
-
 code-coverage-clean:
 	rm -rf $(_D_CVG)
 
