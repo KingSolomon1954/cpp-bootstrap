@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <analyzerinfo hash="13541168782152069178">
   <FileInfo check="Uninitialized variables">
-    <unsafe-usage my-id="/work/lib-codec/src/EnumChannelDirection.cpp:163:1" my-argnr="1" my-argname="out" file="/work/lib-codec/src/EnumChannelDirection.cpp" line="165" col="5" value="0"/>
+    <unsafe-usage my-id="/work/src/lib-codec/src/EnumChannelDirection.cpp:166:1" my-argnr="1" my-argname="out" file="/work/src/lib-codec/src/EnumChannelDirection.cpp" line="168" col="5" value="0"/>
   </FileInfo>
   <FileInfo check="CheckUnusedFunctions">
     <functioncall functionName="Forward"/>

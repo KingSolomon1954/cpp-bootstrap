@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2024-10-09 17:21:20</td>
+            <td class="headerValue">2024-10-19 07:21:34</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">16</td>
@@ -84,8 +84,8 @@
 <a name="22"><span class="lineNum">      22 </span>            : @param appName</a>
 <a name="23"><span class="lineNum">      23 </span>            :     The name of the application.</a>
 <a name="24"><span class="lineNum">      24 </span>            : */</a>
-<a name="25"><span class="lineNum">      25 </span><span class="lineCov">          1 : BuildInfo::BuildInfo(const std::string&amp; appName)</span></a>
-<a name="26"><span class="lineNum">      26 </span><span class="lineCov">          1 :     : appName_    (appName)</span></a>
+<a name="25"><span class="lineNum">      25 </span><span class="lineCov">          1 : BuildInfo::BuildInfo(std::string_view appName)</span></a>
+<a name="26"><span class="lineNum">      26 </span><span class="lineCov">          2 :     : appName_    (appName)</span></a>
 <a name="27"><span class="lineNum">      27 </span><span class="lineCov">          1 :     , major_      (BLD_MAJOR)</span></a>
 <a name="28"><span class="lineNum">      28 </span><span class="lineCov">          1 :     , minor_      (BLD_MINOR)</span></a>
 <a name="29"><span class="lineNum">      29 </span><span class="lineCov">          1 :     , patch_      (BLD_PATCH)</span></a>
@@ -154,16 +154,16 @@
 <a name="92"><span class="lineNum">      92 </span>            :     The hash of the last commit associated with this build.</a>
 <a name="93"><span class="lineNum">      93 </span>            : */</a>
 <a name="94"><span class="lineNum">      94 </span><span class="lineNoCov">          0 : BuildInfo::BuildInfo(</span></a>
-<a name="95"><span class="lineNum">      95 </span>            :     const std::string&amp; appName,</a>
-<a name="96"><span class="lineNum">      96 </span>            :     unsigned           bldMajor,</a>
-<a name="97"><span class="lineNum">      97 </span>            :     unsigned           bldMinor,</a>
-<a name="98"><span class="lineNum">      98 </span>            :     unsigned           bldPatch,</a>
-<a name="99"><span class="lineNum">      99 </span>            :     unsigned           bldNumber,</a>
-<a name="100"><span class="lineNum">     100 </span>            :     unsigned           bldEpochSecs,</a>
-<a name="101"><span class="lineNum">     101 </span>            :     const std::string&amp; bldDateTime,</a>
-<a name="102"><span class="lineNum">     102 </span>            :     const std::string&amp; bldCreator,</a>
-<a name="103"><span class="lineNum">     103 </span>            :     const std::string&amp; bldBranch,</a>
-<a name="104"><span class="lineNum">     104 </span><span class="lineNoCov">          0 :     const std::string&amp; bldCommitHash)</span></a>
+<a name="95"><span class="lineNum">      95 </span>            :     std::string_view appName,</a>
+<a name="96"><span class="lineNum">      96 </span>            :     unsigned         bldMajor,</a>
+<a name="97"><span class="lineNum">      97 </span>            :     unsigned         bldMinor,</a>
+<a name="98"><span class="lineNum">      98 </span>            :     unsigned         bldPatch,</a>
+<a name="99"><span class="lineNum">      99 </span>            :     unsigned         bldNumber,</a>
+<a name="100"><span class="lineNum">     100 </span>            :     unsigned         bldEpochSecs,</a>
+<a name="101"><span class="lineNum">     101 </span>            :     std::string_view bldDateTime,</a>
+<a name="102"><span class="lineNum">     102 </span>            :     std::string_view bldCreator,</a>
+<a name="103"><span class="lineNum">     103 </span>            :     std::string_view bldBranch,</a>
+<a name="104"><span class="lineNum">     104 </span><span class="lineNoCov">          0 :     std::string_view bldCommitHash)</span></a>
 <a name="105"><span class="lineNum">     105 </span><span class="lineNoCov">          0 :     : appName_    (appName)</span></a>
 <a name="106"><span class="lineNum">     106 </span><span class="lineNoCov">          0 :     , major_      (bldMajor)</span></a>
 <a name="107"><span class="lineNum">     107 </span><span class="lineNoCov">          0 :     , minor_      (bldMinor)</span></a>
@@ -200,198 +200,230 @@
 <a name="138"><span class="lineNum">     138 </span>            : /*-----------------------------------------------------------*//**</a>
 <a name="139"><span class="lineNum">     139 </span>            : </a>
 <a name="140"><span class="lineNum">     140 </span>            : Returns the application's name.</a>
-<a name="141"><span class="lineNum">     141 </span>            : */</a>
-<a name="142"><span class="lineNum">     142 </span>            : const std::string&amp;</a>
-<a name="143"><span class="lineNum">     143 </span><span class="lineCov">          1 : BuildInfo::appName() const </span></a>
-<a name="144"><span class="lineNum">     144 </span>            : {</a>
-<a name="145"><span class="lineNum">     145 </span><span class="lineCov">          1 :     return appName_;</span></a>
-<a name="146"><span class="lineNum">     146 </span>            : }</a>
-<a name="147"><span class="lineNum">     147 </span>            : </a>
-<a name="148"><span class="lineNum">     148 </span>            : /*-----------------------------------------------------------*//**</a>
-<a name="149"><span class="lineNum">     149 </span>            : </a>
-<a name="150"><span class="lineNum">     150 </span>            : Returns the string major.minor.patch-bldNum</a>
-<a name="151"><span class="lineNum">     151 </span>            : </a>
-<a name="152"><span class="lineNum">     152 </span>            : */</a>
-<a name="153"><span class="lineNum">     153 </span>            : const std::string&amp;</a>
-<a name="154"><span class="lineNum">     154 </span><span class="lineCov">          1 : BuildInfo::quadlet() const </span></a>
-<a name="155"><span class="lineNum">     155 </span>            : {</a>
-<a name="156"><span class="lineNum">     156 </span><span class="lineCov">          1 :     return quadlet_;</span></a>
-<a name="157"><span class="lineNum">     157 </span>            : }</a>
-<a name="158"><span class="lineNum">     158 </span>            : </a>
-<a name="159"><span class="lineNum">     159 </span>            : /*-----------------------------------------------------------*//**</a>
-<a name="160"><span class="lineNum">     160 </span>            : </a>
-<a name="161"><span class="lineNum">     161 </span>            : Returns the string major.minor.patch.</a>
-<a name="162"><span class="lineNum">     162 </span>            : </a>
-<a name="163"><span class="lineNum">     163 </span>            : */</a>
-<a name="164"><span class="lineNum">     164 </span>            : const std::string&amp;</a>
-<a name="165"><span class="lineNum">     165 </span><span class="lineCov">          1 : BuildInfo::triplet() const</span></a>
-<a name="166"><span class="lineNum">     166 </span>            : {</a>
-<a name="167"><span class="lineNum">     167 </span><span class="lineCov">          1 :     return triplet_;</span></a>
-<a name="168"><span class="lineNum">     168 </span>            : }</a>
-<a name="169"><span class="lineNum">     169 </span>            : </a>
-<a name="170"><span class="lineNum">     170 </span>            : /*-----------------------------------------------------------*//**</a>
-<a name="171"><span class="lineNum">     171 </span>            : </a>
-<a name="172"><span class="lineNum">     172 </span>            : Returns the string major.minor</a>
-<a name="173"><span class="lineNum">     173 </span>            : </a>
-<a name="174"><span class="lineNum">     174 </span>            : */</a>
-<a name="175"><span class="lineNum">     175 </span>            : const std::string&amp;</a>
-<a name="176"><span class="lineNum">     176 </span><span class="lineCov">          1 : BuildInfo::doublet() const</span></a>
-<a name="177"><span class="lineNum">     177 </span>            : {</a>
-<a name="178"><span class="lineNum">     178 </span><span class="lineCov">          1 :     return doublet_;</span></a>
-<a name="179"><span class="lineNum">     179 </span>            : }</a>
+<a name="141"><span class="lineNum">     141 </span>            : </a>
+<a name="142"><span class="lineNum">     142 </span>            : @return</a>
+<a name="143"><span class="lineNum">     143 </span>            :     The app name.</a>
+<a name="144"><span class="lineNum">     144 </span>            : */</a>
+<a name="145"><span class="lineNum">     145 </span>            : std::string_view</a>
+<a name="146"><span class="lineNum">     146 </span><span class="lineCov">          2 : BuildInfo::appName() const </span></a>
+<a name="147"><span class="lineNum">     147 </span>            : {</a>
+<a name="148"><span class="lineNum">     148 </span><span class="lineCov">          2 :     return appName_;</span></a>
+<a name="149"><span class="lineNum">     149 </span>            : }</a>
+<a name="150"><span class="lineNum">     150 </span>            : </a>
+<a name="151"><span class="lineNum">     151 </span>            : /*-----------------------------------------------------------*//**</a>
+<a name="152"><span class="lineNum">     152 </span>            : </a>
+<a name="153"><span class="lineNum">     153 </span>            : Returns the string major.minor.patch-bldNum</a>
+<a name="154"><span class="lineNum">     154 </span>            : </a>
+<a name="155"><span class="lineNum">     155 </span>            : @return</a>
+<a name="156"><span class="lineNum">     156 </span>            :     major.minor.patch.bldNum as a string</a>
+<a name="157"><span class="lineNum">     157 </span>            : */</a>
+<a name="158"><span class="lineNum">     158 </span>            : std::string_view</a>
+<a name="159"><span class="lineNum">     159 </span><span class="lineCov">          1 : BuildInfo::quadlet() const </span></a>
+<a name="160"><span class="lineNum">     160 </span>            : {</a>
+<a name="161"><span class="lineNum">     161 </span><span class="lineCov">          1 :     return quadlet_;</span></a>
+<a name="162"><span class="lineNum">     162 </span>            : }</a>
+<a name="163"><span class="lineNum">     163 </span>            : </a>
+<a name="164"><span class="lineNum">     164 </span>            : /*-----------------------------------------------------------*//**</a>
+<a name="165"><span class="lineNum">     165 </span>            : </a>
+<a name="166"><span class="lineNum">     166 </span>            : Returns the string major.minor.patch.</a>
+<a name="167"><span class="lineNum">     167 </span>            : </a>
+<a name="168"><span class="lineNum">     168 </span>            : @return</a>
+<a name="169"><span class="lineNum">     169 </span>            :     major.minor.patch as a string</a>
+<a name="170"><span class="lineNum">     170 </span>            : */</a>
+<a name="171"><span class="lineNum">     171 </span>            : std::string_view</a>
+<a name="172"><span class="lineNum">     172 </span><span class="lineCov">          1 : BuildInfo::triplet() const</span></a>
+<a name="173"><span class="lineNum">     173 </span>            : {</a>
+<a name="174"><span class="lineNum">     174 </span><span class="lineCov">          1 :     return triplet_;</span></a>
+<a name="175"><span class="lineNum">     175 </span>            : }</a>
+<a name="176"><span class="lineNum">     176 </span>            : </a>
+<a name="177"><span class="lineNum">     177 </span>            : /*-----------------------------------------------------------*//**</a>
+<a name="178"><span class="lineNum">     178 </span>            : </a>
+<a name="179"><span class="lineNum">     179 </span>            : Returns the string major.minor</a>
 <a name="180"><span class="lineNum">     180 </span>            : </a>
-<a name="181"><span class="lineNum">     181 </span>            : /*-----------------------------------------------------------*//**</a>
-<a name="182"><span class="lineNum">     182 </span>            : </a>
-<a name="183"><span class="lineNum">     183 </span>            : Returns the date &amp; time of the build as a string in accordance with</a>
-<a name="184"><span class="lineNum">     184 </span>            : RFC 3339 (https://tools.ietf.org/html/rfc3339) which is itself a</a>
-<a name="185"><span class="lineNum">     185 </span>            : subset of ISO 8601 date time interchange format.</a>
-<a name="186"><span class="lineNum">     186 </span>            : </a>
-<a name="187"><span class="lineNum">     187 </span>            : */</a>
-<a name="188"><span class="lineNum">     188 </span>            : const std::string&amp;</a>
-<a name="189"><span class="lineNum">     189 </span><span class="lineCov">          1 : BuildInfo::dateTime() const </span></a>
-<a name="190"><span class="lineNum">     190 </span>            : {</a>
-<a name="191"><span class="lineNum">     191 </span><span class="lineCov">          1 :     return dateTime_;</span></a>
-<a name="192"><span class="lineNum">     192 </span>            : }</a>
-<a name="193"><span class="lineNum">     193 </span>            : </a>
-<a name="194"><span class="lineNum">     194 </span>            : /*-----------------------------------------------------------*//**</a>
+<a name="181"><span class="lineNum">     181 </span>            : @return</a>
+<a name="182"><span class="lineNum">     182 </span>            :     major.minor as a string</a>
+<a name="183"><span class="lineNum">     183 </span>            : */</a>
+<a name="184"><span class="lineNum">     184 </span>            : std::string_view</a>
+<a name="185"><span class="lineNum">     185 </span><span class="lineCov">          1 : BuildInfo::doublet() const</span></a>
+<a name="186"><span class="lineNum">     186 </span>            : {</a>
+<a name="187"><span class="lineNum">     187 </span><span class="lineCov">          1 :     return doublet_;</span></a>
+<a name="188"><span class="lineNum">     188 </span>            : }</a>
+<a name="189"><span class="lineNum">     189 </span>            : </a>
+<a name="190"><span class="lineNum">     190 </span>            : /*-----------------------------------------------------------*//**</a>
+<a name="191"><span class="lineNum">     191 </span>            : </a>
+<a name="192"><span class="lineNum">     192 </span>            : Returns the date &amp; time of the build as a string formated in accordance</a>
+<a name="193"><span class="lineNum">     193 </span>            : with RFC 3339 (https://tools.ietf.org/html/rfc3339) which is itself a</a>
+<a name="194"><span class="lineNum">     194 </span>            : subset of ISO 8601 date time interchange format.</a>
 <a name="195"><span class="lineNum">     195 </span>            : </a>
-<a name="196"><span class="lineNum">     196 </span>            : Returns the user that triggered the build.</a>
-<a name="197"><span class="lineNum">     197 </span>            : </a>
+<a name="196"><span class="lineNum">     196 </span>            : @return</a>
+<a name="197"><span class="lineNum">     197 </span>            :     The date and time of the build.</a>
 <a name="198"><span class="lineNum">     198 </span>            : */</a>
-<a name="199"><span class="lineNum">     199 </span>            : const std::string&amp;</a>
-<a name="200"><span class="lineNum">     200 </span><span class="lineCov">          1 : BuildInfo::creator() const </span></a>
+<a name="199"><span class="lineNum">     199 </span>            : std::string_view</a>
+<a name="200"><span class="lineNum">     200 </span><span class="lineCov">          1 : BuildInfo::dateTime() const </span></a>
 <a name="201"><span class="lineNum">     201 </span>            : {</a>
-<a name="202"><span class="lineNum">     202 </span><span class="lineCov">          1 :     return creator_;</span></a>
+<a name="202"><span class="lineNum">     202 </span><span class="lineCov">          1 :     return dateTime_;</span></a>
 <a name="203"><span class="lineNum">     203 </span>            : }</a>
 <a name="204"><span class="lineNum">     204 </span>            : </a>
 <a name="205"><span class="lineNum">     205 </span>            : /*-----------------------------------------------------------*//**</a>
 <a name="206"><span class="lineNum">     206 </span>            : </a>
-<a name="207"><span class="lineNum">     207 </span>            : Returns the git branch the associated with this build.</a>
+<a name="207"><span class="lineNum">     207 </span>            : Returns the user that triggered the build.</a>
 <a name="208"><span class="lineNum">     208 </span>            : </a>
-<a name="209"><span class="lineNum">     209 </span>            : */</a>
-<a name="210"><span class="lineNum">     210 </span>            : const std::string&amp;</a>
-<a name="211"><span class="lineNum">     211 </span><span class="lineCov">          1 : BuildInfo::branch() const </span></a>
-<a name="212"><span class="lineNum">     212 </span>            : {</a>
-<a name="213"><span class="lineNum">     213 </span><span class="lineCov">          1 :     return branch_;</span></a>
-<a name="214"><span class="lineNum">     214 </span>            : }</a>
-<a name="215"><span class="lineNum">     215 </span>            : </a>
-<a name="216"><span class="lineNum">     216 </span>            : /*-----------------------------------------------------------*//**</a>
+<a name="209"><span class="lineNum">     209 </span>            : @return</a>
+<a name="210"><span class="lineNum">     210 </span>            :     The user name that triggered the build.</a>
+<a name="211"><span class="lineNum">     211 </span>            : */</a>
+<a name="212"><span class="lineNum">     212 </span>            : std::string_view</a>
+<a name="213"><span class="lineNum">     213 </span><span class="lineCov">          1 : BuildInfo::creator() const </span></a>
+<a name="214"><span class="lineNum">     214 </span>            : {</a>
+<a name="215"><span class="lineNum">     215 </span><span class="lineCov">          1 :     return creator_;</span></a>
+<a name="216"><span class="lineNum">     216 </span>            : }</a>
 <a name="217"><span class="lineNum">     217 </span>            : </a>
-<a name="218"><span class="lineNum">     218 </span>            : Returns the hash of the last commit on this branch at the time</a>
-<a name="219"><span class="lineNum">     219 </span>            : the build was triggered.</a>
-<a name="220"><span class="lineNum">     220 </span>            : </a>
-<a name="221"><span class="lineNum">     221 </span>            : */</a>
-<a name="222"><span class="lineNum">     222 </span>            : const std::string&amp;</a>
-<a name="223"><span class="lineNum">     223 </span><span class="lineCov">          1 : BuildInfo::commitHash() const </span></a>
-<a name="224"><span class="lineNum">     224 </span>            : {</a>
-<a name="225"><span class="lineNum">     225 </span><span class="lineCov">          1 :     return commitHash_;</span></a>
-<a name="226"><span class="lineNum">     226 </span>            : }</a>
-<a name="227"><span class="lineNum">     227 </span>            : </a>
-<a name="228"><span class="lineNum">     228 </span>            : /*-----------------------------------------------------------*//**</a>
-<a name="229"><span class="lineNum">     229 </span>            : </a>
-<a name="230"><span class="lineNum">     230 </span>            : Returns the major version.</a>
-<a name="231"><span class="lineNum">     231 </span>            : </a>
-<a name="232"><span class="lineNum">     232 </span>            : */</a>
-<a name="233"><span class="lineNum">     233 </span>            : unsigned      </a>
-<a name="234"><span class="lineNum">     234 </span><span class="lineCov">          1 : BuildInfo::major() const</span></a>
-<a name="235"><span class="lineNum">     235 </span>            : {</a>
-<a name="236"><span class="lineNum">     236 </span><span class="lineCov">          1 :     return major_;</span></a>
-<a name="237"><span class="lineNum">     237 </span>            : }</a>
-<a name="238"><span class="lineNum">     238 </span>            : </a>
-<a name="239"><span class="lineNum">     239 </span>            : /*-----------------------------------------------------------*//**</a>
-<a name="240"><span class="lineNum">     240 </span>            : </a>
-<a name="241"><span class="lineNum">     241 </span>            : Returns the minor version.</a>
-<a name="242"><span class="lineNum">     242 </span>            : </a>
-<a name="243"><span class="lineNum">     243 </span>            : */</a>
-<a name="244"><span class="lineNum">     244 </span>            : unsigned      </a>
-<a name="245"><span class="lineNum">     245 </span><span class="lineCov">          1 : BuildInfo::minor() const</span></a>
-<a name="246"><span class="lineNum">     246 </span>            : {</a>
-<a name="247"><span class="lineNum">     247 </span><span class="lineCov">          1 :     return minor_;</span></a>
-<a name="248"><span class="lineNum">     248 </span>            : }</a>
-<a name="249"><span class="lineNum">     249 </span>            : </a>
-<a name="250"><span class="lineNum">     250 </span>            : /*-----------------------------------------------------------*//**</a>
-<a name="251"><span class="lineNum">     251 </span>            : </a>
-<a name="252"><span class="lineNum">     252 </span>            : Returns the patch version.</a>
-<a name="253"><span class="lineNum">     253 </span>            : </a>
-<a name="254"><span class="lineNum">     254 </span>            : */</a>
-<a name="255"><span class="lineNum">     255 </span>            : unsigned      </a>
-<a name="256"><span class="lineNum">     256 </span><span class="lineCov">          1 : BuildInfo::patch() const</span></a>
-<a name="257"><span class="lineNum">     257 </span>            : {</a>
-<a name="258"><span class="lineNum">     258 </span><span class="lineCov">          1 :     return patch_;</span></a>
-<a name="259"><span class="lineNum">     259 </span>            : }</a>
-<a name="260"><span class="lineNum">     260 </span>            : </a>
-<a name="261"><span class="lineNum">     261 </span>            : /*-----------------------------------------------------------*//**</a>
-<a name="262"><span class="lineNum">     262 </span>            : </a>
-<a name="263"><span class="lineNum">     263 </span>            : Returns the build number.</a>
-<a name="264"><span class="lineNum">     264 </span>            : </a>
-<a name="265"><span class="lineNum">     265 </span>            : */</a>
-<a name="266"><span class="lineNum">     266 </span>            : unsigned      </a>
-<a name="267"><span class="lineNum">     267 </span><span class="lineCov">          1 : BuildInfo::number() const</span></a>
-<a name="268"><span class="lineNum">     268 </span>            : {</a>
-<a name="269"><span class="lineNum">     269 </span><span class="lineCov">          1 :     return bldNum_;</span></a>
-<a name="270"><span class="lineNum">     270 </span>            : }</a>
-<a name="271"><span class="lineNum">     271 </span>            : </a>
-<a name="272"><span class="lineNum">     272 </span>            : /*-----------------------------------------------------------*//**</a>
-<a name="273"><span class="lineNum">     273 </span>            : </a>
-<a name="274"><span class="lineNum">     274 </span>            : Returns the epoch in seconds.</a>
-<a name="275"><span class="lineNum">     275 </span>            : </a>
-<a name="276"><span class="lineNum">     276 </span>            : */</a>
-<a name="277"><span class="lineNum">     277 </span>            : unsigned      </a>
-<a name="278"><span class="lineNum">     278 </span><span class="lineNoCov">          0 : BuildInfo::epoch() const</span></a>
-<a name="279"><span class="lineNum">     279 </span>            : {</a>
-<a name="280"><span class="lineNum">     280 </span><span class="lineNoCov">          0 :     return epochSecs_;</span></a>
-<a name="281"><span class="lineNum">     281 </span>            : }</a>
-<a name="282"><span class="lineNum">     282 </span>            : </a>
-<a name="283"><span class="lineNum">     283 </span>            : /*-----------------------------------------------------------*//**</a>
-<a name="284"><span class="lineNum">     284 </span>            : </a>
-<a name="285"><span class="lineNum">     285 </span>            : Returns a short formatted string containing version info.</a>
-<a name="286"><span class="lineNum">     286 </span>            : </a>
-<a name="287"><span class="lineNum">     287 </span>            : This is just the quadlet prepended with the application name.</a>
-<a name="288"><span class="lineNum">     288 </span>            : </a>
-<a name="289"><span class="lineNum">     289 </span>            : Example formatted output looks like this:</a>
-<a name="290"><span class="lineNum">     290 </span>            : </a>
-<a name="291"><span class="lineNum">     291 </span>            :     AppName v2.3.1-1608191117</a>
-<a name="292"><span class="lineNum">     292 </span>            : */</a>
-<a name="293"><span class="lineNum">     293 </span>            : std::string</a>
-<a name="294"><span class="lineNum">     294 </span><span class="lineCov">          1 : BuildInfo::shortInfo() const</span></a>
-<a name="295"><span class="lineNum">     295 </span>            : {</a>
-<a name="296"><span class="lineNum">     296 </span><span class="lineCov">          1 :     std::ostringstream sstr;</span></a>
-<a name="297"><span class="lineNum">     297 </span><span class="lineCov">          1 :     sstr &lt;&lt; appName_ &lt;&lt; &quot; v&quot;</span></a>
-<a name="298"><span class="lineNum">     298 </span><span class="lineCov">          1 :          &lt;&lt; quadlet_ &lt;&lt; std::endl;</span></a>
-<a name="299"><span class="lineNum">     299 </span><span class="lineCov">          2 :     return sstr.str();</span></a>
-<a name="300"><span class="lineNum">     300 </span><span class="lineCov">          1 : }</span></a>
-<a name="301"><span class="lineNum">     301 </span>            : </a>
-<a name="302"><span class="lineNum">     302 </span>            : /*-----------------------------------------------------------*//**</a>
-<a name="303"><span class="lineNum">     303 </span>            : </a>
-<a name="304"><span class="lineNum">     304 </span>            : Returns a long formatted string of version and build info.</a>
-<a name="305"><span class="lineNum">     305 </span>            : </a>
-<a name="306"><span class="lineNum">     306 </span>            : Example formatted output looks like this:</a>
-<a name="307"><span class="lineNum">     307 </span>            : @code{.unparsed}</a>
-<a name="308"><span class="lineNum">     308 </span>            :    SampleApp v2.3.1-1608191117</a>
-<a name="309"><span class="lineNum">     309 </span>            :        Built by: Elvis</a>
-<a name="310"><span class="lineNum">     310 </span>            :        Build date: 2020-12-17T07:45:17Z</a>
-<a name="311"><span class="lineNum">     311 </span>            :        Build epoch: 1608191117</a>
-<a name="312"><span class="lineNum">     312 </span>            :        Build branch: empty (not in a repo)</a>
-<a name="313"><span class="lineNum">     313 </span>            :        Last commit hash: empty (not in a repo)</a>
-<a name="314"><span class="lineNum">     314 </span>            : @endcode</a>
+<a name="218"><span class="lineNum">     218 </span>            : /*-----------------------------------------------------------*//**</a>
+<a name="219"><span class="lineNum">     219 </span>            : </a>
+<a name="220"><span class="lineNum">     220 </span>            : Returns the Git branch the associated with this build.</a>
+<a name="221"><span class="lineNum">     221 </span>            : </a>
+<a name="222"><span class="lineNum">     222 </span>            : @return</a>
+<a name="223"><span class="lineNum">     223 </span>            :     The name of the branch.</a>
+<a name="224"><span class="lineNum">     224 </span>            : */</a>
+<a name="225"><span class="lineNum">     225 </span>            : std::string_view</a>
+<a name="226"><span class="lineNum">     226 </span><span class="lineCov">          1 : BuildInfo::branch() const </span></a>
+<a name="227"><span class="lineNum">     227 </span>            : {</a>
+<a name="228"><span class="lineNum">     228 </span><span class="lineCov">          1 :     return branch_;</span></a>
+<a name="229"><span class="lineNum">     229 </span>            : }</a>
+<a name="230"><span class="lineNum">     230 </span>            : </a>
+<a name="231"><span class="lineNum">     231 </span>            : /*-----------------------------------------------------------*//**</a>
+<a name="232"><span class="lineNum">     232 </span>            : </a>
+<a name="233"><span class="lineNum">     233 </span>            : Returns the hash of the last commit on this branch at the time</a>
+<a name="234"><span class="lineNum">     234 </span>            : the build was triggered.</a>
+<a name="235"><span class="lineNum">     235 </span>            : </a>
+<a name="236"><span class="lineNum">     236 </span>            : @return</a>
+<a name="237"><span class="lineNum">     237 </span>            :     The commit hash.</a>
+<a name="238"><span class="lineNum">     238 </span>            : */</a>
+<a name="239"><span class="lineNum">     239 </span>            : std::string_view</a>
+<a name="240"><span class="lineNum">     240 </span><span class="lineCov">          1 : BuildInfo::commitHash() const </span></a>
+<a name="241"><span class="lineNum">     241 </span>            : {</a>
+<a name="242"><span class="lineNum">     242 </span><span class="lineCov">          1 :     return commitHash_;</span></a>
+<a name="243"><span class="lineNum">     243 </span>            : }</a>
+<a name="244"><span class="lineNum">     244 </span>            : </a>
+<a name="245"><span class="lineNum">     245 </span>            : /*-----------------------------------------------------------*//**</a>
+<a name="246"><span class="lineNum">     246 </span>            : </a>
+<a name="247"><span class="lineNum">     247 </span>            : Returns the major version.</a>
+<a name="248"><span class="lineNum">     248 </span>            : </a>
+<a name="249"><span class="lineNum">     249 </span>            : @return</a>
+<a name="250"><span class="lineNum">     250 </span>            :     The major version number.</a>
+<a name="251"><span class="lineNum">     251 </span>            : */</a>
+<a name="252"><span class="lineNum">     252 </span>            : unsigned      </a>
+<a name="253"><span class="lineNum">     253 </span><span class="lineCov">          1 : BuildInfo::major() const</span></a>
+<a name="254"><span class="lineNum">     254 </span>            : {</a>
+<a name="255"><span class="lineNum">     255 </span><span class="lineCov">          1 :     return major_;</span></a>
+<a name="256"><span class="lineNum">     256 </span>            : }</a>
+<a name="257"><span class="lineNum">     257 </span>            : </a>
+<a name="258"><span class="lineNum">     258 </span>            : /*-----------------------------------------------------------*//**</a>
+<a name="259"><span class="lineNum">     259 </span>            : </a>
+<a name="260"><span class="lineNum">     260 </span>            : Returns the minor version.</a>
+<a name="261"><span class="lineNum">     261 </span>            : </a>
+<a name="262"><span class="lineNum">     262 </span>            : @return</a>
+<a name="263"><span class="lineNum">     263 </span>            :     The minor version number.</a>
+<a name="264"><span class="lineNum">     264 </span>            : */</a>
+<a name="265"><span class="lineNum">     265 </span>            : unsigned      </a>
+<a name="266"><span class="lineNum">     266 </span><span class="lineCov">          1 : BuildInfo::minor() const</span></a>
+<a name="267"><span class="lineNum">     267 </span>            : {</a>
+<a name="268"><span class="lineNum">     268 </span><span class="lineCov">          1 :     return minor_;</span></a>
+<a name="269"><span class="lineNum">     269 </span>            : }</a>
+<a name="270"><span class="lineNum">     270 </span>            : </a>
+<a name="271"><span class="lineNum">     271 </span>            : /*-----------------------------------------------------------*//**</a>
+<a name="272"><span class="lineNum">     272 </span>            : </a>
+<a name="273"><span class="lineNum">     273 </span>            : Returns the patch version.</a>
+<a name="274"><span class="lineNum">     274 </span>            : </a>
+<a name="275"><span class="lineNum">     275 </span>            : @return</a>
+<a name="276"><span class="lineNum">     276 </span>            :     The patch version number.</a>
+<a name="277"><span class="lineNum">     277 </span>            : */</a>
+<a name="278"><span class="lineNum">     278 </span>            : unsigned      </a>
+<a name="279"><span class="lineNum">     279 </span><span class="lineCov">          1 : BuildInfo::patch() const</span></a>
+<a name="280"><span class="lineNum">     280 </span>            : {</a>
+<a name="281"><span class="lineNum">     281 </span><span class="lineCov">          1 :     return patch_;</span></a>
+<a name="282"><span class="lineNum">     282 </span>            : }</a>
+<a name="283"><span class="lineNum">     283 </span>            : </a>
+<a name="284"><span class="lineNum">     284 </span>            : /*-----------------------------------------------------------*//**</a>
+<a name="285"><span class="lineNum">     285 </span>            : </a>
+<a name="286"><span class="lineNum">     286 </span>            : Returns the build number.</a>
+<a name="287"><span class="lineNum">     287 </span>            : </a>
+<a name="288"><span class="lineNum">     288 </span>            : @return</a>
+<a name="289"><span class="lineNum">     289 </span>            :     The build number.</a>
+<a name="290"><span class="lineNum">     290 </span>            : */</a>
+<a name="291"><span class="lineNum">     291 </span>            : unsigned      </a>
+<a name="292"><span class="lineNum">     292 </span><span class="lineCov">          1 : BuildInfo::bldnum() const</span></a>
+<a name="293"><span class="lineNum">     293 </span>            : {</a>
+<a name="294"><span class="lineNum">     294 </span><span class="lineCov">          1 :     return bldNum_;</span></a>
+<a name="295"><span class="lineNum">     295 </span>            : }</a>
+<a name="296"><span class="lineNum">     296 </span>            : </a>
+<a name="297"><span class="lineNum">     297 </span>            : /*-----------------------------------------------------------*//**</a>
+<a name="298"><span class="lineNum">     298 </span>            : </a>
+<a name="299"><span class="lineNum">     299 </span>            : Returns the epoch in seconds.</a>
+<a name="300"><span class="lineNum">     300 </span>            : </a>
+<a name="301"><span class="lineNum">     301 </span>            : @return</a>
+<a name="302"><span class="lineNum">     302 </span>            :     The epoch in seconds.</a>
+<a name="303"><span class="lineNum">     303 </span>            : */</a>
+<a name="304"><span class="lineNum">     304 </span>            : unsigned      </a>
+<a name="305"><span class="lineNum">     305 </span><span class="lineNoCov">          0 : BuildInfo::epoch() const</span></a>
+<a name="306"><span class="lineNum">     306 </span>            : {</a>
+<a name="307"><span class="lineNum">     307 </span><span class="lineNoCov">          0 :     return epochSecs_;</span></a>
+<a name="308"><span class="lineNum">     308 </span>            : }</a>
+<a name="309"><span class="lineNum">     309 </span>            : </a>
+<a name="310"><span class="lineNum">     310 </span>            : /*-----------------------------------------------------------*//**</a>
+<a name="311"><span class="lineNum">     311 </span>            : </a>
+<a name="312"><span class="lineNum">     312 </span>            : Returns a short formatted string containing version info.</a>
+<a name="313"><span class="lineNum">     313 </span>            : </a>
+<a name="314"><span class="lineNum">     314 </span>            : This is just the quadlet prepended with the application name.</a>
 <a name="315"><span class="lineNum">     315 </span>            : </a>
-<a name="316"><span class="lineNum">     316 </span>            : */</a>
-<a name="317"><span class="lineNum">     317 </span>            : std::string</a>
-<a name="318"><span class="lineNum">     318 </span><span class="lineCov">          1 : BuildInfo::fullInfo() const</span></a>
-<a name="319"><span class="lineNum">     319 </span>            : {</a>
-<a name="320"><span class="lineNum">     320 </span><span class="lineCov">          1 :     std::ostringstream sstr;</span></a>
-<a name="321"><span class="lineNum">     321 </span><span class="lineCov">          1 :     sstr &lt;&lt; appName_ &lt;&lt; &quot; v&quot;</span></a>
-<a name="322"><span class="lineNum">     322 </span><span class="lineCov">          1 :          &lt;&lt; quadlet_ &lt;&lt; std::endl;</span></a>
-<a name="323"><span class="lineNum">     323 </span>            :     sstr</a>
-<a name="324"><span class="lineNum">     324 </span><span class="lineCov">          1 :         &lt;&lt; &quot;    Built by: &quot;         &lt;&lt; creator_    &lt;&lt; std::endl</span></a>
-<a name="325"><span class="lineNum">     325 </span><span class="lineCov">          1 :         &lt;&lt; &quot;    Build date: &quot;       &lt;&lt; dateTime_   &lt;&lt; std::endl</span></a>
-<a name="326"><span class="lineNum">     326 </span><span class="lineCov">          1 :         &lt;&lt; &quot;    Build epoch: &quot;      &lt;&lt; epochSecs_  &lt;&lt; std::endl</span></a>
-<a name="327"><span class="lineNum">     327 </span><span class="lineCov">          1 :         &lt;&lt; &quot;    Build branch: &quot;     &lt;&lt; branch_     &lt;&lt; std::endl</span></a>
-<a name="328"><span class="lineNum">     328 </span><span class="lineCov">          1 :         &lt;&lt; &quot;    Last commit hash: &quot; &lt;&lt; commitHash_ &lt;&lt; std::endl;</span></a>
+<a name="316"><span class="lineNum">     316 </span>            : Example formatted output looks like this:</a>
+<a name="317"><span class="lineNum">     317 </span>            : </a>
+<a name="318"><span class="lineNum">     318 </span>            :     AppName v2.3.1-1608191117</a>
+<a name="319"><span class="lineNum">     319 </span>            : </a>
+<a name="320"><span class="lineNum">     320 </span>            : @return</a>
+<a name="321"><span class="lineNum">     321 </span>            :     A short form of version info.</a>
+<a name="322"><span class="lineNum">     322 </span>            : */</a>
+<a name="323"><span class="lineNum">     323 </span>            : std::string</a>
+<a name="324"><span class="lineNum">     324 </span><span class="lineCov">          1 : BuildInfo::shortInfo() const</span></a>
+<a name="325"><span class="lineNum">     325 </span>            : {</a>
+<a name="326"><span class="lineNum">     326 </span><span class="lineCov">          1 :     std::ostringstream sstr;</span></a>
+<a name="327"><span class="lineNum">     327 </span><span class="lineCov">          1 :     sstr &lt;&lt; appName_ &lt;&lt; &quot; v&quot;</span></a>
+<a name="328"><span class="lineNum">     328 </span><span class="lineCov">          1 :          &lt;&lt; quadlet_ &lt;&lt; std::endl;</span></a>
 <a name="329"><span class="lineNum">     329 </span><span class="lineCov">          2 :     return sstr.str();</span></a>
 <a name="330"><span class="lineNum">     330 </span><span class="lineCov">          1 : }</span></a>
 <a name="331"><span class="lineNum">     331 </span>            : </a>
-<a name="332"><span class="lineNum">     332 </span>            : //----------------------------------------------------------------</a>
+<a name="332"><span class="lineNum">     332 </span>            : /*-----------------------------------------------------------*//**</a>
+<a name="333"><span class="lineNum">     333 </span>            : </a>
+<a name="334"><span class="lineNum">     334 </span>            : Returns a long formatted string of version and build info.</a>
+<a name="335"><span class="lineNum">     335 </span>            : </a>
+<a name="336"><span class="lineNum">     336 </span>            : Example formatted output looks like this:</a>
+<a name="337"><span class="lineNum">     337 </span>            : @code{.unparsed}</a>
+<a name="338"><span class="lineNum">     338 </span>            :    SampleApp v2.3.1-1608191117</a>
+<a name="339"><span class="lineNum">     339 </span>            :        Built by: Elvis</a>
+<a name="340"><span class="lineNum">     340 </span>            :        Build date: 2020-12-17T07:45:17Z</a>
+<a name="341"><span class="lineNum">     341 </span>            :        Build epoch: 1608191117</a>
+<a name="342"><span class="lineNum">     342 </span>            :        Build branch: empty (not in a repo)</a>
+<a name="343"><span class="lineNum">     343 </span>            :        Last commit hash: empty (not in a repo)</a>
+<a name="344"><span class="lineNum">     344 </span>            : @endcode</a>
+<a name="345"><span class="lineNum">     345 </span>            : </a>
+<a name="346"><span class="lineNum">     346 </span>            : @return</a>
+<a name="347"><span class="lineNum">     347 </span>            :     A long form of version info.</a>
+<a name="348"><span class="lineNum">     348 </span>            : */</a>
+<a name="349"><span class="lineNum">     349 </span>            : std::string</a>
+<a name="350"><span class="lineNum">     350 </span><span class="lineCov">          1 : BuildInfo::fullInfo() const</span></a>
+<a name="351"><span class="lineNum">     351 </span>            : {</a>
+<a name="352"><span class="lineNum">     352 </span><span class="lineCov">          1 :     std::ostringstream sstr;</span></a>
+<a name="353"><span class="lineNum">     353 </span><span class="lineCov">          1 :     sstr &lt;&lt; appName_ &lt;&lt; &quot; v&quot;</span></a>
+<a name="354"><span class="lineNum">     354 </span><span class="lineCov">          1 :          &lt;&lt; quadlet_ &lt;&lt; std::endl;</span></a>
+<a name="355"><span class="lineNum">     355 </span>            :     sstr</a>
+<a name="356"><span class="lineNum">     356 </span><span class="lineCov">          1 :         &lt;&lt; &quot;    Built by: &quot;         &lt;&lt; creator_    &lt;&lt; std::endl</span></a>
+<a name="357"><span class="lineNum">     357 </span><span class="lineCov">          1 :         &lt;&lt; &quot;    Build date: &quot;       &lt;&lt; dateTime_   &lt;&lt; std::endl</span></a>
+<a name="358"><span class="lineNum">     358 </span><span class="lineCov">          1 :         &lt;&lt; &quot;    Build epoch: &quot;      &lt;&lt; epochSecs_  &lt;&lt; std::endl</span></a>
+<a name="359"><span class="lineNum">     359 </span><span class="lineCov">          1 :         &lt;&lt; &quot;    Build branch: &quot;     &lt;&lt; branch_     &lt;&lt; std::endl</span></a>
+<a name="360"><span class="lineNum">     360 </span><span class="lineCov">          1 :         &lt;&lt; &quot;    Last commit hash: &quot; &lt;&lt; commitHash_ &lt;&lt; std::endl;</span></a>
+<a name="361"><span class="lineNum">     361 </span><span class="lineCov">          2 :     return sstr.str();</span></a>
+<a name="362"><span class="lineNum">     362 </span><span class="lineCov">          1 : }</span></a>
+<a name="363"><span class="lineNum">     363 </span>            : </a>
+<a name="364"><span class="lineNum">     364 </span>            : //----------------------------------------------------------------</a>
 </pre>
       </td>
     </tr>
