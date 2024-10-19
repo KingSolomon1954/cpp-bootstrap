@@ -17,9 +17,9 @@ ifndef DEFAULT_BUILD_TYPE
     $(error cpp.mak must define 'DEFAULT_BUILD_TYPE')
 endif
 
-_D_CVG       := $(D_BLD_DEBUG)/coverage
-_CVG_REPORT  := $(D_BLD_DEBUG)/coverage/index.html
-_CVG_PERCENT := $(D_BLD_DEBUG)/coverage/unit-test-cpp-percentage
+_D_CVG      := $(D_BLD_DEBUG)/coverage
+_CVG_REPORT := $(D_BLD_DEBUG)/coverage/index.html
+_CVG_BADGE  := $(D_BLD_DEBUG)/coverage/code-coverage-badge.yml
 
 # This is relative to D_BLD folder, so no D_BLD prefix
 _CVG_UT_REPORT := coverage/unit-test-run.xml
@@ -36,9 +36,11 @@ code-coverage: conan-debug
 	    -DCoverage_JUNIT_OUTPUT=$(_CVG_UT_REPORT)
 	$(CPP_BLD_CNTR_EXEC) make -C $(D_BLD_DEBUG) -j $$(nproc)
 	$(CPP_BLD_CNTR_EXEC) make -C $(D_BLD_DEBUG) coverage
-	@echo -n "$$(grep -oP -e '(?<=class="headerCovTableEntryLo">).*?(?=%</td>)|(?<=class="headerCovTableEntryMed">).*?(?=%</td>)' $(_CVG_REPORT) | head -n 1)" > $(_CVG_PERCENT)
+	$(D_SCP)/code-coverage-badge.bash $(_CVG_REPORT) $(_CVG_BADGE)
 	@echo "Find coverage/profiling results in $(_CVG_REPORT)"
 	@echo "Find unit-test run in $(D_BLD_DEBUG)/$(_CVG_UT_REPORT)"
+
+#	@echo -n "$$(grep -oP -e '(?<=class="headerCovTableEntryLo">).*?(?=%</td>)|(?<=class="headerCovTableEntryMed">).*?(?=%</td>)' $(_CVG_REPORT) | head -n 1)" > $(_CVG_PERCENT)
 
 code-coverage-clean:
 	rm -rf $(_D_CVG)

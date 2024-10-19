@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<analyzerinfo hash="13899673056059610154">
+  <FileInfo check="CheckUnusedFunctions">
+    <functioncall functionName="CommandLine"/>
+    <functioncall functionName="add_options"/>
+    <functioncall functionName="as"/>
+    <functioncall functionName="count"/>
+    <functioncall functionName="default_value"/>
+    <functioncall functionName="exit"/>
+    <functioncall functionName="help"/>
+    <functioncall functionName="options"/>
+    <functioncall functionName="parse"/>
+    <functioncall functionName="shortInfo"/>
+    <functioncall functionName="string"/>
+    <functioncall functionName="value"/>
+  </FileInfo>
+</analyzerinfo>
