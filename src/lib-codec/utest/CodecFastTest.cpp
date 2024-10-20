@@ -4,12 +4,12 @@
 //
 //----------------------------------------------------------------
 
-#include "lib-codec/CodecFast.h"
+#include "codec/CodecFast.h"
 #include <doctest/doctest.h>
 
 //----------------------------------------------------------------
 
-TEST_CASE("LibCodec::CodecFast:all")
+TEST_CASE("Codec::CodecFast:all")
 {
     REQUIRE(true);
 }

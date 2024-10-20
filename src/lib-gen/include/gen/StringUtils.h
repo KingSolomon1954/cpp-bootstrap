@@ -9,7 +9,7 @@
 #include <string>
 #include <cstdarg>  // For variable args
 
-namespace LibGen
+namespace Gen
 {
 
 class StringUtils
@@ -86,7 +86,7 @@ Most of these functions change the string in-place.
 
 */
 
-}  // namespace LibGen
+}  // namespace Gen
 
 //---------------------------------------------------------------
 

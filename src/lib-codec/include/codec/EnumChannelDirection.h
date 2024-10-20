@@ -54,7 +54,7 @@ std::ostream& operator<< (std::ostream& out, const ChannelDirection& d);
 This is a small namespace holding functions that only
 operate on ChannelDirection enum.
 
-This is part of Lib B.
+This is part of lib Codec.
 
 */
 

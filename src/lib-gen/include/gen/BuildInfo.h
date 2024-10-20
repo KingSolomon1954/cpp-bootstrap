@@ -9,7 +9,7 @@
 #include <string>
 #include <string_view>
 
-namespace LibGen {
+namespace Gen {
 
 class BuildInfo
 {
@@ -85,4 +85,4 @@ initial build information to the constructor.
 
 //----------------------------------------------------------------
     
-} // namespace LibGen
+} // namespace Gen

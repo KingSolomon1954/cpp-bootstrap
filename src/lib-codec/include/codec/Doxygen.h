@@ -10,11 +10,12 @@
 
 /*-----------------------------------------------------------*//**
 
-@namespace LibGen
+@namespace Codec
 
 @brief Supply Library description.
 
 Add longer description.
+
 */
 
 //----------------------------------------------------------------

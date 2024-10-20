@@ -6,7 +6,7 @@
 
 #pragma once
 
-namespace LibGen
+namespace Gen
 {
     class BuildInfo;  // fwd
 }
@@ -18,7 +18,7 @@ class CommandLine
 public:
     /// @name Lifecycle
     /// @{
-    CommandLine(int argc, char* argv[], const LibGen::BuildInfo& bld);
+    CommandLine(int argc, char* argv[], const Gen::BuildInfo& bld);
    ~CommandLine() = default;
     /// @}
 

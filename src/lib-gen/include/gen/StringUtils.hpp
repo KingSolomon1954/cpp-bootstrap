@@ -6,7 +6,7 @@
 
 #pragma once
 
-namespace LibGen
+namespace Gen
 {
 
 /*-----------------------------------------------------------*//**
@@ -280,4 +280,4 @@ StringUtils::replace(std::string& s1,
 
 //---------------------------------------------------------------
 
-}  // namespace LibGen
+}  // namespace Gen

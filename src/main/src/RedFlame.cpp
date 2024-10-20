@@ -7,9 +7,9 @@
 #include "RedFlame.h"
 #include <iostream>
 #include <rang.hpp>
-#include "lib-gen/BuildInfo.h"
-#include "lib-gen/StringUtils.h"
-#include "lib-codec/EnumChannelDirection.h"
+#include "gen/BuildInfo.h"
+#include "gen/StringUtils.h"
+#include "codec/EnumChannelDirection.h"
 #include "CommandLine.h"
 #include "Properties.h"
 
@@ -27,7 +27,7 @@ Constructor
 */
 RedFlame::RedFlame(int argc, char* argv[])
 {
-    LibGen::BuildInfo bld("RedFlame");
+    Gen::BuildInfo bld("RedFlame");
     CommandLine cmdline(argc, argv, bld);
     std::cout << bld.fullInfo() << std::endl;
     
@@ -36,7 +36,7 @@ RedFlame::RedFlame(int argc, char* argv[])
               << cd << rang::fg::reset << std::endl;
 
     std::string x("QuestionEverything");
-    std::string y = LibGen::StringUtils::toLower(x);
+    std::string y = Gen::StringUtils::toLower(x);
     Properties props;
     (void)props;
 }

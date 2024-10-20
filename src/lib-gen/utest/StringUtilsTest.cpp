@@ -4,18 +4,18 @@
 //
 //----------------------------------------------------------------
 
-#include "lib-gen/StringUtils.h"
+#include "gen/StringUtils.h"
 
 #include <string.h>     // For memset()
 #include <inttypes.h>   // For PRIdPTR
 #include <doctest/doctest.h>
 
-using namespace LibGen;
+using namespace Gen;
 using std::string;
 
 //----------------------------------------------------------------
 
-TEST_CASE("LibGen::StringUtilsTest: all")
+TEST_CASE("Gen::StringUtilsTest: all")
 {
     const std::string src("aragorn is the king");
     

@@ -4,15 +4,15 @@
 //
 //----------------------------------------------------------------
 
-#include "lib-gen/BuildInfo.h"
+#include "gen/BuildInfo.h"
 #include <doctest/doctest.h>
 
-using namespace LibGen;
+using namespace Gen;
 using std::string;
 
 //----------------------------------------------------------------
 
-TEST_CASE("LibGen::BuildInfoTest: all")
+TEST_CASE("Gen::BuildInfoTest: all")
 {
     std::string name("C++Starter");
     BuildInfo b(name);

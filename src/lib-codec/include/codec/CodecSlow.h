@@ -6,7 +6,7 @@
 
 #pragma once
 
-namespace LibCodec {
+namespace Codec {
 
 class CodecSlow
 {
@@ -36,6 +36,6 @@ Supply class description.
 
 */
 
-} // namespace LibCodec
+} // namespace Codec
 
 //----------------------------------------------------------------

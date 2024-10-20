@@ -4,17 +4,17 @@
 #
 # -----------------------------------------------------------------
 
-add_executable(lib-gen-ut
-    utest-lib-gen.cpp
+add_executable(gen-ut
+    utest-gen-main.cpp
     BuildInfoTest.cpp
     StringUtilsTest.cpp
 )
 
-target_link_libraries(lib-gen-ut
-    PRIVATE lib-gen
+target_link_libraries(gen-ut
+    PRIVATE gen
     PRIVATE doctest::doctest
 )
 
-doctest_discover_tests(lib-gen-ut)
+doctest_discover_tests(gen-ut)
 
 # -----------------------------------------------------------------
