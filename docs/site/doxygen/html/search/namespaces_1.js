@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['enumchanneldirection_0',['EnumChannelDirection',['../namespaceEnumChannelDirection.html',1,'']]]
+  ['codec_0',['Codec',['../namespaceCodec.html',1,'']]]
 ];

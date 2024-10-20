@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<analyzerinfo hash="4706983751946473908">
+<analyzerinfo hash="11350068359011990969">
   <FileInfo check="CheckUnusedFunctions">
     <functioncall functionName="begin"/>
     <functioncall functionName="empty"/>

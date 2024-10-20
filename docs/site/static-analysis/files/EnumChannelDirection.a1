@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<analyzerinfo hash="13541168782152069178">
+<analyzerinfo hash="13868502968421358582">
   <FileInfo check="Uninitialized variables">
     <unsafe-usage my-id="/work/src/lib-codec/src/EnumChannelDirection.cpp:166:1" my-argnr="1" my-argname="out" file="/work/src/lib-codec/src/EnumChannelDirection.cpp" line="168" col="5" value="0"/>
   </FileInfo>

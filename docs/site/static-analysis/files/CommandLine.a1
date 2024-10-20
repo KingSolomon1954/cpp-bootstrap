@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<analyzerinfo hash="13899673056059610154">
+<analyzerinfo hash="5498773962743041099">
   <FileInfo check="CheckUnusedFunctions">
     <functioncall functionName="CommandLine"/>
     <functioncall functionName="add_options"/>
