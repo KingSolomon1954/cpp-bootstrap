@@ -4,9 +4,9 @@
 //
 //----------------------------------------------------------------
 
-#include "lib-codec/CodecSlow.h"
+#include "codec/CodecSlow.h"
 
-using namespace LibCodec;
+using namespace Codec;
 
 /*-----------------------------------------------------------*//**
 

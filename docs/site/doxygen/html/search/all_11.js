@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['_7ebuildinfo_0',['~BuildInfo',['../classLibGen_1_1BuildInfo.html#ad531f74e3394e5f53b1e71135ccf6c89',1,'LibGen::BuildInfo']]]
+  ['whitespace_0',['whiteSpace',['../classGen_1_1StringUtils.html#a00936c6a4ce2e22d0e1e6d278069486a',1,'Gen::StringUtils']]]
 ];

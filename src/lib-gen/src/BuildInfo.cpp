@@ -4,11 +4,11 @@
 //
 //---------------------------------------------------------------
 
-#include "lib-gen/BuildInfo.h"
+#include "gen/BuildInfo.h"
 #include <sstream>
 #include "BuildInfoDefs.h"
 
-using namespace LibGen;
+using namespace Gen;
 
 /*-----------------------------------------------------------*//**
 

@@ -18,8 +18,8 @@ target_include_directories(main
 )
 
 target_link_libraries(main
-    PUBLIC lib-gen
-    PUBLIC lib-codec
+    PUBLIC gen
+    PUBLIC codec
     PUBLIC cxxopts::cxxopts
     PUBLIC rang::rang
 )

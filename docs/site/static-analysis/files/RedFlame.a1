@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<analyzerinfo hash="2228351230966895814">
+<analyzerinfo hash="3342973898602172910">
   <FileInfo check="CheckUnusedFunctions">
     <functioncall functionName="Forward"/>
     <functioncall functionName="RedFlame"/>

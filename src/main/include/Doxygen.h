@@ -17,8 +17,8 @@
 Add description of RedFlame
 
 @li @ref App
-@li @ref LibGen
-@li @ref LibCodec
+@li @ref Gen
+@li @ref Codec
 @li @ref free
 
 */

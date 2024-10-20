@@ -4,9 +4,9 @@
 //
 //----------------------------------------------------------------
 
-#include "lib-codec/CodecFast.h"
+#include "codec/CodecFast.h"
 
-using namespace LibCodec;
+using namespace Codec;
 
 /*-----------------------------------------------------------*//**
 

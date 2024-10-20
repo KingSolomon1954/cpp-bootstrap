@@ -9,7 +9,7 @@
 #include <string>
 #include <cxxopts.hpp>
 #include <rang.hpp>
-#include "lib-gen/BuildInfo.h"
+#include "gen/BuildInfo.h"
 
 using namespace App;
 
@@ -27,7 +27,7 @@ Constructor
     Build info
 */
 CommandLine::CommandLine(int argc, char* argv[],
-                         const LibGen::BuildInfo& bld)
+                         const Gen::BuildInfo& bld)
 {
     cxxopts::Options options("C++Bootstrap", "A brief description");
 

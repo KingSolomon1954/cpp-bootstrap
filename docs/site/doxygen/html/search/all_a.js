@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['operator_3c_3c_0',['operator&lt;&lt;',['../group__free.html#ga94f8df53225cb6f7943bb7ff5c0a8fee',1,'operator&lt;&lt;(std::ostream &amp;out, const ChannelDirection &amp;d):&#160;EnumChannelDirection.cpp'],['../group__free.html#ga94f8df53225cb6f7943bb7ff5c0a8fee',1,'operator&lt;&lt;(std::ostream &amp;out, const ChannelDirection &amp;d):&#160;EnumChannelDirection.cpp']]]
+  ['notapplicable_0',['NotApplicable',['../group__free.html#ggacf1d75949e1f4e1707e8b3ab73ae3d9da7599922e28b6009660de5e67f8ce210c',1,'EnumChannelDirection.h']]]
 ];

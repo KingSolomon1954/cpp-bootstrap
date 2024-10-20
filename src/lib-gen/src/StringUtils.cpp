@@ -4,12 +4,12 @@
 //
 //---------------------------------------------------------------
 
-#include "lib-gen/StringUtils.h"  // Our interface
-#include <algorithm>              // std::equal
-#include <sstream>                // For stringstream
-#include <stdio.h>                // for vsnprintf
+#include "gen/StringUtils.h"  // Our interface
+#include <algorithm>          // std::equal
+#include <sstream>            // For stringstream
+#include <stdio.h>            // for vsnprintf
 
-using namespace LibGen;
+using namespace Gen;
 using std::string;
 
 const std::string StringUtils::whiteSpace(" \t\v\f\r\n");

@@ -4,11 +4,11 @@
 //
 //----------------------------------------------------------------
 
-#include "lib-codec/EnumChannelDirection.h"
-#include "lib-gen/StringUtils.h"
+#include "codec/EnumChannelDirection.h"
+#include "gen/StringUtils.h"
 
 using namespace EnumChannelDirection;
-using namespace LibGen;
+using namespace Gen;
 
 constexpr const char* InvalidStr       = "Invalid";
 constexpr const char* NotApplicableStr = "NotApplicable";

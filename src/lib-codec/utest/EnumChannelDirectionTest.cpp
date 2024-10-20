@@ -4,14 +4,14 @@
 //
 //----------------------------------------------------------------
 
-#include "lib-codec/EnumChannelDirection.h"
+#include "codec/EnumChannelDirection.h"
 
 #include <sstream>
 #include <doctest/doctest.h>
 
 //----------------------------------------------------------------
 
-TEST_CASE("LibCodec::EnumChannelDirectionTest: toString")
+TEST_CASE("Codec::EnumChannelDirectionTest: toString")
 {
     std::string s;
     ChannelDirection val;
@@ -31,7 +31,7 @@ TEST_CASE("LibCodec::EnumChannelDirectionTest: toString")
 
 //----------------------------------------------------------------
 
-TEST_CASE("LibCodec::EnumChannelDirectionTest: fromString")
+TEST_CASE("Codec::EnumChannelDirectionTest: fromString")
 {
     std::string s;
 
@@ -50,7 +50,7 @@ TEST_CASE("LibCodec::EnumChannelDirectionTest: fromString")
 
 //---------------------------------------------------------------
 
-TEST_CASE("LibCodec::EnumChannelDirectionTest: isConvertibleFrom")
+TEST_CASE("Codec::EnumChannelDirectionTest: isConvertibleFrom")
 {
     std::string s;
 
@@ -69,7 +69,7 @@ TEST_CASE("LibCodec::EnumChannelDirectionTest: isConvertibleFrom")
 
 //---------------------------------------------------------------
 
-TEST_CASE("LibCodec::EnumChannelDirectionTest: fromUnsigned")
+TEST_CASE("Codec::EnumChannelDirectionTest: fromUnsigned")
 {
     CHECK(ChannelDirection::NotApplicable == EnumChannelDirection::fromUnsigned(1u));
     CHECK(ChannelDirection::Forward       == EnumChannelDirection::fromUnsigned(2u));
@@ -79,7 +79,7 @@ TEST_CASE("LibCodec::EnumChannelDirectionTest: fromUnsigned")
 
 //---------------------------------------------------------------
 
-TEST_CASE("LibCodec::EnumChannelDirectionTest: listAsString")
+TEST_CASE("Codec::EnumChannelDirectionTest: listAsString")
 {
     std::string s = "NotApplicable Forward Return";
     CHECK(s == EnumChannelDirection::listAsString());
@@ -87,7 +87,7 @@ TEST_CASE("LibCodec::EnumChannelDirectionTest: listAsString")
 
 //---------------------------------------------------------------
 
-TEST_CASE("LibCodec::EnumChannelDirectionTest: ostreamOperator")
+TEST_CASE("Codec::EnumChannelDirectionTest: ostreamOperator")
 {
     ChannelDirection channelDir = ChannelDirection::Forward;
 
