@@ -1,3 +1,15 @@
+# ----------------------------------------------
+#
+# Build branches with developer controls to skip 
+# various parts of the build. These are the keywords
+# to place in a checkin message that allows control.
+# 
+# [skip all]
+#
+# ----------------------------------------------
+
+
+
 name: Branch Build
 run-name: Branch Build
 
@@ -11,25 +23,28 @@ jobs:
 
   Build:
     runs-on: ubuntu-latest
-
+    if: "!contains(github.event.head_commit.message, '[skip all])'"
+    
     steps:
       - name: Install podman
         run: sudo apt install -y podman
       - name: Checkout repository
+        if: "!contains(github.event.head_commit.message, '[skip checkout])'"
         uses: actions/checkout@v4
-      - name: Build debug
-        run: make debug
-      - name: Run unit tests on debug 
-        run: make unit-test-debug
-      - name: Build prod
-        run: make prod
-      - name: Run unit tests on prod 
-        run: make unit-test-prod
-      - name: Run static analysis
-        run: make static-analysis
-      - name: Run code coverage
-        run: make code-coverage
-        # Build docs to catch any errors. Want to fail the build if so.
-        # Note this does not and should not publish docs even upon success.
-      - name: Build docs
-        run: make docs
+        
+#      - name: Build debug
+#        run: make debug
+#      - name: Run unit tests on debug 
+#        run: make unit-test-debug
+#      - name: Build prod
+#        run: make prod
+#      - name: Run unit tests on prod 
+#        run: make unit-test-prod
+#      - name: Run static analysis
+#        run: make static-analysis
+#      - name: Run code coverage
+#        run: make code-coverage
+#        # Build docs to catch any errors. Want to fail the build if so.
+#        # Note this does not and should not publish docs even upon success.
+#      - name: Build docs
+#        run: make docs
