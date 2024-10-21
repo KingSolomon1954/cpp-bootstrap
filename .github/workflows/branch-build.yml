@@ -1,8 +1,8 @@
 # ----------------------------------------------
 #
-# Build branches with developer controls to skip 
-# various parts of the build. The following are the 
-# recognized  keywords. Not case sensitive. Place 
+# Build branches with developer controls to skip
+# various parts of the build. The following are the
+# recognized keywords. Not case sensitive. Place
 # anywhere within commit message.
 #
 # [skip all]
@@ -32,37 +32,46 @@ jobs:
   Build:
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, '[skip all]')"
-    
+
     steps:
       - name: Install podman
         run: sudo apt install -y podman
+
       - name: Checkout repository
         uses: actions/checkout@v4
+
       - name: Build debug
         if: "!contains(github.event.head_commit.message, '[skip compile-both]') && \
              !contains(github.event.head_commit.message, '[skip compile-debug]')"
         run: make debug
+
       - name: Run unit tests on debug
         if: "!contains(github.event.head_commit.message, '[skip compile-both]') && \
              !contains(github.event.head_commit.message, '[skip compile-debug]') && \
              !contains(github.event.head_commit.message, '[skip compile-utest-both]') && \
              !contains(github.event.head_commit.message, '[skip compile-utest-debug]')"
         run: make unit-test-debug
+
       - name: Build prod
         if: "!contains(github.event.head_commit.message, '[skip compile-both]') && \
              !contains(github.event.head_commit.message, '[skip compile-prod]')"
         run: make prod
+
       - name: Run unit tests on prod
         if: "!contains(github.event.head_commit.message, '[skip compile-both]') && \
              !contains(github.event.head_commit.message, '[skip compile-prod]') && \
              !contains(github.event.head_commit.message, '[skip compile-utest-both]') && \
              !contains(github.event.head_commit.message, '[skip compile-utest-prod]')"
         run: make unit-test-prod
-#      - name: Run static analysis
-#        run: make static-analysis
-#      - name: Run code coverage
-#        run: make code-coverage
-#        # Build docs to catch any errors. Want to fail the build if so.
-#        # Note this does not and should not publish docs even upon success.
-#      - name: Build docs
-#        run: make docs
+
+      - name: Run static analysis
+        if: "!contains(github.event.head_commit.message, '[skip analysis]')"
+        run: make static-analysis
+
+      - name: Run code coverage
+        if: "!contains(github.event.head_commit.message, '[skip coverage]')"
+        run: make code-coverage
+
+      - name: Build docs
+        if: "!contains(github.event.head_commit.message, '[skip docs]')"
+        run: make docs
