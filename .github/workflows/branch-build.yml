@@ -1,15 +1,16 @@
 # ----------------------------------------------
 #
 # Build branches with developer controls to skip 
-# various parts of the build. These are the recognized 
-# keywords. Not case sensitive. 
+# various parts of the build. The following are the 
+# recognized  keywords. Not case sensitive. Place 
+# anywhere within commit message.
 #
 # [skip all]
 #
 # ----------------------------------------------
 
 name: Branch Build
-run-name: Branch Build
+run-name: Branch Build ${{ github.ref_name }}
 
 on:
   push:
