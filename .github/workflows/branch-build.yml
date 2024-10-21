@@ -1,9 +1,9 @@
 # ----------------------------------------------
 #
 # Build branches with developer controls to skip 
-# various parts of the build. These are the keywords
-# to place in a checkin message that allows control.
-# 
+# various parts of the build. These are the recognized 
+# keywords. Not case sensitive. 
+#
 # [skip all]
 #
 # ----------------------------------------------
