@@ -39,7 +39,7 @@ containerized tools and fill-in-the-blanks documentation.
 - [Static code analysis](#static-code-analysis) via [cppcheck](https://cppcheck.sourceforge.io/manual.html)
 - Single ["version"](#versioning) file in top level folder drives all targets
 - Clean unpolluted [top level folder](#project-layout)
-- GitHub Continuous Integration
+- [GitHub Workflows](#github-workflows) for CI and Branch builds 
 - Spell checking on docs, batch or interactive mode
 
 See the auto-generated documentation here on [Github
@@ -318,6 +318,14 @@ For full details invoke:
 ``` bash
 make spelling-help
 ```
+
+## GitHub Workflows
+
+* Workflow for CI build - triggers upon merge to main
+* Workflow for Branch build - triggers upon checkin to branch
+* Branch builds supports developer controls for skipping various parts
+* Just add `[skip <keyword>]` to checkin message
+* See `.github/workflows/branch-build.yml` for keywords
 
 ## Containerized Tools
 
