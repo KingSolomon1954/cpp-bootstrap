@@ -30,7 +30,7 @@ _CVG_UT_REPORT := coverage/unit-test-run.xml
 # target available with CMake. First we reconfigure CMake for a Debug
 # build and COVERAGE on. Requires gcov utilities available in the path.
 #
-code-coverage: conan-debug
+code-coverage: debug
 	$(CPP_BLD_CNTR_EXEC) cmake $(CMAKE_ARGS) -S $(WORK_TOP)/src -B $(D_BLD_DEBUG) \
 	    -DCMAKE_BUILD_TYPE=Debug -DCOVERAGE=ON \
 	    -DCoverage_JUNIT_OUTPUT=$(_CVG_UT_REPORT)

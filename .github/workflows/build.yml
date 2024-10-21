@@ -1,11 +1,18 @@
+# ----------------------------------------------
+#
+# Build main/master as a CM build.
+# No steps can be skipped.
+#
+# ----------------------------------------------
+
 name: CI Build
+run-name: CI Build
 
 on:
   push:
     branches:
       - main
       - master
-      - 'trybuild-*'
 
   # Allow manually triggering from GitHub Actions tab
   workflow_dispatch:

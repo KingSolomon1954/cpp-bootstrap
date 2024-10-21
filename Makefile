@@ -61,7 +61,6 @@ include $(D_MAK)/cpp-code-coverage.mak
 include $(D_MAK)/cpp-static-analysis.mak
 include $(D_CNTRS)/containers.mak
 # include $(D_MAK)/uncrustify.mak
-# include $(D_MAK)/repo-login.mak
 include $(D_MAK)/spelling.mak
 include $(D_MAK)/print-debug.mak
 include $(D_MAK)/help.mak
