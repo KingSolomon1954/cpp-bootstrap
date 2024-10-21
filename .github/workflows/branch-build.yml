@@ -48,10 +48,16 @@ jobs:
              !contains(github.event.head_commit.message, '[skip compile-utest-both]') && \
              !contains(github.event.head_commit.message, '[skip compile-utest-debug]')"
         run: make unit-test-debug
-#      - name: Build prod
-#        run: make prod
-#      - name: Run unit tests on prod 
-#        run: make unit-test-prod
+      - name: Build prod
+        if: "!contains(github.event.head_commit.message, '[skip compile-both]') && \
+             !contains(github.event.head_commit.message, '[skip compile-prod]')"
+        run: make prod
+        if: "!contains(github.event.head_commit.message, '[skip compile-both]') && \
+             !contains(github.event.head_commit.message, '[skip compile-prod]') && \
+             !contains(github.event.head_commit.message, '[skip compile-utest-both]') && \
+             !contains(github.event.head_commit.message, '[skip compile-utest-prod]')"
+      - name: Run unit tests on prod
+        run: make unit-test-prod
 #      - name: Run static analysis
 #        run: make static-analysis
 #      - name: Run code coverage
