@@ -6,6 +6,15 @@
 # anywhere within commit message.
 #
 # [skip all]
+# [skip compile-both]
+# [skip compile-debug]
+# [skip compile-prod]
+# [skip utest-both]
+# [skip utest-debug]
+# [skip utest-prod]
+# [skip analysis]
+# [skip coverage]
+# [skip docs]
 #
 # ----------------------------------------------
 
@@ -28,11 +37,11 @@ jobs:
       - name: Install podman
         run: sudo apt install -y podman
       - name: Checkout repository
-        if: "!contains(github.event.head_commit.message, '[skip checkout]')"
         uses: actions/checkout@v4
-        
-#      - name: Build debug
-#        run: make debug
+      - name: Build debug
+        if: "!contains(github.event.head_commit.message, '[skip compile-both]')"
+        if: "!contains(github.event.head_commit.message, '[skip compile-debug]')"
+        run: make debug
 #      - name: Run unit tests on debug 
 #        run: make unit-test-debug
 #      - name: Build prod
