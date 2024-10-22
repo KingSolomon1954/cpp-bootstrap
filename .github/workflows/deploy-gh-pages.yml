@@ -1,10 +1,11 @@
 name: Publish docs to GitHub Pages
+run-name: Publish docs to GitHub Pages
 
 on:
-  push:
-    branches:
-      - main
-      - master
+  workflow_run:
+    workflows: ["CI build"]
+    types:
+      - completed
 
   # Allow manually triggering from GitHub Actions tab
   workflow_dispatch:
