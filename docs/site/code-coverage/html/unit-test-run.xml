@@ -4,11 +4,11 @@
 	failures="0"
 	disabled="0"
 	skipped="0"
-	hostname="8a70946b5a6d"
+	hostname="0fb27a5b101f"
 	time="0"
-	timestamp="2024-10-20T18:05:58"
+	timestamp="2024-10-22T04:50:46"
 	>
-	<testcase name="Gen::BuildInfoTest: all" classname="Gen::BuildInfoTest: all" time="0.00422961" status="run">
+	<testcase name="Gen::BuildInfoTest: all" classname="Gen::BuildInfoTest: all" time="0.00289409" status="run">
 		<system-out>[doctest] doctest version is "2.4.11"
 [doctest] run with "--help" for options
 ===============================================================================
@@ -17,7 +17,7 @@
 [doctest] Status: SUCCESS!
 </system-out>
 	</testcase>
-	<testcase name="Gen::StringUtilsTest: all" classname="Gen::StringUtilsTest: all" time="0.00508054" status="run">
+	<testcase name="Gen::StringUtilsTest: all" classname="Gen::StringUtilsTest: all" time="0.00302678" status="run">
 		<system-out>[doctest] doctest version is "2.4.11"
 [doctest] run with "--help" for options
 ===============================================================================
@@ -26,7 +26,7 @@
 [doctest] Status: SUCCESS!
 </system-out>
 	</testcase>
-	<testcase name="Codec::CodecFast:all" classname="Codec::CodecFast:all" time="0.00893041" status="run">
+	<testcase name="Codec::CodecFast:all" classname="Codec::CodecFast:all" time="0.00276221" status="run">
 		<system-out>[doctest] doctest version is "2.4.11"
 [doctest] run with "--help" for options
 ===============================================================================
@@ -35,7 +35,7 @@
 [doctest] Status: SUCCESS!
 </system-out>
 	</testcase>
-	<testcase name="Codec::CodecSlow:all" classname="Codec::CodecSlow:all" time="0.00455375" status="run">
+	<testcase name="Codec::CodecSlow:all" classname="Codec::CodecSlow:all" time="0.00271372" status="run">
 		<system-out>[doctest] doctest version is "2.4.11"
 [doctest] run with "--help" for options
 ===============================================================================
@@ -44,7 +44,7 @@
 [doctest] Status: SUCCESS!
 </system-out>
 	</testcase>
-	<testcase name="Codec::EnumChannelDirectionTest: toString" classname="Codec::EnumChannelDirectionTest: toString" time="0.00459756" status="run">
+	<testcase name="Codec::EnumChannelDirectionTest: toString" classname="Codec::EnumChannelDirectionTest: toString" time="0.00280047" status="run">
 		<system-out>[doctest] doctest version is "2.4.11"
 [doctest] run with "--help" for options
 ===============================================================================
@@ -53,7 +53,7 @@
 [doctest] Status: SUCCESS!
 </system-out>
 	</testcase>
-	<testcase name="Codec::EnumChannelDirectionTest: fromString" classname="Codec::EnumChannelDirectionTest: fromString" time="0.00452593" status="run">
+	<testcase name="Codec::EnumChannelDirectionTest: fromString" classname="Codec::EnumChannelDirectionTest: fromString" time="0.00289196" status="run">
 		<system-out>[doctest] doctest version is "2.4.11"
 [doctest] run with "--help" for options
 ===============================================================================
@@ -62,7 +62,7 @@
 [doctest] Status: SUCCESS!
 </system-out>
 	</testcase>
-	<testcase name="Codec::EnumChannelDirectionTest: isConvertibleFrom" classname="Codec::EnumChannelDirectionTest: isConvertibleFrom" time="0.00471997" status="run">
+	<testcase name="Codec::EnumChannelDirectionTest: isConvertibleFrom" classname="Codec::EnumChannelDirectionTest: isConvertibleFrom" time="0.00285542" status="run">
 		<system-out>[doctest] doctest version is "2.4.11"
 [doctest] run with "--help" for options
 ===============================================================================
@@ -71,7 +71,7 @@
 [doctest] Status: SUCCESS!
 </system-out>
 	</testcase>
-	<testcase name="Codec::EnumChannelDirectionTest: fromUnsigned" classname="Codec::EnumChannelDirectionTest: fromUnsigned" time="0.00474742" status="run">
+	<testcase name="Codec::EnumChannelDirectionTest: fromUnsigned" classname="Codec::EnumChannelDirectionTest: fromUnsigned" time="0.0027844" status="run">
 		<system-out>[doctest] doctest version is "2.4.11"
 [doctest] run with "--help" for options
 ===============================================================================
@@ -80,7 +80,7 @@
 [doctest] Status: SUCCESS!
 </system-out>
 	</testcase>
-	<testcase name="Codec::EnumChannelDirectionTest: listAsString" classname="Codec::EnumChannelDirectionTest: listAsString" time="0.0105631" status="run">
+	<testcase name="Codec::EnumChannelDirectionTest: listAsString" classname="Codec::EnumChannelDirectionTest: listAsString" time="0.0028432" status="run">
 		<system-out>[doctest] doctest version is "2.4.11"
 [doctest] run with "--help" for options
 ===============================================================================
@@ -89,7 +89,7 @@
 [doctest] Status: SUCCESS!
 </system-out>
 	</testcase>
-	<testcase name="Codec::EnumChannelDirectionTest: ostreamOperator" classname="Codec::EnumChannelDirectionTest: ostreamOperator" time="0.00452402" status="run">
+	<testcase name="Codec::EnumChannelDirectionTest: ostreamOperator" classname="Codec::EnumChannelDirectionTest: ostreamOperator" time="0.00282909" status="run">
 		<system-out>[doctest] doctest version is "2.4.11"
 [doctest] run with "--help" for options
 ===============================================================================
@@ -98,7 +98,7 @@
 [doctest] Status: SUCCESS!
 </system-out>
 	</testcase>
-	<testcase name="main::Properties:all" classname="main::Properties:all" time="0.006406" status="run">
+	<testcase name="main::Properties:all" classname="main::Properties:all" time="0.00232915" status="run">
 		<system-out>[doctest] doctest version is "2.4.11"
 [doctest] run with "--help" for options
 ===============================================================================
@@ -107,7 +107,7 @@
 [doctest] Status: SUCCESS!
 </system-out>
 	</testcase>
-	<testcase name="main::RedFlame:all" classname="main::RedFlame:all" time="0.00335857" status="run">
+	<testcase name="main::RedFlame:all" classname="main::RedFlame:all" time="0.00228582" status="run">
 		<system-out>[doctest] doctest version is "2.4.11"
 [doctest] run with "--help" for options
 ===============================================================================

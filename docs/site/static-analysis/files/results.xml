@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <results version="2">
-    <cppcheck version="2.13 dev"/>
+    <cppcheck version="2.15 dev"/>
     <errors>
     </errors>
 </results>

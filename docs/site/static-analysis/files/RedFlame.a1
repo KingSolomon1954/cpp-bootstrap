@@ -1,12 +1,3 @@
 <?xml version="1.0"?>
-<analyzerinfo hash="3342973898602172910">
-  <FileInfo check="CheckUnusedFunctions">
-    <functioncall functionName="Forward"/>
-    <functioncall functionName="RedFlame"/>
-    <functioncall functionName="bld"/>
-    <functioncall functionName="cmdline"/>
-    <functioncall functionName="fullInfo"/>
-    <functioncall functionName="toLower"/>
-    <functioncall functionName="x"/>
-  </FileInfo>
+<analyzerinfo hash="7158756316090772618">
 </analyzerinfo>
