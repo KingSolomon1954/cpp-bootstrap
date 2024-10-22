@@ -70,4 +70,8 @@ jobs:
         # This copies _build/site to docs/site and performs a git
         # checkin. Hence we need the paths-ignore specification
         # above to prevent a build loop.
-        run: make docs-publish
+        run: |
+          git config --global "you@example.com"
+          git config --global user.name ${{ github.actor }}
+          make docs-publish
+          git push
