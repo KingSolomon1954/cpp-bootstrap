@@ -71,7 +71,7 @@ jobs:
         # checkin. Hence we need the paths-ignore specification
         # above to prevent a build loop.
         run: |
-          git config --global "you@example.com"
+          git config --global user.email "you@example.com"
           git config --global user.name ${{ github.actor }}
           make docs-publish
           git push
