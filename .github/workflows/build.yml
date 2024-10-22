@@ -20,7 +20,7 @@ on:
   workflow_dispatch:
     
 permissions:
-  contents-write: write
+  contents: write
 # repository-projects: write
   
 jobs:
