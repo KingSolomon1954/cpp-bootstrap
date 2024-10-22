@@ -18,7 +18,11 @@ on:
       
   # Allow manually triggering from GitHub Actions tab
   workflow_dispatch:
-
+    
+permissions:
+  contents-write: write
+# repository-projects: write
+  
 jobs:
 
   Build:
