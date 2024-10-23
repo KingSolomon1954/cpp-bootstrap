@@ -321,11 +321,11 @@ make spelling-help
 
 ## GitHub Workflows
 
-* Workflow for CI build - triggers upon merge to main
-* Workflow for Branch build - triggers upon checkin to branch
-* Branch builds supports developer controls for skipping various parts
-* Just add `[skip <keyword>]` to checkin message
-* See `.github/workflows/branch-build.yml` for keywords
+* Workflow for "CI build" - triggers upon merge to main
+* Workflow for "Branch build" - triggers upon checkin to branch
+* Branch build supports developer controls for skipping various parts
+* Just add `[skip <keyword>]` to commit message
+* See file `.github/workflows/branch-build.yml` for keywords
 
 ## Containerized Tools
 
@@ -335,6 +335,7 @@ make spelling-help
 - GCC container is auto-started once and remains active
 - Re-compiles start immediately, no re-loading of GCC container
 - Same containers and tools on desktop and in CI pipelines
+- Pipelines invoke same make targets as developer does on desktop
 - Convenient Makefile targets abstract away container commands
 - The Build container uses
   [docker.io/library/gcc](https://hub.docker.com/_/gcc) as its base
@@ -683,12 +684,17 @@ last published code coverage report remains.
 
 ## Getting Started
 
-### 1. Retrieve C++ Starter Project
+### 1. Prerequisites
+
+* Host machine: Install docker/podman
+* Host machine: Install standard linux utilities, bash, etc
+
+### 2. Retrieve C++ Starter Project
 
 Grab the repo as a
 [template](https://help.github.com/en/github/creating-cloning-and-archiving-repositories/creating-a-repository-from-a-template).
 
-### 2. First invocation
+### 3. First invocation
 
 See if your host environment is suitable enough for `make help`.
 
@@ -696,7 +702,7 @@ See if your host environment is suitable enough for `make help`.
 make help
 ```
 
-### 3. Compile, Link, Test and Run
+### 4. Compile, Link, Test and Run
 
 ```bash
 make
@@ -704,13 +710,13 @@ make unit-test
 bd bin/redflame
 ```
 
-## 4. Automate Registry Logins
+## 5. Automate Registry Logins
 
 Setup login credentials in `~/.ssh`. See
 [Container Registry Login](#container-registry-login) and
 [Conan Auto-Login](#conan-auto-login).
 
-## 5. Customize
+## 6. Customize
 
 Customize the project to be your own.
 

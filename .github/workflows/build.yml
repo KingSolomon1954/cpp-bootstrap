@@ -19,9 +19,10 @@ on:
   # Allow manually triggering from GitHub Actions tab
   workflow_dispatch:
     
+# Sets permissions of the GITHUB_TOKEN to allow writing
+# back to the repository (see docs-publish setp below).
 permissions:
   contents: write
-# repository-projects: write
   
 jobs:
 
@@ -65,15 +66,16 @@ jobs:
 
       - name: Build docs
         # Now that code-coverage and static-analysis have been
-        # run, it's ok to make docs, which will pick up latest 
-        # code-coverage and static analysis. This populates
-        # _build/site.
+        # run, it's ok to make docs, which will grab the latest 
+        # code-coverage and static analysis artifacts. This 
+        # makefile target populates _build/site.
         run: make docs
 
       - name: Publish docs
         # This copies _build/site to docs/site and performs a git
         # checkin. Hence we need the paths-ignore specification
-        # above to prevent a build loop.
+        # at top of file to prevent a build loop. Plus needs
+        # "contents" permission to write to repo.
         run: |
           git config --global user.email "you@example.com"
           git config --global user.name ${{ github.actor }}
