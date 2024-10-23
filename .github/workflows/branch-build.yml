@@ -80,14 +80,6 @@ jobs:
 
 # Experimenting
         
-#      - name: Version label
-#        id: version
-#        run: |
-#          echo "APP_NAME=redflame" >> $GITHUB_ENV
-#          echo "APP_VERSION=v$(cat version)" >> $GITHUB_ENV
-#          echo "APP_FULL=redflame-v1.0.0" >> $GITHUB_ENV
-#          echo "APP_TAR=redflame-v1.0.0.tgz" >> $GITHUB_ENV
-#
       - name: Create release tar ball
         id: tar-ball
         run: |
@@ -100,15 +92,12 @@ jobs:
           mkdir -p ${D_REL_FILES}
           cp -p _build/prod/bin/${APP_NAME} ${D_REL_FILES}/
           tar -czf ${TAR_FILE} --directory=${D_REL_FILES}/.. .
-          ls ${D_REL}
           echo "TAR_FILE=${TAR_FILE}"       >> ${GITHUB_OUTPUT}
           echo "APP_VERSION=${APP_VERSION}" >> ${GITHUB_OUTPUT}
 
       - name: Release actions
-#        env:
-#           TAR_FILE:    ${{ steps.tar-ball.outputs.TAR_FILE }}
-#           APP_VERSION: ${{ steps.tar-ball.outputs.APP_VERSION }}
         uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
         with:
           files: ${{ steps.tar-ball.outputs.TAR_FILE }}
           name: Release ${{ steps.tar-ball.outputs.APP_VERSION }}
@@ -116,29 +105,3 @@ jobs:
           #body: "Release notes"
           draft: true
           prerelease: true
-# 
-#       - name: Upload release artifacts
-#         uses: actions/upload-release-asset@v1
-#         env:
-#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#         with:
-#           upload_url: ${{ steps.release_actions.outputs.upload_url }}
-#           asset_path: "_build/release/redflame-v1.0.0.tgz"
-#           asset_name: "cpp-bootstrap-linux-${{ steps.version.outputs.name }}.tgz"
-#           asset_content_type: application/x-tar
-
-#    - name: download artifact
-#      uses: actions/download-artifact@v2
-#      with:
-#        name: "Linux-${{ steps.version.outputs.name }}"
-#        path: ./
-#
-#    - name: upload ubuntu release asset
-#      uses: actions/upload-release-asset@v1
-#      env:
-#        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#      with:
-#        upload_url: ${{ steps.create_release.outputs.upload_url }}
-#        asset_path: "artifact.tar.gz"
-#        asset_name: "${{ env.PROJECT_NAME }}-Linux-${{ steps.version.outputs.name }}.tar.gz"
-#        asset_content_type: application/x-tar                  
