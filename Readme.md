@@ -324,7 +324,7 @@ make spelling-help
 * Workflow for "CI build" - triggers upon merge to main
 * Workflow for "Branch build" - triggers upon checkin to branch
 * Branch build supports developer controls for skipping various parts
-* Just add `[skip <keyword>]` to commit message
+* Just add `[skip-<keyword>]` to commit message
 * See file `.github/workflows/branch-build.yml` for keywords
 
 ## Containerized Tools
