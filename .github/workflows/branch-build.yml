@@ -26,6 +26,9 @@ on:
       - main
       - master
 
+permissions:
+  contents: write
+      
 jobs:
 
   Build:
@@ -90,7 +93,7 @@ jobs:
           APP_NAME=redflame
           APP_VERSION=v$(cat version)
           APP_NAME_FULL=${APP_NAME}-${APP_VERSION}
-          D_REL=_build/release/
+          D_REL=_build/release
           D_REL_FILES=${D_REL}/version/${APP_NAME_FULL}
           TAR_FILE=${D_REL}/${APP_NAME_FULL}.tgz
           mkdir -p ${D_REL_FILES}
@@ -106,8 +109,8 @@ jobs:
       - name: Release actions
         uses: softprops/action-gh-release@v2
         with:
-          files: ${TAR_FILE}
-          name: Release ${APP_VERSION}
+          files: ${{ github.env.TAR_FILE }}
+          name: Release ${{ github.env.APP_VERSION }}
           # if needed, you can set the release body here
           #body: "Release notes"
           draft: true
