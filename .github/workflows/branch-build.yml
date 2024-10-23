@@ -97,14 +97,14 @@ jobs:
           cp -p _build/prod/bin/${APP_NAME} ${D_REL_FILES}/
           tar -czf ${TAR_FILE} --directory=${D_REL_FILES}/.. .
           ls ${D_REL}
-          echo "TAR_FILE=${TAR_FILE}"       >> $GITHUB_ENV
-          echo "APP_VERSION=${APP_VERSION}" >> $GITHUB_ENV
+          echo "TAR_FILE=${TAR_FILE}"       >> ${GITHUB_ENV}
+          echo "APP_VERSION=${APP_VERSION}" >> ${GITHUB_ENV}
 
       - name: Release actions
         uses: softprops/action-gh-release@v2
         with:
           files: ${TAR_FILE}
-          release_name: Release ${APP_VERSION}
+          name: Release ${APP_VERSION}
           # if needed, you can set the release body here
           #body: "Release notes"
           draft: true
