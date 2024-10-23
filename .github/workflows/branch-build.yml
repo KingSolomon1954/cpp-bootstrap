@@ -80,38 +80,44 @@ jobs:
       - name: Version label
         id: version
         # run: echo ::set-output name=name::${GITHUB_REF#refs/tags/}
-        run: echo ::set-output name=name::redflame-v1.0.0
+        run: |
+          echo "APP_NAME=redflame" >> $GITHUB_ENV
+          echo "APP_VERSION=v1.0.0" >> $GITHUB_ENV
+          echo "APP_FULL=redflame-v1.0.0" >> $GITHUB_ENV
+          echo "name::${GITHUB_REF#refs/tags/}"
 
       - name: Create release tar ball
         run: |
-          mkdir -p _build/release/version/redflame-v1.0.0
-          cp -p _build/prod/bin/redflame _build/release/version/redflame-v1.0.0/
-          tar -czf _build/release/redflame-v1.0.0.tgz --directory=_build/release/version .
-        
-      - name: Release actions
-        id: release_actions
-        uses: actions/create-release@v1
-        env:
-          # This token is provided by Actions, you do not
-          # need to create your own token        
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ steps.version.outputs.name }}
-          # if needed, you can set the release body here
-          #body: "Release notes"
-          draft: true
-          prerelease: true
+          mkdir -p _build/release/version/${APP_FULL}
+          cp -p _build/prod/bin/${APP_NAME} _build/release/version/${APP_FULL}/
+          tar -czf _build/release/${APP_FULL}.tgz --directory=_build/release/version .
+          ls _build/release
 
-      - name: Upload release artifacts
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.release_actions.outputs.upload_url }}
-          asset_path: "_build/release/redflame-v1.0.0.tgz"
-          asset_name: "cpp-bootstrap-linux-${{ steps.version.outputs.name }}.tgz"
-          asset_content_type: application/x-tar
+          
+#       - name: Release actions
+#         id: release_actions
+#         uses: actions/create-release@v1
+#         env:
+#           # This token is provided by Actions, you do not
+#           # need to create your own token        
+#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+#         with:
+#           tag_name: ${{ github.ref }}
+#           release_name: Release ${{ steps.version.outputs.name }}
+#           # if needed, you can set the release body here
+#           #body: "Release notes"
+#           draft: true
+#           prerelease: true
+# 
+#       - name: Upload release artifacts
+#         uses: actions/upload-release-asset@v1
+#         env:
+#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#         with:
+#           upload_url: ${{ steps.release_actions.outputs.upload_url }}
+#           asset_path: "_build/release/redflame-v1.0.0.tgz"
+#           asset_name: "cpp-bootstrap-linux-${{ steps.version.outputs.name }}.tgz"
+#           asset_content_type: application/x-tar
 
 #    - name: download artifact
 #      uses: actions/download-artifact@v2
