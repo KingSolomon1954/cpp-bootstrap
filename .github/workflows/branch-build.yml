@@ -50,8 +50,8 @@ jobs:
       - name: Run unit tests on debug
         if: "!contains(github.event.head_commit.message, '[skip-compile-both]') && \
              !contains(github.event.head_commit.message, '[skip-compile-debug]') && \
-             !contains(github.event.head_commit.message, '[skip-compile-utest-both]') && \
-             !contains(github.event.head_commit.message, '[skip-compile-utest-debug]')"
+             !contains(github.event.head_commit.message, '[skip-utest-both]') && \
+             !contains(github.event.head_commit.message, '[skip-utest-debug]')"
         run: make unit-test-debug
 
       - name: Build prod
@@ -62,8 +62,8 @@ jobs:
       - name: Run unit tests on prod
         if: "!contains(github.event.head_commit.message, '[skip-compile-both]') && \
              !contains(github.event.head_commit.message, '[skip-compile-prod]') && \
-             !contains(github.event.head_commit.message, '[skip-compile-utest-both]') && \
-             !contains(github.event.head_commit.message, '[skip-compile-utest-prod]')"
+             !contains(github.event.head_commit.message, '[skip-utest-both]') && \
+             !contains(github.event.head_commit.message, '[skip-utest-prod]')"
         run: make unit-test-prod
 
       - name: Run static analysis
@@ -110,8 +110,8 @@ jobs:
           APP_VERSION: ${{ steps.tar-ball.outputs.APP_VERSION }}
         uses: softprops/action-gh-release@v2
         with:
-          files: ${TAR_FILE}
-          name: Release ${APP_VERSION}
+          files: ${{ steps.tar-ball.outputs.TAR_FILE }}
+          name: Release ${{ steps.tar-ball.outputs.APP_VERSION }}
           # if needed, you can set the release body here
           #body: "Release notes"
           draft: true
