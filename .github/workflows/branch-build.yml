@@ -105,9 +105,9 @@ jobs:
           echo "APP_VERSION=${APP_VERSION}" >> ${GITHUB_OUTPUT}
 
       - name: Release actions
-        env:
-          TAR_FILE:    ${{ steps.tar-ball.outputs.TAR_FILE }}
-          APP_VERSION: ${{ steps.tar-ball.outputs.APP_VERSION }}
+#        env:
+#           TAR_FILE:    ${{ steps.tar-ball.outputs.TAR_FILE }}
+#           APP_VERSION: ${{ steps.tar-ball.outputs.APP_VERSION }}
         uses: softprops/action-gh-release@v2
         with:
           files: ${{ steps.tar-ball.outputs.TAR_FILE }}
