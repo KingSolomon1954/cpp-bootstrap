@@ -100,6 +100,9 @@ jobs:
           echo "TAR_FILE=${TAR_FILE}"       >> ${GITHUB_ENV}
           echo "APP_VERSION=${APP_VERSION}" >> ${GITHUB_ENV}
 
+      - name: Sharing vars
+        run: echo "tar file = ${TAR_FILE} version=${APP_VERSION}"
+        
       - name: Release actions
         uses: softprops/action-gh-release@v2
         with:
