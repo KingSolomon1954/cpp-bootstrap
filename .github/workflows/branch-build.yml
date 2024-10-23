@@ -89,6 +89,7 @@ jobs:
 #          echo "APP_TAR=redflame-v1.0.0.tgz" >> $GITHUB_ENV
 #
       - name: Create release tar ball
+        id: tar-ball
         run: |
           APP_NAME=redflame
           APP_VERSION=v$(cat version)
@@ -100,17 +101,17 @@ jobs:
           cp -p _build/prod/bin/${APP_NAME} ${D_REL_FILES}/
           tar -czf ${TAR_FILE} --directory=${D_REL_FILES}/.. .
           ls ${D_REL}
-          echo "TAR_FILE=${TAR_FILE}"       >> ${GITHUB_ENV}
-          echo "APP_VERSION=${APP_VERSION}" >> ${GITHUB_ENV}
+          echo "TAR_FILE=${TAR_FILE}"       >> ${GITHUB_OUT}
+          echo "APP_VERSION=${APP_VERSION}" >> ${GITHUB_OUT}
 
-      - name: Sharing vars
-        run: echo "tar file = ${TAR_FILE} version=${APP_VERSION}"
-        
       - name: Release actions
-        uses: softprops/action-gh-release@v2
+        env:
+          TAR_FILE:    ${{ steps.tar-ball.outputs.TAR_FILE }}
+          APP_VERSION: ${{ steps.tar-ball.outputs.APP_VERSION }}
+          uses: softprops/action-gh-release@v2
         with:
-          files: ${{ github.env.TAR_FILE }}
-          name: Release ${{ github.env.APP_VERSION }}
+          files: ${TAR_FILE}
+          name: Release ${APP_VERSION}
           # if needed, you can set the release body here
           #body: "Release notes"
           draft: true
