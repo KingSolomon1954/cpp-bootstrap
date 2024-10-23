@@ -101,8 +101,8 @@ jobs:
           cp -p _build/prod/bin/${APP_NAME} ${D_REL_FILES}/
           tar -czf ${TAR_FILE} --directory=${D_REL_FILES}/.. .
           ls ${D_REL}
-          echo "TAR_FILE=${TAR_FILE}"       >> ${GITHUB_OUT}
-          echo "APP_VERSION=${APP_VERSION}" >> ${GITHUB_OUT}
+          echo "TAR_FILE=${TAR_FILE}"       >> ${GITHUB_OUTPUT}
+          echo "APP_VERSION=${APP_VERSION}" >> ${GITHUB_OUTPUT}
 
       - name: Release actions
         env:
