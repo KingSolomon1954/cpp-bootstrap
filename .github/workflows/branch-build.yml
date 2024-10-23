@@ -108,7 +108,7 @@ jobs:
         env:
           TAR_FILE:    ${{ steps.tar-ball.outputs.TAR_FILE }}
           APP_VERSION: ${{ steps.tar-ball.outputs.APP_VERSION }}
-          uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v2
         with:
           files: ${TAR_FILE}
           name: Release ${APP_VERSION}
