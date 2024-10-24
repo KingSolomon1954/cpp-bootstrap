@@ -99,7 +99,7 @@ jobs:
 
       - name: Release actions
         uses: softprops/action-gh-release@v2
-        if: startsWith(github.ref, 'refs/tags/')
+        # if: startsWith(github.ref, 'refs/tags/')
         with:
           files: ${{ steps.tar-ball.outputs.TAR_FILE }}
           name: Release ${{ steps.tar-ball.outputs.APP_VERSION }}
