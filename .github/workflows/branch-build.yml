@@ -102,7 +102,7 @@ jobs:
         # if: startsWith(github.ref, 'refs/tags/')
         with:
           files: ${{ steps.tar-ball.outputs.TAR_FILE }}
-          name: Release ${{ steps.tar-ball.outputs.APP_VERSION }}
+          name: Branch ${{ github.ref_name }} ${{ steps.tar-ball.outputs.APP_VERSION }}
           tag_name: ${{ steps.tar-ball.outputs.TAG_NAME }}
           # if needed, you can set the release body here
           #body: "Release notes"
