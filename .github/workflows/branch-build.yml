@@ -88,12 +88,14 @@ jobs:
           APP_NAME_FULL=${APP_NAME}-${APP_VERSION}
           D_REL=_build/release
           D_REL_FILES=${D_REL}/version/${APP_NAME_FULL}
+          TAG_NAME=${APP_NAME_FULL}-${{ github.ref_name }}
           TAR_FILE=${D_REL}/${APP_NAME_FULL}.tgz
           mkdir -p ${D_REL_FILES}
           cp -p _build/prod/bin/${APP_NAME} ${D_REL_FILES}/
           tar -czf ${TAR_FILE} --directory=${D_REL_FILES}/.. .
           echo "TAR_FILE=${TAR_FILE}"       >> ${GITHUB_OUTPUT}
           echo "APP_VERSION=${APP_VERSION}" >> ${GITHUB_OUTPUT}
+          echo "TAG_NAME=${TAG_NAME}"       >> ${GITHUB_OUTPUT}
 
       - name: Release actions
         uses: softprops/action-gh-release@v2
@@ -101,7 +103,8 @@ jobs:
         with:
           files: ${{ steps.tar-ball.outputs.TAR_FILE }}
           name: Release ${{ steps.tar-ball.outputs.APP_VERSION }}
+          tag_name: ${{ steps.tar-ball.outputs.TAG_NAME }}
           # if needed, you can set the release body here
           #body: "Release notes"
-          draft: true
-          prerelease: true
+          draft: false
+          prerelease: false
