@@ -80,7 +80,7 @@ jobs:
 
 # Experimenting
         
-      - name: Create release tar ball
+      - name: Create tar ball
         id: tar-ball
         run: |
           APP_NAME=redflame
@@ -97,12 +97,11 @@ jobs:
           echo "APP_VERSION=${APP_VERSION}" >> ${GITHUB_OUTPUT}
           echo "TAG_NAME=${TAG_NAME}"       >> ${GITHUB_OUTPUT}
 
-      - name: Release actions
+      - name: Save tarball to GH releases
         uses: softprops/action-gh-release@v2
-        # if: startsWith(github.ref, 'refs/tags/')
         with:
           files: ${{ steps.tar-ball.outputs.TAR_FILE }}
-          name: Branch ${{ github.ref_name }} ${{ steps.tar-ball.outputs.APP_VERSION }}
+          name: Branch (${{ github.ref_name }}) ${{ steps.tar-ball.outputs.APP_VERSION }}
           tag_name: ${{ steps.tar-ball.outputs.TAG_NAME }}
           # if needed, you can set the release body here
           #body: "Release notes"
