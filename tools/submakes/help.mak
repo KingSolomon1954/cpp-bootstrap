@@ -13,6 +13,9 @@ help:
 	@sed -n "/^# *Start Section/,/^# *End Section/p" Makefile | \
 	sed -e "/^# Start Section/d" -e "/^# End Section/d" | \
 	colrm 1 2
+	@yellow="\033[33m"; green="\033[32m"; clear="\033[0m"; \
+	echo "$${green}-------------- $${yellow}Targets$${green} --------------${clear}"
+	@echo
 	@echo $(HELP_TXT) | \
 	sed '/^[[:space:]]*$$/d' | \
 	sed 's/^[[:space:]]*//g' | \
@@ -28,9 +31,12 @@ help:
 	        } \
 	    } \
 	    END { \
+	        yellow = "\033[33m"; green = "\033[32m"; clear = "\033[0m"; \
 	        for (i = 1; i <= count; i++) \
 	        { \
-	            printf "%-*s - %s\n", longest, left[i], right[i] \
+	            printf "%s%-*s %s- %s%s\n", \
+	                yellow, longest, left[i], \
+	                green, right[i], clear \
 	        } \
 	    } \
 	'
@@ -39,5 +45,4 @@ help:
 HELP_TXT += "\n\
 help, Displays help information and targets\n\
 "
-
 endif
