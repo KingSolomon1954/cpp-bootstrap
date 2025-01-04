@@ -13,8 +13,8 @@ endif
 ifndef D_MAK
     $(error Parent makefile must define 'D_MAK')
 endif
-ifndef D_SRCS
-    $(error Parent makefile must define 'D_SRCS')
+ifndef D_SRC
+    $(error Parent makefile must define 'D_SRC')
 endif
 ifndef D_TOOLS
     $(error Parent makefile must define 'D_TOOLS)
@@ -25,6 +25,13 @@ include $(D_MAK)/container-names-cppcheck.mak
 include $(D_MAK)/git-repo-name.mak
 
 # ------------ Setup Section ------------
+
+_D_SRCS  := $(D_SRC)/main/src \
+            $(D_SRC)/main/include \
+            $(D_SRC)/lib-gen/src \
+            $(D_SRC)/lib-gen/include \
+            $(D_SRC)/lib-codec/src \
+            $(D_SRC)/lib-codec/include
 
 # Using STA as the mnemonic for static analysis
 
@@ -65,7 +72,7 @@ $(_STA_RESULTS_FILE): _create-sta_dirs
 	    --suppressions-list=/work/$(_STA_SUPPRESS_FILE) \
 	    --cppcheck-build-dir=/work/$(_D_STA_FILES) \
 	    --output-file=/work/$(_STA_RESULTS_FILE) \
-	    $(addprefix /work/,$(D_SRCS))
+	    $(addprefix /work/,$(_D_SRCS))
 
 static-analysis-clean:
 	rm -rf $(_STA_DIR)

@@ -34,8 +34,8 @@ containerized tools and fill-in-the-blanks documentation.
   deployment to GitHub Pages
 - Documentation tools - Sphinx, Doxygen, PlantUML
 - All documentation organized together under a single static website
-- [doctest](https://github.com/doctest/doctest) unit testing framework
-- [code coverage](#code-coverage) using [lcov](https://github.com/linux-test-project/lcov)
+- [Doctest](https://github.com/doctest/doctest) unit testing framework
+- [Code coverage](#code-coverage) using [lcov](https://github.com/linux-test-project/lcov)
 - [Static code analysis](#static-code-analysis) via [cppcheck](https://cppcheck.sourceforge.io/manual.html)
 - Single ["version"](#versioning) file in top level folder drives all targets
 - Clean unpolluted [top level folder](#project-layout)
@@ -134,7 +134,7 @@ make show-default-build # show the default build type
 
 ### Run the Executables
 
-Assuming you have the handy
+Assuming you have the handy container
 [aliases](#handy-aliases-for-build-container) defined, and you are
 sitting in the top folder, then:
 
@@ -147,12 +147,16 @@ Alternatively you could exec into the build container.
 
 ```bash
 podman exec -it -w /work/cpp-bootstrap gcc14-tools bash
-root#./_build/debug/bin/redflame    # run the debug app
+root#./_build/debug/bin/redflame    # run the debug built app
 # Or if you have the bbash alias defined
 bbash
-root#./_build/debug/bin/redflame    # run the debug app
+root#./_build/debug/bin/redflame    # run the debug built app
 
 ```
+
+Executables are built for the build container's OS, not the host OS,
+and are therefore only runnable on the build container. See discussion
+below on [Containers](#containerized-tools). 
 
 ### Run Unit Tests
 
@@ -164,13 +168,17 @@ make unit-test-both     # runs unit tests for prod and debug build
 ```
 
 Or directly run a unit test executable. Assuming you have the handy
-[aliases](#handy-aliases-for-build-container) defined, and you
-are sitting in the top folder, then:
+container [aliases](#handy-aliases-for-build-container) defined, and
+you are sitting in the top folder, then:
 
 ```bash
 bd bin/lib-codec-ut     # run unit tests for library debug tree
 bp bin/lib-codec-ut     # run unit tests for library production tree
 ```
+
+Executables, in this case unit tests, are built for the build
+container's OS, not the host OS, and are therefore only runnable on the
+build container. See discussion below on [Containers](#containerized-tools).
 
 ### Build and Examine the Documentation
 
@@ -366,9 +374,11 @@ Conan along with additional utilities.
 C++ Bootstrap provides a build container already setup for gcc14, C++20,
 CMake and Conan 2.0 -
 `ghcr.io/kingsolomon1954/containers/gcc14-tools:14.2.0`.  The makefile
-has targets to build, push, and pull the build container.
+has targets to build, push and pull the build container.
 
 ``` bash
+make help
+# filtered output
 cntr-build-gcc14-tools - Creates gcc14-tools image
 cntr-pull-gcc14-tools  - Pulls   gcc14-tools from ghcr.io
 cntr-push-gcc14-tools  - Pushes  gcc14-tools to ghcr.io
@@ -427,7 +437,7 @@ the value of _CPP_BOOTSTRAP_HOME in there first to agree with your
 environment.
 
 ```bash
-source admin/scripts/devenv.bash
+source tools/scripts/devenv.bash
 
 ```
 
@@ -437,7 +447,7 @@ Supports automated and manual login into container registries.
 
 Each container image can come from a different registry.  The registry
 that C++ Bootstrap uses for a given container image is specified in the
-`admin/submakes/container-names-<tool>.mak`. Each containerized tool has
+`tools/submakes/container-names-<tool>.mak`. Each containerized tool has
 its own container-names file.
 
 Currently supports:
@@ -507,8 +517,8 @@ Elvis
 Conan 2.0 supports multiple Conan registries. C++ Bootstrap comes
 prepared with two Conan Registry files already filled out.
 
-* `admin/conan/registry-conancenter.properties`
-* `admin/conan/registry-aws-arty.properties`
+* `tools/conan/registry-conancenter.properties`
+* `tools/conan/registry-aws-arty.properties`
 
 The first one is a real registry. conancenter exists. The second
 one is a made up registry for the purpose of demonstration.
@@ -521,7 +531,7 @@ registry file changes.
 To add or remove registries, just add or delete a file having the
 following naming pattern:
 
-    admin/conan/registry-*.properties
+    tools/conan/registry-*.properties
 
 Properties found in these files are then used to setup each registry in
 Conan. The parsing is not sophisticated or flexible, uses simple greps,
@@ -530,7 +540,7 @@ so please adhere closely to the layout in the files.
 A Conan registry file looks like this:
 
 ``` bash
-> cat admin/conan/registry-aws-arty.properties
+> cat tools/conan/registry-aws-arty.properties
 name: aws-arty
 url: https://aws.artifactory.io
 login: no
@@ -712,7 +722,7 @@ bd bin/redflame
 
 ## 5. Automate Registry Logins
 
-Setup login credentials in `~/.ssh`. See
+Setup Container and Conan login credentials in `~/.ssh`. See
 [Container Registry Login](#container-registry-login) and
 [Conan Auto-Login](#conan-auto-login).
 
@@ -725,7 +735,7 @@ Customize the project to be your own.
 ### Switching Build Container
 
 Assuming you want to use your own locally built build container,
-modify file `admin/submakes/container-names-gcc14.mak` as follows:
+modify file `tools/submakes/container-names-gcc14.mak` as follows:
 
 Change:
 
@@ -754,7 +764,7 @@ something like this:
 ### Switching Sphinx Container
 
 Assuming you want to use your own locally built Sphinx container,
-modify file `admin/submakes/container-names-sphinx.mak` as follows:
+modify file `tools/submakes/container-names-sphinx.mak` as follows:
 
 Change:
 
@@ -782,7 +792,7 @@ something like this:
 
 ### Compiling a Single File
 
-Assuming you have the [aliases](#handy-aliases-for-build-container)
+Assuming you have the container [aliases](#handy-aliases-for-build-container)
 defined above:
 
 ```bash
@@ -792,14 +802,14 @@ bd make -C lib-codec src/CodecFast.o
 
 This invokes the CMake generated Makefile on the build container
 specifying the file to compile. Note this works only after a
-build has taken place and thus CMake is properly configured.
+build has taken place and thus CMake has already been configured.
 
 ### Compiling a Specific Target
 
 Often it is preferable and more efficient to compile only the target
 under change as opposed to invoking the entire build.
 
-Assuming you have the [aliases](#handy-aliases-for-build-container)
+Assuming you have the container [aliases](#handy-aliases-for-build-container)
 defined above:
 
 ```bash

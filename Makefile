@@ -41,13 +41,6 @@ D_SCP   := $(D_TOOLS)/scripts
 D_CONAN := $(D_TOOLS)/conan
 D_CNTRS := $(D_TOOLS)/containers
 
-D_SRCS  := $(D_SRC)/main/src \
-           $(D_SRC)/main/include \
-           $(D_SRC)/lib-gen/src \
-           $(D_SRC)/lib-gen/include \
-           $(D_SRC)/lib-codec/src \
-           $(D_SRC)/lib-codec/include
-
 all: all-relay
 
 include $(D_MAK)/container-tech.mak
@@ -57,12 +50,14 @@ include $(D_MAK)/conan.mak
 include $(D_MAK)/cpp-unit-test.mak
 include $(D_MAK)/cpp-code-coverage.mak
 include $(D_MAK)/cpp-static-analysis.mak
+include $(D_MAK)/release-tarball.mak
 include $(D_CNTRS)/containers.mak
-# include $(D_MAK)/uncrustify.mak
 include $(D_MAK)/spelling.mak
 include $(D_MAK)/print-debug.mak
 include $(D_MAK)/help.mak
 include $(D_DOCS)/docs.mak
+
+# include $(D_MAK)/uncrustify.mak
 
 all-relay: app
 

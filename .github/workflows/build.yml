@@ -1,83 +1,33 @@
 # ----------------------------------------------
 #
-# Build main/master as a CM build.
-# No steps can be skipped.
+# Performs a build on all branches, including main.
 #
 # ----------------------------------------------
 
-name: CI Build
-run-name: CI Build ${{ github.event.head_commit.message }}
+name: Build
+run-name: Build on branch "${{ github.ref_name }}" - ${{ github.event.head_commit.message }}
 
 on:
-  push:
-    branches:
-      - main
-      - master
+
+  push: # All branches do a build on a push, including main
+
+    # Prevent a build loop that can occur when a release
+    # is triggered and artifacts are checked-in.
+    #
     paths-ignore:
       - docs/site/**
-      
-  # Allow manually triggering from GitHub Actions tab
-  workflow_dispatch:
-    
-# Sets permissions of the GITHUB_TOKEN to allow writing
-# back to the repository (see docs-publish setp below).
+      - ./version
+      - etc/changelog
+
 permissions:
   contents: write
-  
+  id-token: write
+
 jobs:
 
-  Build:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Install podman
-        run: sudo apt install -y podman
-        
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        
-      - name: Build debug
-        run: make debug
-        
-      - name: Run unit tests on debug 
-        run: make unit-test-debug
-        
-      - name: Build prod
-        run: make prod
-        
-      - name: Run unit tests on prod 
-        run: make unit-test-prod
-        
-      - name: Run static analysis
-        run: make static-analysis
-        
-      - name: Preserve debug tree
-        run: |
-          mkdir -p _build/tmp-save-debug/
-          cp -r _build/debug _build/tmp-save-debug/
-          
-      - name: Run code coverage
-        run: make code-coverage
-        
-      - name: Restore debug tree
-        run: |
-          cp -r _build/tmp-save-debug/debug _build/
-          rm -rf _build/tmp-save-debug
-
-      - name: Build docs
-        # Now that code-coverage and static-analysis have been
-        # run, it's ok to make docs, which will grab the latest 
-        # code-coverage and static analysis artifacts. This 
-        # makefile target populates _build/site.
-        run: make docs
-
-      - name: Publish docs
-        # This copies _build/site to docs/site and performs a git
-        # checkin. Hence we need the paths-ignore specification
-        # at top of file to prevent a build loop. Plus needs
-        # "contents" permission to write to repo.
-        run: |
-          git config --global user.email "you@example.com"
-          git config --global user.name ${{ github.actor }}
-          make docs-publish
-          git push
+  do-build:
+    uses: ./.github/workflows/shared-build.yml
+    with:
+      do-release: false
+      release-level: none
+    secrets: inherit  # Pass repository secrets to the shared workflow

@@ -125,17 +125,12 @@ doPreserveCodeCoverage
 doPreserveStaticAnalysis
 
 # Safe now to replace docs/site with _build/site
-git rm -q -r ${DOCS_PUB}/*
+rm -rf ${DOCS_PUB}/*
 mkdir -p ${DOCS_PUB}
 cp -p -r ${DOCS_OUT}/* ${DOCS_PUB}/
 touch ${DOCS_PUB}/.nojekyll
 
 doRestoreCodeCoverage
 doRestoreStaticAnalysis
-
-# Checkin to Git
-git add -A ${DOCS_PUB}
-git commit -m "Publish documentation"
-echo "Reminder: issue \"git push\" when ready."
 
 # ---------------------------------------------------------------------

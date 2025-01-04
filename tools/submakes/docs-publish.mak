@@ -26,7 +26,7 @@ docs-publish:
 .PHONY: docs-publish
 
 HELP_TXT += "\n\
-docs-publish, Update $(_D_PUB) with $(DOCS_OUT) and checkin to Git\n\
+docs-publish, Update $(D_DOCS)/site with $(DOCS_OUT)\n\
 "
 
 endif

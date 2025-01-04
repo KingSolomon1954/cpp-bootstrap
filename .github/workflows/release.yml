@@ -1,0 +1,44 @@
+# ----------------------------------------------
+#
+# Creates a new release on GitHub
+#
+# * triggered manually at GitHub GUI
+# * prompts for release level [major, minor, patch]
+# * bumps version number accordingly
+# * creates a changelog
+# * runs a fresh build
+# * packages release in tarball: e.g. cpp-bootstrap-1.0.0.tgz
+# * checks in docs with new version number
+# * checks in version file and changelog
+# * tags commit of release with "vMajor.Minor.Patch"
+#
+# ----------------------------------------------
+
+name: Release
+run-name: Release on branch "${{ github.ref_name }}"
+
+on:
+  workflow_dispatch: # Manually triggered workflow
+    inputs:
+      level:
+        description: Semantic version level to bump
+        required: true
+        default: patch
+        type: choice
+        options:
+          - major
+          - minor
+          - patch
+
+permissions:
+  contents: write
+  id-token: write
+
+jobs:
+
+  build-and-release:
+    uses: ./.github/workflows/shared-build.yml
+    with:
+      do-release: true
+      release-level: ${{ inputs.level }}
+    secrets: inherit  # Pass repository secrets to the shared workflow
