@@ -34,15 +34,16 @@ containerized tools and fill-in-the-blanks documentation.
   deployment to GitHub Pages
 - Documentation tools - Sphinx, Doxygen, PlantUML
 - All documentation organized together under a single static website
+- Spell checking on docs, in batch or interactive mode
 - [Doctest](https://github.com/doctest/doctest) unit testing framework
 - [Code coverage](#code-coverage) using [lcov](https://github.com/linux-test-project/lcov)
 - [Static code analysis](#static-code-analysis) via [cppcheck](https://cppcheck.sourceforge.io/manual.html)
 - Single ["version"](#versioning) file in top level folder drives all targets
 - Clean unpolluted [top level folder](#project-layout)
-- [GitHub Workflows](#github-workflows) for CI and Branch builds 
-- Spell checking on docs, batch or interactive mode
+- [GitHub Workflows](#github-workflows) for builds, releases, and
+  document publishing
 
-See the auto-generated documentation here on [Github
+See the sample auto-generated project documentation here on [Github
 Pages](https://kingsolomon1954.github.io/cpp-bootstrap).
 
 *RedFlame* is used as the name of the hypothetical application
@@ -257,32 +258,10 @@ firefox _build/site/index.html
 
 ### Pubishing the Docs
 
-When satisfied with the generated site docs, from top level folder,
-invoke the following to publish the site.
-
-```bash
-make docs-publish
-```
-
-The generated static website sitting in `_build/site`, is copied over to
-the `docs/site` folder and then checked into Git (not pushed yet). Later
-when your branch is merged to main, a GitHub action kicks in and
-publishes `docs/site` folder to the actual GitHub Pages website. The
-`docs/site` folder is hard coded into the `deploy-gh-pages.yml` GitHub
-action.
-
-The makefile `docs-publish` rule looks something like this:
-
-``` bash
-> make -n docs-publish
-git rm -r --ignore-unmatch ./docs/site/*
-mkdir -p ./docs/site
-cp -r ./_build/site/* ./docs/site/
-touch ./docs/site/.nojekyll
-git add -A ./docs/site
-git commit -m "Publish docs"
-
-```
+When a release build is triggered, docs are built in the normal
+_build/site location and then copied to the `docs/site` folder so it can
+be checked in to Git.  After a successful build, the `deploy-gh-pages`
+workflow runs and publishes the documentation to GH pages.
 
 You may need to configure GitHub pages in your repository. Not sure if
 the GitHub pages settings come across from the template repo. To
@@ -327,13 +306,26 @@ For full details invoke:
 make spelling-help
 ```
 
+### GitHub Workflows
+
+Four workflows manage this repo.
+
+1. build.yml - builds on any push
+2. release.yml - manually triggered when a release is desired
+3. shared-build.yml - performs both build and release activities
+4. deploy-gh-pages.yml - updates GitHub pages after a release
+
+Workflows support developer controls to skip various parts
+of the build as desired.
+
+* Just add `[skip-<keyword>]` somewhere in your commit message
+* See file `.github/workflows/shared-build.yml` for keywords
+
 ## GitHub Workflows
 
 * Workflow for "CI build" - triggers upon merge to main
 * Workflow for "Branch build" - triggers upon checkin to branch
 * Branch build supports developer controls for skipping various parts
-* Just add `[skip-<keyword>]` to commit message
-* See file `.github/workflows/branch-build.yml` for keywords
 
 ## Containerized Tools
 
