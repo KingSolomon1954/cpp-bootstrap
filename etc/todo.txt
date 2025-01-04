@@ -1,0 +1,34 @@
+C++ Bootstrap
+-------------
+TODO: maybe package up program for installation
+TODO: conan login uses JSON file instead of home grown - postpone
+TODO: conan library producer 
+TODO: conan write a help file for make conan-help
+TODO: contributions.md
+TODO: add remote gdb debug
+TODO: consider code formatting uncrustify.mak
+TODO: add URL link checker https://github.com/lycheeverse/lychee
+TODO: checkout semver to bump versions, you put it in ~/tmp/semver
+https://github.com/fsaintjacques/semver-tool
+https://raw.githubusercontent.com/fsaintjacques/semver-tool/master/src/semver
+TODO: continue unfinished release logic on release branch, merge to main
+
+Done: Fix start-build-container
+Done: multiple container registries auto-login
+Done: maybe add conan as a registry
+Done: maybe use lib-container-registry to implement conan login
+Done: add static code analysis
+Done: publish code coverage report website
+Done: publish static analysis to website
+Done: restructure project layout
+Done: add build passing badge to readme
+Done: conan cache in _build tree, nope, want to share libs across repos
+Done: run CI pipeline upon merge to master
+Done: add badge for code coverage https://img.shields.io
+Done: container images come from DockerHub - cancelled, made ghcr.io public
+Done: add badge for version
+Done: GitHub action to build docs, try docker-in-docker
+Done: add badge for static analysis
+Done: add workflow for branch builds
+Done: add dependency for code coverage so it builds from scratch
+Done: publish docs as part of master CI build

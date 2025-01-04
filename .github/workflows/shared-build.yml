@@ -1,0 +1,166 @@
+# ----------------------------------------------
+#
+# Combined workflow to build and release.
+#
+# If do-release is false (passed in from calling workflow), then a
+# regular build is performed.
+#
+# If do-release is true (passed in from calling workflow), then in
+# addition to a regular build, a release is packaged up.
+#
+# Supports developer controls to skip various parts of the build.
+# The following are the recognized control keywords. 
+#
+# [skip-all]
+# [skip-compile-both]
+# [skip-compile-debug]
+# [skip-compile-prod]
+# [skip-utest-both]
+# [skip-utest-debug]
+# [skip-utest-prod]
+# [skip-analysis]
+# [skip-coverage]
+# [skip-docs]
+# [skip-tarball]
+#
+# These can be placed anywhere within commit message. Multiple controls
+# are honored. Not case sensitive.
+#
+# Controls for skipping steps is meant for developer builds and not
+# expected for a release-build, however, the workflow is not coded to
+# prevent it.
+# 
+# ----------------------------------------------
+
+name: Shared Build
+run-name: Shared Build on branch "${{ github.ref_name }}" - ${{ github.event.head_commit.message }}
+
+on:
+
+  workflow_call:
+    inputs:
+      do-release:
+        description: If true performs a release in addition to a build
+        required: true
+        type: boolean
+      release-level:
+        description: The release level [major, minor, patch]
+        required: true
+        type: string
+
+permissions:
+  contents: write
+  id-token: write
+
+jobs:
+
+  shared-build:
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[skip-all]')"
+
+    steps:
+      
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install podman
+        run: sudo apt install -y podman
+
+      - name: Bump version number (release-only)
+        if: ${{ inputs.do-release }}
+        run: make BUMP=${{ inputs.release-level }} bump-version
+
+      - name: Build debug
+        if: "!contains(github.event.head_commit.message, '[skip-compile-both]') && \
+             !contains(github.event.head_commit.message, '[skip-compile-debug]')"
+        run: make debug
+
+      - name: Run unit tests on debug
+        if: "!contains(github.event.head_commit.message, '[skip-compile-both]') && \
+             !contains(github.event.head_commit.message, '[skip-compile-debug]') && \
+             !contains(github.event.head_commit.message, '[skip-utest-both]') && \
+             !contains(github.event.head_commit.message, '[skip-utest-debug]')"
+        run: make unit-test-debug
+
+      - name: Build prod
+        if: "!contains(github.event.head_commit.message, '[skip-compile-both]') && \
+             !contains(github.event.head_commit.message, '[skip-compile-prod]')"
+        run: make prod
+
+      - name: Run unit tests on prod
+        if: "!contains(github.event.head_commit.message, '[skip-compile-both]') && \
+             !contains(github.event.head_commit.message, '[skip-compile-prod]') && \
+             !contains(github.event.head_commit.message, '[skip-utest-both]') && \
+             !contains(github.event.head_commit.message, '[skip-utest-prod]')"
+        run: make unit-test-prod
+
+      - name: Run static analysis
+        if: "!contains(github.event.head_commit.message, '[skip-analysis]')"
+        run: make static-analysis
+
+      - name: Run code coverage
+        if: "!contains(github.event.head_commit.message, '[skip-coverage]')"
+        # First, preserve the debug build since code-coverage will 
+        # clobber it. Restore it afterwards, cause we want debug build 
+        # to be packaged, not code coverage build.
+        run: |
+          mkdir -p _build/tmp-save-debug/
+          cp -r _build/debug _build/tmp-save-debug/
+          make code-coverage
+          cp -r _build/tmp-save-debug/debug _build/
+          rm -rf _build/tmp-save-debug
+        
+      - name: Build docs
+        if: "!contains(github.event.head_commit.message, '[skip-docs]')"
+        run: |
+          make docs
+          make docs-publish
+
+      - name: Create changelog (release-only)
+        if: ${{ inputs.do-release }}
+        run: make update-changelog
+
+      - name: Create tarball
+        if: "!contains(github.event.head_commit.message, '[skip-tarball]') && \
+             !contains(github.event.head_commit.message, '[skip-compile-both]')  && \
+             !contains(github.event.head_commit.message, '[skip-compile-prod]')  && \
+             !contains(github.event.head_commit.message, '[skip-compile-debug]')"
+        id: version_info
+        run: |
+          make create-tarball
+          triplet=$(cat version)
+          appName=$(cat _build/release/app-name)
+          tarFile=$(cat _build/release/tarfile-name)
+          tarFileBase=$(basename $tarFile)
+          tagName=v$triplet
+          echo "triplet=$triplet"         >> ${GITHUB_OUTPUT}
+          echo "appName=$appName"         >> ${GITHUB_OUTPUT}
+          echo "tarFile=$tarFile"         >> ${GITHUB_OUTPUT}
+          echo "tarFileBase=$tarFileBase" >> ${GITHUB_OUTPUT}
+          echo "tagName=v$triplet"        >> ${GITHUB_OUTPUT}
+
+      - name: Test tarball
+        run:  make test-tarball
+
+        # Performs a checkin on docs, version file and changelog.
+        # Therefore workflow needs "contents" write permission.
+      - name: Checkin artifacts (release-only)
+        if: ${{ inputs.do-release }}
+        run: |
+          git config user.name  github-actions[bot]
+          git config user.email github-actions[bot]@users.noreply.github.com
+          git add docs/site version etc/changelog.md
+          git commit -m "Release ${{ steps.version_info.outputs.tagName }}"
+          git push
+
+      - name: Push tarball to Github Release (release-only)
+        if: ${{ inputs.do-release }}
+        uses: softprops/action-gh-release@v2
+        with:
+          files:    ${{ steps.version_info.outputs.tarFile }}
+          name:     ${{ steps.version_info.outputs.tagName }}
+          tag_name: ${{ steps.version_info.outputs.tagName }}
+          body: "Download ${{ steps.version_info.outputs.tarFileBase }}\nFor installing see [Readme](https://github.com/KingSolomon1954/ksl-bash-lib#installation)"
+          draft: false
+          prerelease: false
+          
