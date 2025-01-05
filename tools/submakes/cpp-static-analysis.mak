@@ -17,7 +17,13 @@ ifndef D_SRC
     $(error Parent makefile must define 'D_SRC')
 endif
 ifndef D_TOOLS
-    $(error Parent makefile must define 'D_TOOLS)
+    $(error Parent makefile must define 'D_TOOLS')
+endif
+ifndef APP_NAME
+    $(error Parent makefile must define 'APP_NAME')
+endif
+ifndef VERSION_TRIPLET
+    $(error Parent makefile must define 'VERSION_TRIPLET')
 endif
 
 include $(D_MAK)/container-tech.mak
@@ -55,7 +61,7 @@ $(_STA_INDEX_FILE): $(_STA_RESULTS_FILE)
 	    --volume $(PWD):/work \
 	    --entrypoint cppcheck-htmlreport \
 	    $(CNTR_CPPCHECK_TOOLS_PATH) \
-	    --title=$(GIT_REPO_NAME) \
+	    --title="$(APP_NAME)-v$(VERSION_TRIPLET)" \
 	    --file=/work/$(_STA_RESULTS_FILE) \
 	    --source-dir=/work/$(_D_STA_FILES) \
 	    --report-dir=/work/$(_D_STA_REPORT)

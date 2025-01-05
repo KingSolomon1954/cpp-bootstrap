@@ -35,11 +35,11 @@ target_compile_definitions(main
     >
 )
 
-add_executable(redflame
+add_executable(RedFlame
     src/main.cpp
 )
 
-target_link_libraries(redflame
+target_link_libraries(RedFlame
     PRIVATE main
 )
 

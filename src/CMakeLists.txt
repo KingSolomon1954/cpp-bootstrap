@@ -1,6 +1,6 @@
 # --------------------------------------------------------
 #
-# King Solomon Project: Bedrock Library
+# King Solomon Project: C++ Bootstrap
 #
 # File: CMakeLists.txt
 #

@@ -9,7 +9,7 @@
 #       elvis/proj/          <-- container mount point, mounted as "/work"
 #               cpp-bootstrap
 #               project1
-#               redflame
+#               RedFlame
 #
 # Invocation looks something like this:
 #

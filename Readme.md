@@ -140,18 +140,18 @@ Assuming you have the handy container
 sitting in the top folder, then:
 
 ```bash
-bd bin/redflame    # run the app out of debug tree
-bp bin/redflame    # run the app out of production tree
+bd bin/RedFlame    # run the app out of debug tree
+bp bin/RedFlame    # run the app out of production tree
 ```
 
 Alternatively you could exec into the build container.
 
 ```bash
 podman exec -it -w /work/cpp-bootstrap gcc14-tools bash
-root#./_build/debug/bin/redflame    # run the debug built app
+root#./_build/debug/bin/RedFlame    # run the debug built app
 # Or if you have the bbash alias defined
 bbash
-root#./_build/debug/bin/redflame    # run the debug built app
+root#./_build/debug/bin/RedFlame    # run the debug built app
 
 ```
 
@@ -217,7 +217,7 @@ cat version
   in lib-gen
 
 ``` bash
-> ./bin/redflame
+> ./bin/RedFlame
 RedFlame v1.0.0-1728572288
     Built by: root
     Build date: 2024-10-10T07:58:08-07:00
@@ -709,7 +709,7 @@ make help
 ```bash
 make
 make unit-test
-bd bin/redflame
+bd bin/RedFlame
 ```
 
 ## 5. Automate Registry Logins

@@ -30,16 +30,17 @@
 #
 # -------------------------------------------------------
 
-TOP     := .
-D_MAIN  := $(TOP)/main
-D_DOCS  := $(TOP)/docs
-D_TOOLS := $(TOP)/tools
-D_SRC   := $(TOP)/src
-D_BLD  	:= $(TOP)/_build
-D_MAK   := $(D_TOOLS)/submakes
-D_SCP   := $(D_TOOLS)/scripts
-D_CONAN := $(D_TOOLS)/conan
-D_CNTRS := $(D_TOOLS)/containers
+TOP      := .
+D_MAIN   := $(TOP)/main
+D_DOCS   := $(TOP)/docs
+D_TOOLS  := $(TOP)/tools
+D_SRC    := $(TOP)/src
+D_BLD  	 := $(TOP)/_build
+D_MAK    := $(D_TOOLS)/submakes
+D_SCP    := $(D_TOOLS)/scripts
+D_CONAN  := $(D_TOOLS)/conan
+D_CNTRS  := $(D_TOOLS)/containers
+APP_NAME := RedFlame
 
 all: all-relay
 

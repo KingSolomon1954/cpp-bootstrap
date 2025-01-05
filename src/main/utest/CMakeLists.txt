@@ -4,17 +4,17 @@
 #
 # -----------------------------------------------------------------
 
-add_executable(redflame-ut
+add_executable(RedFlame-ut
     utest-main.cpp
     RedFlameTest.cpp
     PropertiesTest.cpp
 )
 
-target_link_libraries(redflame-ut
+target_link_libraries(RedFlame-ut
     PRIVATE main
     PRIVATE doctest::doctest
 )
 
-doctest_discover_tests(redflame-ut)
+doctest_discover_tests(RedFlame-ut)
 
 # -----------------------------------------------------------------
